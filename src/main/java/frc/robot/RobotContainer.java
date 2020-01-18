@@ -8,10 +8,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import frc.robot.Gamepad.GamepadConstants;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.OuttakeCommand;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -21,11 +29,18 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  //
+  //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final Joystick primaryJoystick = new Joystick(0);
+  private final Joystick secondaryJoystick = new Joystick(1);
+  private final DriveTrain drivetrain = new DriveTrain();
+  private DriveCommand drivecommand;
 
-
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private IntakeCommand intakeCommand;
+  private OuttakeCommand outtakeCommand;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -33,6 +48,13 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    // drivecommand = new DriveCommand(drivetrain, primaryJoystick.getY(Hand.kLeft), primaryJoystick.getX(Hand.kRight));
+    drivetrain.setDefaultCommand(new DriveCommand(drivetrain, ()->primaryJoystick.getX(Hand.kRight), ()->primaryJoystick.getY(Hand.kLeft)));
+
+    intakeCommand = new IntakeCommand(intakeSubsystem);
+    outtakeCommand = new OuttakeCommand(intakeSubsystem);
+    
   }
 
   /**
@@ -42,6 +64,11 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    final JoystickButton AButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_A);  
+    final JoystickButton YButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_Y);  
+
+    AButton.whenPressed(new IntakeCommand(intakeSubsystem));
+    YButton.whenPressed(new OuttakeCommand(intakeSubsystem));
   }
 
 
@@ -50,8 +77,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
+  //public Command getAutonomousCommand() {
+  //An ExampleCommand will run in autonomous
+  //  return m_autoCommand;
+  //}
 }
