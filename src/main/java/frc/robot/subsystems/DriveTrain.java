@@ -30,7 +30,7 @@ public class DriveTrain extends SubsystemBase {
     FrontRightMotor = new WPI_TalonSRX(Constants.FR_TALON);    
     FrontLeftMotor = new WPI_TalonSRX(Constants.FL_TALON);    
     BackLeftMotor = new WPI_TalonSRX(Constants.BL_TALON);  
-    BackRightMotor = new WPI_TalonSRX(Constants.BR_TALON);  
+    BackRightMotor = new WPI_TalonSRX(Constants.BR_TALON); 
     BackLeftMotor.follow(FrontLeftMotor);
     BackRightMotor.follow(FrontRightMotor);
 
