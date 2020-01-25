@@ -46,13 +46,14 @@ public class DriveTrain extends SubsystemBase {
   public void resetEncoders() {
     FrontLeftMotor.getSensorCollection().setQuadraturePosition(0, 0);
     FrontRightMotor.getSensorCollection().setQuadraturePosition(0, 0);
-    BackLeftMotor.getSensorCollection().setQuadraturePosition(0, 0);
-    BackRightMotor.getSensorCollection().setQuadraturePosition(0, 0);
+    //BackLeftMotor.getSensorCollection().setQuadraturePosition(0, 0);
+    //BackRightMotor.getSensorCollection().setQuadraturePosition(0, 0);
   }
 
   public double getAverageDriveEncoderValue(){
-    System.out.println(FrontLeftMotor.getSelectedSensorPosition());
-    return (FrontLeftMotor.getSelectedSensorPosition() + FrontRightMotor.getSelectedSensorPosition())/2;
+    double averageEncoderPos = Math.abs((FrontLeftMotor.getSelectedSensorPosition() + FrontRightMotor.getSelectedSensorPosition())/2);
+    System.out.println(averageEncoderPos);
+    return averageEncoderPos;
   }
 
   public void arcadeDrive(double speed, double turnSpeed) {

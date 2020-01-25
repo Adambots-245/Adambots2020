@@ -34,8 +34,9 @@ public class RobotContainer {
   //
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  private final Joystick primaryJoystick = new Joystick(0);
-  private final Joystick secondaryJoystick = new Joystick(1);
+  private final XboxController primaryJoystick = new XboxController(1);
+  private final XboxController secondaryJoystick = new XboxController(2);
+
   private final DriveTrain drivetrain = new DriveTrain();
   private DriveCommand drivecommand;
 
