@@ -8,10 +8,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.MotorSafety;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,12 +23,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
   /**
    * Creates a new DriveTrainNew.
    */
-  private DoubleSolenoid GearShifter;
+  private Solenoid GearShifter;
 
-  private WPI_TalonSRX BackLeftMotor;
-  private WPI_TalonSRX FrontRightMotor;
-  private WPI_TalonSRX FrontLeftMotor;
-  private WPI_TalonSRX BackRightMotor;
+  private WPI_TalonFX FrontRightMotor;
+  private WPI_TalonFX FrontLeftMotor;
+  private WPI_TalonFX BackLeftMotor;
+  private WPI_TalonFX BackRightMotor;
 
   DifferentialDrive drive;
 
@@ -36,14 +38,15 @@ public class DriveTrainSubsystem extends SubsystemBase {
     super();
     speedModifier = Constants.NORMAL_SPEED_MODIFIER;
 
-    GearShifter = new DoubleSolenoid(Constants.HIGH_GEAR_SOLENOID_ID, Constants.LOW_GEAR_SOLENOID_ID);
+    GearShifter = new Solenoid(Constants.HIGH_GEAR_SOLENOID_ID);
 
-    FrontRightMotor = new WPI_TalonSRX(Constants.FR_TALON);
-    FrontLeftMotor = new WPI_TalonSRX(Constants.FL_TALON);
-    BackLeftMotor = new WPI_TalonSRX(Constants.BL_TALON);
-    BackRightMotor = new WPI_TalonSRX(Constants.BR_TALON);
+    FrontRightMotor = new WPI_TalonFX(Constants.FR_TALON);
+    FrontLeftMotor = new WPI_TalonFX(Constants.FL_TALON);
+    BackLeftMotor = new WPI_TalonFX(Constants.BL_TALON);
+    BackRightMotor = new WPI_TalonFX(Constants.BR_TALON);
     BackLeftMotor.follow(FrontLeftMotor);
     BackRightMotor.follow(FrontRightMotor);
+
 
     BackLeftMotor.setInverted(true);
     FrontLeftMotor.setInverted(true);
@@ -54,8 +57,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void resetEncoders() {
-    FrontLeftMotor.getSensorCollection().setQuadraturePosition(0, 0);
-    FrontRightMotor.getSensorCollection().setQuadraturePosition(0, 0);
+    FrontLeftMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.DRIVE_PID_SLOT, 0);
+    FrontLeftMotor.getSensorCollection().setIntegratedSensorPosition(0, 0);
+    FrontRightMotor.getSensorCollection().setIntegratedSensorPosition(0, 0);
     // BackLeftMotor.getSensorCollection().setQuadraturePosition(0, 0);
     // BackRightMotor.getSensorCollection().setQuadraturePosition(0, 0);
   }
@@ -93,11 +97,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void shiftHighGear() {
-    GearShifter.set(Value.kForward);
+    GearShifter.set(true);
   }
 
   public void shiftLowGear() {
-    GearShifter.set(Value.kReverse);
+    GearShifter.set(false);
   }
   /*
    * public void driveDistance(double distance){

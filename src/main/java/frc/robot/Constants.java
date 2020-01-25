@@ -16,22 +16,31 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final int FL_TALON = 1;
-    public static final int BL_TALON = 0;
-    public static final int FR_TALON = 3;
-    public static final int BR_TALON = 2;
-    public static final int INTAKE_MOTOR_PORT = 6;
+    //motor IDs
+    public static final int FL_TALON = 10;
+    public static final int BL_TALON = 11;
+    public static final int FR_TALON = 12;
+    public static final int BR_TALON = 13;
+    public static final int INTAKE_MOTOR_PORT = 18;
+
+    //solenoid IDs
+    public static final int HIGH_GEAR_SOLENOID_ID = 7;
+	//public static final int LOW_GEAR_SOLENOID_ID = 7;
     
+    //auton
+    public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
+	public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
+	
+    //speed values
 	public static final int INTAKE_SPEED = 1;
     public static final int OUTTAKE_SPEED = -1;
     public static final double STOP_MOTOR_SPEED = 0;
-    public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
-	public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
-	public static final int HIGH_GEAR_SOLENOID_ID = 6;
-	public static final int LOW_GEAR_SOLENOID_ID = 7;
-	public static final double NORMAL_SPEED_MODIFIER = 1;
+    public static final double NORMAL_SPEED_MODIFIER = 1;
 	public static final double LOW_SPEED_MODIFIER = 0.5;
-	public static final double MAX_MOTOR_SPEED = 1;
+    public static final double MAX_MOTOR_SPEED = 1;
+    
+    //PID slots
+	public static final int DRIVE_PID_SLOT = 0;
 	
 }
 
