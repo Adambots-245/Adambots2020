@@ -24,5 +24,7 @@ public final class Constants {
     
 	public static final int INTAKE_SPEED = 1;
 	public static final int OUTTAKE_SPEED = -1;
+	public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
+	public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
 }
 

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Gamepad.GamepadConstants;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.DriveForwardDistanceCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.OuttakeCommand;
 import frc.robot.subsystems.DriveTrain;
@@ -42,6 +43,8 @@ public class RobotContainer {
   private IntakeCommand intakeCommand;
   private OuttakeCommand outtakeCommand;
 
+  private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
+
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -50,11 +53,13 @@ public class RobotContainer {
     configureButtonBindings();
 
     // drivecommand = new DriveCommand(drivetrain, primaryJoystick.getY(Hand.kLeft), primaryJoystick.getX(Hand.kRight));
-    drivetrain.setDefaultCommand(new DriveCommand(drivetrain, ()->primaryJoystick.getX(Hand.kRight), ()->primaryJoystick.getY(Hand.kLeft)));
+    drivetrain.setDefaultCommand(new DriveCommand(drivetrain, ()->primaryJoystick.getY(Hand.kLeft), ()->primaryJoystick.getX(Hand.kRight)));
 
     intakeCommand = new IntakeCommand(intakeSubsystem);
     outtakeCommand = new OuttakeCommand(intakeSubsystem);
-    
+
+    drivetrain.resetEncoders();
+    autonDriveForwardDistanceCommand = new  DriveForwardDistanceCommand(drivetrain, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED);  
   }
 
   /**
@@ -77,8 +82,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  //public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {
   //An ExampleCommand will run in autonomous
-  //  return m_autoCommand;
-  //}
+    return autonDriveForwardDistanceCommand;
+  }
 }

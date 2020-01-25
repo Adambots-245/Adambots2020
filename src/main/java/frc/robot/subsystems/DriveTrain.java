@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -27,25 +28,42 @@ public class DriveTrain extends SubsystemBase {
   public DriveTrain() {
     super();
 
-    FrontRightMotor = new WPI_TalonSRX(Constants.FR_TALON);    
-    FrontLeftMotor = new WPI_TalonSRX(Constants.FL_TALON);    
-    BackLeftMotor = new WPI_TalonSRX(Constants.BL_TALON);  
-    BackRightMotor = new WPI_TalonSRX(Constants.BR_TALON);  
+    FrontRightMotor = new WPI_TalonSRX(Constants.FR_TALON);
+    FrontLeftMotor = new WPI_TalonSRX(Constants.FL_TALON);
+    BackLeftMotor = new WPI_TalonSRX(Constants.BL_TALON);
+    BackRightMotor = new WPI_TalonSRX(Constants.BR_TALON);
     BackLeftMotor.follow(FrontLeftMotor);
     BackRightMotor.follow(FrontRightMotor);
 
-    BackLeftMotor.setInverted(false);
-    FrontLeftMotor.setInverted(false);
+    BackLeftMotor.setInverted(true);
+    FrontLeftMotor.setInverted(true);
     BackRightMotor.setInverted(true);
     FrontRightMotor.setInverted(true);
 
     drive = new DifferentialDrive(FrontLeftMotor, FrontRightMotor);
   }
 
-  public void arcadeDrive(double speed, double turnSpeed){
-    drive.arcadeDrive(speed, turnSpeed);
+  public void resetEncoders() {
+    FrontLeftMotor.getSensorCollection().setQuadraturePosition(0, 0);
+    FrontRightMotor.getSensorCollection().setQuadraturePosition(0, 0);
+    BackLeftMotor.getSensorCollection().setQuadraturePosition(0, 0);
+    BackRightMotor.getSensorCollection().setQuadraturePosition(0, 0);
   }
 
+  public double getAverageDriveEncoderValue(){
+    System.out.println(FrontLeftMotor.getSelectedSensorPosition());
+    return (FrontLeftMotor.getSelectedSensorPosition() + FrontRightMotor.getSelectedSensorPosition())/2;
+  }
+
+  public void arcadeDrive(double speed, double turnSpeed) {
+    int frontRobotDirection = -1;
+    drive.arcadeDrive(frontRobotDirection * speed, turnSpeed);
+  }
+  /*
+   * public void driveDistance(double distance){
+   * FrontLeftMotor.set(ControlMode.Position, distance);
+   * FrontRightMotor.set(ControlMode.Position, distance); }
+   */
 
   @Override
   public void periodic() {
