@@ -8,17 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class DriveForwardDistanceCommand extends CommandBase {
   /**
    * Creates a new DriveForwardDistance.
    */
-  DriveTrain driveTrain;
+  DriveTrainSubsystem driveTrain;
   double distance;
   double speed;
 
-  public DriveForwardDistanceCommand(DriveTrain inpuDriveTrain, double inputDistance, double inputSpeed) {
+  public DriveForwardDistanceCommand(DriveTrainSubsystem inpuDriveTrain, double inputDistance, double inputSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     driveTrain = inpuDriveTrain;
     distance = inputDistance;

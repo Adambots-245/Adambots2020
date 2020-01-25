@@ -23,8 +23,15 @@ public final class Constants {
     public static final int INTAKE_MOTOR_PORT = 6;
     
 	public static final int INTAKE_SPEED = 1;
-	public static final int OUTTAKE_SPEED = -1;
-	public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
+    public static final int OUTTAKE_SPEED = -1;
+    public static final double STOP_MOTOR_SPEED = 0;
+    public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
 	public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
+	public static final int HIGH_GEAR_SOLENOID_ID = 6;
+	public static final int LOW_GEAR_SOLENOID_ID = 7;
+	public static final double NORMAL_SPEED_MODIFIER = 1;
+	public static final double LOW_SPEED_MODIFIER = 0.5;
+	public static final double MAX_MOTOR_SPEED = 1;
+	
 }
 

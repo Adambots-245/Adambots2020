@@ -33,6 +33,9 @@ public class IntakeSubsystem extends SubsystemBase {
   public void outtake(){
     IntakeMotor.set(ControlMode.PercentOutput, Constants.OUTTAKE_SPEED);
   }
+  public void stop(){
+    IntakeMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+  }
 
   @Override
   public void periodic() {

@@ -8,19 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class IntakeCommand extends CommandBase {
+public class SetLowSpeedCommand extends CommandBase {
   /**
-   * Creates a new IntakeCommand.
+   * Creates a new SetLowSpeedCommand.
    */
-  private final IntakeSubsystem intakeSubsystem;
-
-  public IntakeCommand(IntakeSubsystem intakeSubsystem) {
-    this.intakeSubsystem = intakeSubsystem;
-
-    addRequirements(intakeSubsystem);
+  private DriveTrainSubsystem driveTrainSubsystem;
+  public SetLowSpeedCommand(DriveTrainSubsystem driveTrainSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.driveTrainSubsystem = driveTrainSubsystem;
+    //addRequirements(driveTrainSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +29,7 @@ public class IntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.intake();
+    driveTrainSubsystem.setLowSpeed();
   }
 
   // Called once the command ends or is interrupted.

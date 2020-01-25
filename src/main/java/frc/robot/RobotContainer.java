@@ -14,9 +14,14 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Gamepad.GamepadConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveForwardDistanceCommand;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.OuttakeCommand;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.commands.SetLowSpeedCommand;
+import frc.robot.commands.SetNormalSpeedCommand;
+import frc.robot.commands.ShiftHighGearCommand;
+import frc.robot.commands.ShiftLowGearCommand;
+import frc.robot.commands.StopIntakeOuttakeCommand;
+import frc.robot.commands.StartOuttakeCommand;
+import frc.robot.commands.StartIntakeCommand;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -37,12 +42,10 @@ public class RobotContainer {
   private final XboxController primaryJoystick = new XboxController(1);
   private final XboxController secondaryJoystick = new XboxController(2);
 
-  private final DriveTrain drivetrain = new DriveTrain();
+  private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private DriveCommand drivecommand;
 
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private IntakeCommand intakeCommand;
-  private OuttakeCommand outtakeCommand;
 
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
 
@@ -54,13 +57,10 @@ public class RobotContainer {
     configureButtonBindings();
 
     // drivecommand = new DriveCommand(drivetrain, primaryJoystick.getY(Hand.kLeft), primaryJoystick.getX(Hand.kRight));
-    drivetrain.setDefaultCommand(new DriveCommand(drivetrain, ()->primaryJoystick.getY(Hand.kLeft), ()->primaryJoystick.getX(Hand.kRight)));
+    driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, ()->primaryJoystick.getY(Hand.kLeft), ()->primaryJoystick.getX(Hand.kRight)));
 
-    intakeCommand = new IntakeCommand(intakeSubsystem);
-    outtakeCommand = new OuttakeCommand(intakeSubsystem);
-
-    drivetrain.resetEncoders();
-    autonDriveForwardDistanceCommand = new  DriveForwardDistanceCommand(drivetrain, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED);  
+    driveTrainSubsystem.resetEncoders();
+    autonDriveForwardDistanceCommand = new  DriveForwardDistanceCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED);  
   }
 
   /**
@@ -72,9 +72,25 @@ public class RobotContainer {
   private void configureButtonBindings() {
     final JoystickButton AButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_A);  
     final JoystickButton YButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_Y);  
+    final JoystickButton LB = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_LB);  
+    final JoystickButton RB = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_RB);
+    final JoystickButton XButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_X);
+    final JoystickButton BButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_B);
+    
+    //intake subsystem
+    AButton.whenPressed(new StartIntakeCommand(intakeSubsystem));
+    YButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
+    AButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
+    YButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
 
-    AButton.whenPressed(new IntakeCommand(intakeSubsystem));
-    YButton.whenPressed(new OuttakeCommand(intakeSubsystem));
+    //drive subsystem
+    LB.whenPressed(new ShiftLowGearCommand(driveTrainSubsystem));
+    RB.whenPressed(new ShiftHighGearCommand(driveTrainSubsystem));
+    XButton.whenPressed(new SetLowSpeedCommand(driveTrainSubsystem));
+    BButton.whenPressed(new SetNormalSpeedCommand(driveTrainSubsystem));
+
+
+
   }
 
 

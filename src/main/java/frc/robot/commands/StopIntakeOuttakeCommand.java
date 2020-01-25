@@ -10,13 +10,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class OuttakeCommand extends CommandBase {
+public class StopIntakeOuttakeCommand extends CommandBase {
   /**
-   * Creates a new OuttakeCommand.
+   * Creates a new IntakeCommand.
    */
   private final IntakeSubsystem intakeSubsystem;
-  public OuttakeCommand(IntakeSubsystem intakeSubsystem) {
+
+  public StopIntakeOuttakeCommand(IntakeSubsystem intakeSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
+
     addRequirements(intakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -29,7 +31,8 @@ public class OuttakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.outtake();
+    System.out.println("stop");
+    intakeSubsystem.stop();
   }
 
   // Called once the command ends or is interrupted.
