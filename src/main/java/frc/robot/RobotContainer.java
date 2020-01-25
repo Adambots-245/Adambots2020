@@ -14,9 +14,11 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Gamepad.GamepadConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveForwardDistanceCommand;
+import frc.robot.commands.GyroDriveForDistCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.OuttakeCommand;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -45,6 +47,7 @@ public class RobotContainer {
   private OuttakeCommand outtakeCommand;
 
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
+  private GyroDriveForDistCommand autonGyroDriveForwardDistanceCommand;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -61,6 +64,8 @@ public class RobotContainer {
 
     drivetrain.resetEncoders();
     autonDriveForwardDistanceCommand = new  DriveForwardDistanceCommand(drivetrain, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED);  
+    autonGyroDriveForwardDistanceCommand = new GyroDriveForDistCommand(drivetrain, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED, Gyro.values.getYaw());  
+ 
   }
 
   /**
