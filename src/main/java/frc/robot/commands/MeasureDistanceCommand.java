@@ -33,7 +33,8 @@ public class MeasureDistanceCommand extends CommandBase {
   @Override
   public void execute() {
     System.out.println("Distance: " + lidarSubsystem.getDistance());
-    SmartDashboard.putNumber("Distance", lidarSubsystem.getDistance());
+    SmartDashboard.putNumber("Distance (cm)", lidarSubsystem.getDistance());
+    SmartDashboard.putNumber("Distance (in)", lidarSubsystem.getInches());
   }
 
   // Called once the command ends or is interrupted.
