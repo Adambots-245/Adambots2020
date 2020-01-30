@@ -14,9 +14,11 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Gamepad.GamepadConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.MeasureDistanceCommand;
 import frc.robot.commands.OuttakeCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LidarSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -41,6 +43,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private IntakeCommand intakeCommand;
   private OuttakeCommand outtakeCommand;
+  private final LidarSubsystem lidarSubsystem = new LidarSubsystem();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -64,11 +67,13 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    final JoystickButton AButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_A);  
-    final JoystickButton YButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_Y);  
+    //final JoystickButton AButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_A);  
+    //final JoystickButton YButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_Y);  
+    final JoystickButton XButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_X);  
 
-    AButton.whenPressed(new IntakeCommand(intakeSubsystem));
-    YButton.whenPressed(new OuttakeCommand(intakeSubsystem));
+    //AButton.whenPressed(new IntakeCommand(intakeSubsystem));
+    //YButton.whenPressed(new OuttakeCommand(intakeSubsystem));
+    XButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
   }
 
 

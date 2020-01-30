@@ -23,6 +23,9 @@ public final class Constants {
     public static final int INTAKE_MOTOR_PORT = 6;
     
 	public static final int INTAKE_SPEED = 1;
-	public static final int OUTTAKE_SPEED = -1;
+    public static final int OUTTAKE_SPEED = -1;
+	public static final int LIDAR_DIO = 0;
+    
+
 }
 

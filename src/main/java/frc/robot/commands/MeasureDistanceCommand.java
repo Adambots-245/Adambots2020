@@ -7,30 +7,24 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.LidarSubsystem;
 
-public class DriveCommand extends CommandBase {
-  public final DriveTrain drivetrain;
-  public final DoubleSupplier forwardBackwardInput;
-  public final DoubleSupplier rotationInput;
+public class MeasureDistanceCommand extends CommandBase {
   /**
-   * Creates a new DriveCommand.
+   * Creates a new MeasureDistanceCommand.
    */
-  public DriveCommand(DriveTrain inputDriveTrain, DoubleSupplier straightInput, DoubleSupplier turnInput) {
-    drivetrain = inputDriveTrain;
-    forwardBackwardInput = straightInput;
-    rotationInput = turnInput;
+  private final LidarSubsystem lidarSubsystem;
 
-    addRequirements(drivetrain);
+  public MeasureDistanceCommand(LidarSubsystem lidarSubsystem) {
+    this.lidarSubsystem = lidarSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    
+
+    addRequirements(this.lidarSubsystem);
   }
 
-
-// Called when the command is initially scheduled.
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
@@ -38,8 +32,8 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //System.out.println("FBI: " + forwardBackwardInput.getAsDouble() + " - RI:" + rotationInput.getAsDouble());
-    drivetrain.arcadeDrive(forwardBackwardInput.getAsDouble(), rotationInput.getAsDouble());
+    System.out.println("Distance: " + lidarSubsystem.getDistance());
+    SmartDashboard.putNumber("Distance", lidarSubsystem.getDistance());
   }
 
   // Called once the command ends or is interrupted.
@@ -50,6 +44,6 @@ public class DriveCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
