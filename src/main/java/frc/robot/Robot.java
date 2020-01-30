@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  private VisionProcessor vision;
+  private VisionProcessorSubsystem vision;
   private Thread visionThread;
 
   /**
@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     // Starts vision thread
-    vision = new VisionProcessor();
+    vision = new VisionProcessorSubsystem();
     visionThread = vision.getVisionThread();
     visionThread.setDaemon(true);
     visionThread.start();

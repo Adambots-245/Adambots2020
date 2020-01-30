@@ -44,5 +44,14 @@ public final class Constants {
     public static final Scalar GREEN = new Scalar(0, 255, 0);
     public static final Scalar BLUE = new Scalar(255, 0, 0);
 
+    // turret PID constants
+    public static int TURRET_MOTOR_PORT = 22;
+    public static double TURRET_kP = 0.5;
+    public static double TURRET_kI = 0;
+    public static double TURRET_kD = 0;
+    public static int TURRET_TOLERANCE = 5;
+    public static final double TURRET_TARGET_ANGLE = 0;
+	public static final double TURRET_SPEED = 0.5;
+
 }
 

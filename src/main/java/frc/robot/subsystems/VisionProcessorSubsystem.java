@@ -2,14 +2,16 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.cscore.*;
 import edu.wpi.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.networktables.*;
 
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
-public class VisionProcessor {
+public class VisionProcessorSubsystem extends SubsystemBase {
 
     private static UsbCamera camera;
     private static CvSource processedOutputStream;
@@ -21,10 +23,10 @@ public class VisionProcessor {
     private static int pixelDistance;
     private static double angle;
     private Object lock = new Object();
-
     private Thread visionThread;
+    private NetworkTableEntry angleEntry;
 
-    public VisionProcessor() {
+    public VisionProcessorSubsystem() {
         init();
     }
 
@@ -40,6 +42,10 @@ public class VisionProcessor {
         // camera.setPixelFormat(VideoMode.PixelFormat.kMJPEG);
         // camera.setFPS(Constants.PROCESSING_FPS);
         // camera.setResolution(Constants.IMG_WIDTH, Constants.IMG_HEIGHT);
+
+        NetworkTableInstance instance = NetworkTableInstance.getDefault();
+        NetworkTable table = instance.getTable("Vision");
+        angleEntry = table.getEntry("Angle");
 
         visionThread = new Thread(() -> {
             run();
@@ -134,6 +140,7 @@ public class VisionProcessor {
     public void calculateAngle() {
         pixelDistance = (int) crosshair.x - Constants.IMG_HOR_MID;
         angle = pixelDistance * Constants.HOR_DEGREES_PER_PIXEL;
+        angleEntry.setDouble(angle);
 
     }
 
