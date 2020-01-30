@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-import frc.robot.subsystems.ControlPanel;
+import frc.robot.subsystems.ControlPanelSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * An example command that uses an example subsystem.
  */
 public class AlignColorCommand extends CommandBase {
-  private final ControlPanel controlPanel;
+  private final ControlPanelSubsystem controlPanel;
 
-  public AlignColorCommand(ControlPanel controlPanel) {
+  public AlignColorCommand(ControlPanelSubsystem controlPanel) {
     this.controlPanel = controlPanel;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(controlPanel);

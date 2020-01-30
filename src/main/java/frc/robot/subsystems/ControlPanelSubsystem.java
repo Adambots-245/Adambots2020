@@ -28,19 +28,18 @@ import edu.wpi.first.wpilibj.DriverStation;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-public class ControlPanel extends SubsystemBase {
+public class ControlPanelSubsystem extends SubsystemBase {
   /**
    * Creates a new ControlPanel Subsystem.
    */
  
 
   private String lastColor;
-  public WPI_TalonSRX panelMotor1;
-  public WPI_TalonSRX panelMotor2;
+  public WPI_TalonSRX panelMotor;
   private boolean rotationsFinished;
   private boolean alignerFinished;
 
-  public ControlPanel() {
+  public ControlPanelSubsystem() {
     super();
 
     //Init control panel code
@@ -53,10 +52,10 @@ public class ControlPanel extends SubsystemBase {
     rotationsFinished = false;
     alignerFinished = false;
 
-    panelMotor1 = new WPI_TalonSRX(Constants.PANEL_MOTOR1_PORT);
-    panelMotor2 = new WPI_TalonSRX(Constants.PANEL_MOTOR2_PORT);
+    panelMotor = new WPI_TalonSRX(Constants.PANEL_MOTOR_PORT);
   }
 
+  //Gets the color that our color sensor currently detects
   public String getColor() {
 
         
@@ -99,10 +98,12 @@ public class ControlPanel extends SubsystemBase {
     return colorString;
 }
 
+//Returns the direction we are spinning in
 public String getDirection() {
     return Constants.DIRECTION;
 }
 
+//Predicts the next color our sensor will detect given our current color and the direction we are spinning
 public String mapNextColor(String color) {
     String currentColor = color;
     String currentDirection = getDirection();
@@ -143,18 +144,14 @@ public double getProximity() {
     return Constants.M_COLOR_SENSOR.getProximity();
 }
 
-
+//Starts spinning
 public void startMotor() {
-    //Will have the code to start spinning the wheel
-    panelMotor1.set(ControlMode.PercentOutput, Constants.PANEL_MOTOR1_SPEED);
-    panelMotor2.set(ControlMode.PercentOutput, Constants.PANEL_MOTOR2_SPEED);
+    panelMotor.set(ControlMode.PercentOutput, Constants.PANEL_MOTOR_SPEED);
 }
 
-
+//Stops spinning
 public void stopMotor() {
-    //Will have the code to stop spinning the wheel
-    panelMotor1.set(ControlMode.PercentOutput, 0.0);
-    panelMotor2.set(ControlMode.PercentOutput, 0.0);
+    panelMotor.set(ControlMode.PercentOutput, 0.0);
 }
 
 
@@ -162,7 +159,7 @@ private String rotationalStartingColor;
 private int rotationalColorCount;
 private boolean offStartingColor = false;
 
-
+//For the first phase of the control panel: rotating the wheel 3-5 times
 public void startRotations() {
     //We can use the color our sensor is detecting as opposed to the game's sensor, it will still work:
     rotationalStartingColor = getColor();
@@ -173,12 +170,12 @@ public void startRotations() {
     startMotor();
 }
 
-//This method counts the rotations of the wheel
+//This method returns the number of rotations of the color wheel
 public int getRotations() {
     return rotationalColorCount / 2;
 }
 
-//This method monitors the rotations of the wheel
+//This method monitors the rotations of the wheel and stops rotating once 3 rotations are complete
 public void monitorRotations() {
 
     if (rotationalStartingColor.equals(getColor()) && offStartingColor) {
@@ -208,7 +205,7 @@ public boolean isFinished(String event) {
     }
 }
 
-//This method gets the FMS color
+//Gets color provided by FMS
 public String getFmsColor() {
     String gameData;
     gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -235,7 +232,7 @@ public String getFmsColor() {
 
 private String targetColor;
 
-/* code for the color offset corrector*/
+/* For the second/final phase of control panel: aligning the game's sensor to a specific color on the panel */
 public void startAligner() {
     targetColor = getFmsColor();
 
@@ -244,11 +241,12 @@ public void startAligner() {
     startMotor();
 }
 
+//Gets the distance, in color slices, between our sensor and the game sensor
 public int getDifferential() {
     return Constants.DIFFERENTIAL;
 }
 
-//Gets the color that is two color slices away from our sensor's position
+//Gets the color that is two (or whatever the differential is) color slices away from our sensor's position
 public String colorCorrector(String currentColor) {
     if (getDifferential() == 2) {
         return mapNextColor(mapNextColor(currentColor));
@@ -261,6 +259,7 @@ public String colorCorrector(String currentColor) {
     }
 }
 
+//Stops rotating once the correct color is reached
 public void monitorAligner() {
     boolean isTarget = false;
     
@@ -279,7 +278,7 @@ public void monitorAligner() {
 
 
 
-//These methods put stuff on the dashboard (only use if necessary)
+//This method puts stuff on the dashboard (only use if necessary) for first phase
 public void putDashRotations() {
 
     SmartDashboard.putString("Detected Color", getColor());
@@ -288,6 +287,7 @@ public void putDashRotations() {
 
 }
 
+//This method puts stuff on the dashboard (only use if necessary) for second phase
 public void putDashAligner() {
 
     SmartDashboard.putString("Detected Color", getColor());

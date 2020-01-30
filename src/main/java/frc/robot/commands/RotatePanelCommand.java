@@ -9,14 +9,14 @@ package frc.robot.commands;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ControlPanel;
+import frc.robot.subsystems.ControlPanelSubsystem;
 
 public class RotatePanelCommand extends CommandBase {
-  public final ControlPanel controlPanel;
+  public final ControlPanelSubsystem controlPanel;
   /**
    * Creates a new DriveCommand.
    */
-  public RotatePanelCommand(ControlPanel panelSubsystem) {
+  public RotatePanelCommand(ControlPanelSubsystem panelSubsystem) {
     controlPanel = panelSubsystem;
 
     addRequirements(controlPanel);
