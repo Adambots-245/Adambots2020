@@ -90,4 +90,12 @@ public class GamepadConstants {
 	// POV returns an angle in degrees 0-315 at 45 intervals
 	public static final int AXIS_DPAD_POV = 0;
 
+	public static final int DPAD_N_ANGLE = 0;
+	public static final int DPAD_NE_ANGLE = 45;
+	public static final int DPAD_E_ANGLE = 90;
+	public static final int DPAD_SE_ANGLE = 135;
+	public static final int DPAD_S_ANGLE = 180;
+	public static final int DPAD_SW_ANGLE = 225;
+	public static final int DPAD_W_ANGLE = 270;
+	public static final int DPAD_NW_ANGLE = 315;
 }

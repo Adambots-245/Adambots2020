@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import frc.robot.Gamepad.DPad_JoystickButton;
 import frc.robot.Gamepad.GamepadConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveForwardDistanceCommand;
@@ -77,12 +78,14 @@ public class RobotContainer {
     final JoystickButton XButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_X);
     final JoystickButton BButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_B);
     
+    final DPad_JoystickButton DPadN = new DPad_JoystickButton(primaryJoystick, GamepadConstants.DPAD_N_ANGLE);    
+
     //intake subsystem
     AButton.whenPressed(new StartIntakeCommand(intakeSubsystem));
     YButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
     AButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
     YButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
-
+    
     //drive subsystem
     LB.whenPressed(new ShiftLowGearCommand(driveTrainSubsystem));
     RB.whenPressed(new ShiftHighGearCommand(driveTrainSubsystem));
