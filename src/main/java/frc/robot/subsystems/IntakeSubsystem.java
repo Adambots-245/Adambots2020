@@ -31,10 +31,19 @@ public class IntakeSubsystem extends SubsystemBase {
     IntakeMotor.set(ControlMode.PercentOutput, Constants.INTAKE_SPEED);
   } 
   public void outtake(){
+  public void intake(double speed) {
+    IntakeMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void outtake() {
     IntakeMotor.set(ControlMode.PercentOutput, Constants.OUTTAKE_SPEED);
   }
   public void stop(){
     IntakeMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+  }
+
+  public void arm(double armSpeed) {
+    
   }
 
   @Override
