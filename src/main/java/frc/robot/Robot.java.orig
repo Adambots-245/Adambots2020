@@ -35,8 +35,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+<<<<<<< HEAD
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
+=======
     // Starts vision thread
     vision = new VisionProcessorSubsystem();
     visionThread = vision.getVisionThread();
@@ -44,6 +46,7 @@ public class Robot extends TimedRobot {
     visionThread.start();
 
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+>>>>>>> autoTurret
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
@@ -60,12 +63,19 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("ANGLE", vision.getAngle());
+<<<<<<< HEAD
+    // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled
     // commands, running already-scheduled commands, removing finished or
     // interrupted commands,
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
+=======
+    SmartDashboard.putNumber("ANGLE", vision.getAngle());
+    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+    // commands, running already-scheduled commands, removing finished or interrupted commands,
+    // and running subsystem periodic() methods.  This must be called from the robot's periodic
+>>>>>>> autoTurret
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
   }

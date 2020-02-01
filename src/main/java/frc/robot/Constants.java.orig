@@ -38,6 +38,7 @@ public final class Constants {
     //speed values
 	public static final int INTAKE_SPEED = 1;
     public static final int OUTTAKE_SPEED = -1;
+<<<<<<< HEAD
     public static final double STOP_MOTOR_SPEED = 0;
     public static final double NORMAL_SPEED_MODIFIER = 1;
 	public static final double LOW_SPEED_MODIFIER = 0.5;
@@ -46,6 +47,7 @@ public final class Constants {
     //PID slots
 	public static final int DRIVE_PID_SLOT = 0;
 	
+=======
     
     // Vision Constants
     public static final int CAM_NUMBER = 0;
@@ -71,5 +73,6 @@ public final class Constants {
     public static final double TURRET_TARGET_ANGLE = 0;
 	public static final double TURRET_SPEED = 0.5;
 
+>>>>>>> autoTurret
 }
 
