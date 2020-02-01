@@ -7,60 +7,57 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.DriveTrain;
 
-public class DriveCommand extends CommandBase {
-  public final DriveTrainSubsystem drivetrain;
-  public final DoubleSupplier forwardBackwardInput;
-<<<<<<< HEAD
-  public final DoubleSupplier rotationInput;
-
-=======
-  public final DoubleSupplier rotationInput;z
->>>>>>> origin/gyro
+public class GyroDriveForDistCommand extends CommandBase {
   /**
-   * Creates a new DriveCommand.
+   * Creates a new DriveForwardDistance.
    */
-  public DriveCommand(DriveTrainSubsystem inputDriveTrain, DoubleSupplier straightInput, DoubleSupplier turnInput) {
-    drivetrain = inputDriveTrain;
-    forwardBackwardInput = straightInput;
-    rotationInput = turnInput;
+  DriveTrain driveTrain;
+  double distance;
+  double speed;
+  double yaw;
 
-    addRequirements(drivetrain);
+  public GyroDriveForDistCommand(DriveTrain inpuDriveTrain, double inputDistance, double inputSpeed, float getYaw) {
     // Use addRequirements() here to declare subsystem dependencies.
+    driveTrain = inpuDriveTrain;
+    distance = inputDistance;
+    speed = inputSpeed;
+    yaw = getYaw;
+
+    addRequirements(driveTrain);
 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //System.out.println("FBI: " + forwardBackwardInput.getAsDouble() + " - RI:" + rotationInput.getAsDouble());
-    // rotationInput.getAsDouble());
-    drivetrain.arcadeDrive(forwardBackwardInput.getAsDouble(), rotationInput.getAsDouble());
+    double turnSpeed;
+    if (yaw >= 20.0){
+      turnSpeed = 0.1;
+    } else if (yaw <= -20.0) {
+      turnSpeed = -0.1;
+    } else {
+      turnSpeed = 0;
+    }
+    driveTrain.arcadeDrive(speed, turnSpeed);
+    //driveTrain.driveDistance(distance);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (interrupted) {
-      System.out.println("DriveCommand interrupted");
-    } else {
-      drivetrain.arcadeDrive(0, 0);
-    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (driveTrain.getAverageDriveEncoderValue() >= distance);
   }
 }

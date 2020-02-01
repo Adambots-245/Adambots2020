@@ -15,11 +15,13 @@ import frc.robot.Gamepad.DPad_JoystickButton;
 import frc.robot.Gamepad.GamepadConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveForwardDistanceCommand;
+import frc.robot.commands.GyroDriveForDistCommand;
 import frc.robot.commands.MeasureDistanceCommand;
 import frc.robot.commands.SetLowSpeedCommand;
 import frc.robot.commands.SetNormalSpeedCommand;
 import frc.robot.commands.ShiftHighGearCommand;
 import frc.robot.commands.ShiftLowGearCommand;
+import frc.robot.subsystems.Gyro;
 import frc.robot.commands.StopIntakeOuttakeCommand;
 import frc.robot.commands.StartOuttakeCommand;
 import frc.robot.commands.StartIntakeCommand;
@@ -51,6 +53,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
+  private GyroDriveForDistCommand autonGyroDriveForwardDistanceCommand;
   private final LidarSubsystem lidarSubsystem = new LidarSubsystem();
 
   /**
@@ -65,6 +68,8 @@ public class RobotContainer {
 
     driveTrainSubsystem.resetEncoders();
     autonDriveForwardDistanceCommand = new  DriveForwardDistanceCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED);  
+    autonGyroDriveForwardDistanceCommand = new GyroDriveForDistCommand(drivetrain, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED, Gyro.values.getYaw());  
+ 
   }
 
   /**
