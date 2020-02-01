@@ -54,8 +54,8 @@ public class RobotContainer {
 
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
   private GyroDriveForDistCommand autonGyroDriveForwardDistanceCommand;
-  private final LidarSubsystem lidarSubsystem = new LidarSubsystem();
-  private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
+  private LidarSubsystem lidarSubsystem = null;
+  private GyroSubsystem gyroSubsystem = null;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -64,12 +64,17 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
+    if (Robot.isReal()) {
+      lidarSubsystem = new LidarSubsystem();
+      gyroSubsystem = new GyroSubsystem();
+    }
+
     // drivecommand = new DriveCommand(drivetrain, primaryJoystick.getY(Hand.kLeft), primaryJoystick.getX(Hand.kRight));
     driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, ()->primaryJoystick.getY(Hand.kLeft), ()->primaryJoystick.getX(Hand.kRight)));
 
     driveTrainSubsystem.resetEncoders();
     autonDriveForwardDistanceCommand = new  DriveForwardDistanceCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED);  
-    autonGyroDriveForwardDistanceCommand = new GyroDriveForDistCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED, gyroSubsystem.getYaw());  
+    //autonGyroDriveForwardDistanceCommand = new GyroDriveForDistCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED, gyroSubsystem.getYaw());  
  
   }
 
@@ -101,9 +106,7 @@ public class RobotContainer {
     XButton.whenPressed(new SetLowSpeedCommand(driveTrainSubsystem));
     BButton.whenPressed(new SetNormalSpeedCommand(driveTrainSubsystem));
 
-
-
-    XButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
+    //XButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
   }
 
 
