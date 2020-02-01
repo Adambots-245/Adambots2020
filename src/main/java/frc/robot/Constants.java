@@ -48,6 +48,9 @@ public final class Constants {
     //speed values
 	public static final int INTAKE_SPEED = 1;
     public static final int OUTTAKE_SPEED = -1;
+	public static final int LIDAR_DIO = 0;
+    
+
     public static final double STOP_MOTOR_SPEED = 0;
     public static final double NORMAL_SPEED_MODIFIER = 1;
 	public static final double LOW_SPEED_MODIFIER = 0.5;
