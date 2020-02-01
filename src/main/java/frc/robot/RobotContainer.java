@@ -74,8 +74,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //final JoystickButton AButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_A);  
-    //final JoystickButton YButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_Y);  
+    final JoystickButton AButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_A);  
+    final JoystickButton YButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_Y);  
     final JoystickButton LB = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_LB);  
     final JoystickButton RB = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_RB);
     final JoystickButton XButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_X);
