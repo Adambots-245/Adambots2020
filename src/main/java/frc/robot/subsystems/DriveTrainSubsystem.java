@@ -82,8 +82,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void arcadeDrive(double speed, double turnSpeed) {
     int frontRobotDirection = -1;
     double straightSpeed = frontRobotDirection * speed * speedModifier;
-    System.out.println("straightSpeed = " + straightSpeed);
-    System.out.println("turnSpeed = " + turnSpeed * speedModifier);
+    //System.out.println("straightSpeed = " + straightSpeed);
+    //System.out.println("turnSpeed = " + turnSpeed * speedModifier);
 
     // double leftSpeed = Math.min(straightSpeed + turnSpeed* speedModifier, Constants.MAX_MOTOR_SPEED);
     // double rightSpeed = Math.min(straightSpeed - turnSpeed* speedModifier, Constants.MAX_MOTOR_SPEED);

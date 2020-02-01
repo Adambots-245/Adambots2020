@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.vision.GripPipeline;
 import edu.wpi.cscore.*;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.networktables.*;
