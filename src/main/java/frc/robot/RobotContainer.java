@@ -91,11 +91,19 @@ public class RobotContainer {
     final JoystickButton RB = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_RB);
     final JoystickButton XButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_X);
     final JoystickButton BButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_B);
+    final JoystickButton StartButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_START);
+    final JoystickButton BackButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_BACK);
     
     final DPad_JoystickButton DPadN = new DPad_JoystickButton(primaryJoystick, GamepadConstants.DPAD_N_ANGLE);    
+    StartIntakeCommand startIntakeCommand = new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight));
 
     //intake subsystem
-    AButton.whenPressed(new StartIntakeCommand(intakeSubsystem));
+    
+    //startIntakeCommand.addRequirements(elevatorSubsystem, conveyorSubsystem, alignmentBeltSubsystem);
+    BackButton.whenPressed(startIntakeCommand);
+    StartButton.whenPressed(new StopIntakeOuttakeCommand(intakeSubsystem));
+
+
     YButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
     AButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
     YButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
