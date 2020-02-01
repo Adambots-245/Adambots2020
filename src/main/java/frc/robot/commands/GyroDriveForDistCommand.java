@@ -8,18 +8,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class GyroDriveForDistCommand extends CommandBase {
   /**
    * Creates a new DriveForwardDistance.
    */
-  DriveTrain driveTrain;
+  DriveTrainSubsystem driveTrain;
   double distance;
   double speed;
   double yaw;
 
-  public GyroDriveForDistCommand(DriveTrain inpuDriveTrain, double inputDistance, double inputSpeed, float getYaw) {
+  public GyroDriveForDistCommand(DriveTrainSubsystem inpuDriveTrain, double inputDistance, double inputSpeed, float getYaw) {
     // Use addRequirements() here to declare subsystem dependencies.
     driveTrain = inpuDriveTrain;
     distance = inputDistance;

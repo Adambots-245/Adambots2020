@@ -21,7 +21,7 @@ import frc.robot.commands.SetLowSpeedCommand;
 import frc.robot.commands.SetNormalSpeedCommand;
 import frc.robot.commands.ShiftHighGearCommand;
 import frc.robot.commands.ShiftLowGearCommand;
-import frc.robot.subsystems.Gyro;
+import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.commands.StopIntakeOuttakeCommand;
 import frc.robot.commands.StartOuttakeCommand;
 import frc.robot.commands.StartIntakeCommand;
@@ -55,6 +55,7 @@ public class RobotContainer {
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
   private GyroDriveForDistCommand autonGyroDriveForwardDistanceCommand;
   private final LidarSubsystem lidarSubsystem = new LidarSubsystem();
+  private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -68,7 +69,7 @@ public class RobotContainer {
 
     driveTrainSubsystem.resetEncoders();
     autonDriveForwardDistanceCommand = new  DriveForwardDistanceCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED);  
-    autonGyroDriveForwardDistanceCommand = new GyroDriveForDistCommand(drivetrain, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED, Gyro.values.getYaw());  
+    autonGyroDriveForwardDistanceCommand = new GyroDriveForDistCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED, gyroSubsystem.getYaw());  
  
   }
 

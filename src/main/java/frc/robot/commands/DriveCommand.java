@@ -15,7 +15,7 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 public class DriveCommand extends CommandBase {
   public final DriveTrainSubsystem drivetrain;
   public final DoubleSupplier forwardBackwardInput;
-  public final DoubleSupplier rotationInput;z
+  public final DoubleSupplier rotationInput;
 
   /**
    * Creates a new DriveCommand.
