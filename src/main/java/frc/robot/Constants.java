@@ -110,7 +110,12 @@ public final class Constants {
 
     public static int TURRET_TOLERANCE = 5;
     public static final double TURRET_TARGET_ANGLE = 0;
-	public static final double TURRET_SPEED = 0.5;
+    public static final double TURRET_SPEED = 0.5;
+    
+
+
+	public static final int BLASTER_MOTOR_PORT = 14;
+	public static final int BACKBOARD_SOLENOID_PORT = 2;
 
 }
 
