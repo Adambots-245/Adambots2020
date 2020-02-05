@@ -47,6 +47,7 @@ public final class Constants {
 	public static final int DRIVE_PID_SLOT = 0;
 	public static final double MAX_GLIDE_SPEED = 0;
 	public static final double MAX_LIFT_SPEED = 0;
+	public static final int CLIMB_ARM1_PORT = 0;
 	
 }
 

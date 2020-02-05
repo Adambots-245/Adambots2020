@@ -25,7 +25,6 @@ public class Hanging extends SubsystemBase {
 
 
     public Hanging() {
-        super();
         grab1 = new WPI_VictorSPX(Constants.WINCH1_PORT);
         grab2 = new WPI_VictorSPX(Constants.WINCH2_PORT);
         elevator = new WPI_VictorSPX(Constants.CLIMB_ARM1_PORT);
