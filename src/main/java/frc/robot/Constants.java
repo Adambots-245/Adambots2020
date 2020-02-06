@@ -43,6 +43,9 @@ public final class Constants {
     
     //solenoid IDs
     public static final int HIGH_GEAR_SOLENOID_ID = 7;
+    public static final double WINCH_SPEED = 0.5;
+
+    
 	public static final int BACKBOARD_SOLENOID_PORT = 2;
     
     
