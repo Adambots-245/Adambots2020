@@ -7,9 +7,11 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.HangSubsystem;
 
 /**
@@ -23,12 +25,12 @@ public class RaiseElevatorCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DoubleSupplier elevationSpeed;
+  public BooleanSupplier triggerSupplier;
   private final HangSubsystem hangsubsystem;
   
-  public RaiseElevatorCommand(HangSubsystem subsystem, DoubleSupplier speed) {
+  public RaiseElevatorCommand(HangSubsystem subsystem, BooleanSupplier trigger) {
     this.hangsubsystem = subsystem;
-    elevationSpeed = speed;
+    triggerSupplier = trigger;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(hangsubsystem);
   }
@@ -41,8 +43,10 @@ public class RaiseElevatorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    HangSubsystem.climb(elevationSpeed.getAsDouble());
+    if(triggerSupplier.getAsBoolean()){  
+    HangSubsystem.climb(Constants.WINCH_SPEED);
     }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
