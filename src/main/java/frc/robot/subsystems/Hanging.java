@@ -22,12 +22,14 @@ public class Hanging extends SubsystemBase {
     public WPI_VictorSPX elevator;
     //motors for winches and horiz
     public WPI_VictorSPX grab1, grab2;
+    public WPI_VictorSPX glideMotor;
 
 
     public Hanging() {
         grab1 = new WPI_VictorSPX(Constants.WINCH1_PORT);
         grab2 = new WPI_VictorSPX(Constants.WINCH2_PORT);
         elevator = new WPI_VictorSPX(Constants.CLIMB_ARM1_PORT);
+        glideMotor = new WPI_VictorSPX(Constants.GLIDE_PORT);
     }
 
     private double liftSpeed(double elevateSpeed) {
@@ -48,11 +50,14 @@ public class Hanging extends SubsystemBase {
     //Move horizontally along the Shield Generator bar
     public void glide(double glideSpeed) {
         double shiftSpeed = shiftSpeed(glideSpeed);
+        glideMotor.set(shiftSpeed);
     }
 
     //Winches gripping the bar
     public void grip(double winchSpeed) {
         double speed = winchSpeed > Constants.MAX_MOTOR_SPEED ? Constants.MAX_MOTOR_SPEED : winchSpeed;
+        grab1.set(speed);
+        grab2.set(speed);
     }
 
 }

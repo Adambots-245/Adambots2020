@@ -26,6 +26,7 @@ public final class Constants {
     //TODO: Make these accurate
     public static final int WINCH1_PORT = 0;
     public static final int WINCH2_PORT = 0;
+    public static final int GLIDE_PORT = 0;
 
     //solenoid IDs
     public static final int HIGH_GEAR_SOLENOID_ID = 7;
