@@ -44,7 +44,8 @@ public final class Constants {
     //solenoid IDs
     public static final int HIGH_GEAR_SOLENOID_ID = 7;
 	public static final int BACKBOARD_SOLENOID_PORT = 2;
-    
+    public static final int RAISE_PCM = 0;
+    public static final int LOWER_PCM = 1;
     
     //sensor IDs
     public static final int LIDAR_DIO = 0;
