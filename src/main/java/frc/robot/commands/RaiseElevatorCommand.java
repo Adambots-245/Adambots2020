@@ -26,11 +26,12 @@ public class RaiseElevatorCommand extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public BooleanSupplier triggerSupplier;
+  public DoubleSupplier speed;
   private final HangSubsystem hangsubsystem;
   
-  public RaiseElevatorCommand(HangSubsystem subsystem, BooleanSupplier trigger) {
+  public RaiseElevatorCommand(HangSubsystem subsystem, DoubleSupplier elevateSpeed) {
     this.hangsubsystem = subsystem;
-    triggerSupplier = trigger;
+    speed = elevateSpeed;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(hangsubsystem);
   }
@@ -42,10 +43,8 @@ public class RaiseElevatorCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    if(triggerSupplier.getAsBoolean()){  
-    HangSubsystem.climb(Constants.WINCH_SPEED);
-    }
+  public void execute() {  
+    HangSubsystem.climb(speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

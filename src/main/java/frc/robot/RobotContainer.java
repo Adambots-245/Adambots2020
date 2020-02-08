@@ -15,7 +15,7 @@ import frc.robot.Gamepad.GamepadConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveForwardDistanceCommand;
 import frc.robot.commands.GyroDriveForDistCommand;
-import frc.robot.commands.ElevateCommand;
+import frc.robot.commands.WinchCommand;
 import frc.robot.commands.GondolaCommand;
 import frc.robot.commands.MeasureDistanceCommand;
 import frc.robot.commands.SetLowSpeedCommand;
@@ -56,10 +56,6 @@ public class RobotContainer {
   private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private final HangSubsystem hangSubsystem = new HangSubsystem();
 
-  private RaiseElevatorCommand raiseElevatorCommand;
-  private GondolaCommand gondolaCommand;
-  private ElevateCommand elevateCommand;
-
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private LidarSubsystem lidarSubsystem = null;
   private GyroSubsystem gyroSubsystem = null;
@@ -68,6 +64,9 @@ public class RobotContainer {
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
   private GyroDriveForDistCommand autonGyroDriveForwardDistanceCommand;
 
+  private RaiseElevatorCommand raiseElevatorCommand;
+  private GondolaCommand gondolaCommand;
+  private WinchCommand winchCommand;
   
 
   /**
@@ -81,9 +80,9 @@ public class RobotContainer {
       lidarSubsystem = new LidarSubsystem();
       gyroSubsystem = new GyroSubsystem();
     }
-    elevateCommand = new ElevateCommand(hangSubsystem, ()->secondaryJoystick.getY(Hand.kLeft));
-    raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, ()->secondaryJoystick.getTriggerPressed());    
-    gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getY(Hand.kRight));
+    winchCommand = new WinchCommand(hangSubsystem, ()->secondaryJoystick.getAButton());
+    raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
+    gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
     
     driveTrainSubsystem.resetEncoders();
     driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, () -> primaryJoystick.getY(Hand.kLeft),
