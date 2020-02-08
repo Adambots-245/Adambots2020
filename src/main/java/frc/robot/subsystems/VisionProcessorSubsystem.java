@@ -89,6 +89,28 @@ public class VisionProcessorSubsystem extends SubsystemBase {
         for (int i = 0; i < contours.size(); i++)
             rects[i] = Imgproc.minAreaRect(new MatOfPoint2f(contours.get(i).toArray()));
 
+        rects = filterBoundingBoxes(rects);
+
+        return rects;
+
+    }
+
+    public RotatedRect[] filterBoundingBoxes(RotatedRect[] rects) {
+        ArrayList<RotatedRect> newRects = new ArrayList<RotatedRect>();
+
+        for (int i = 0; i < rects.length; i++) {
+            double ratio = rects[i].size.width / rects[i].size.height;
+            if (1 / ratio > ratio) ratio = 1 / ratio;
+
+            if (ratio > 1.5 && ratio < 3.5) newRects.add(rects[i]);
+
+        }
+
+        rects = new RotatedRect[newRects.size()];
+        for (int i = 0; i < newRects.size(); i++) {
+            rects[i] = newRects.get(i);
+        }
+
         return rects;
 
     }
