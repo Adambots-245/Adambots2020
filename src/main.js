@@ -268,6 +268,6 @@ ipc.on("addToast", (ev, arg) => {
         type: arg.type,
         showConfirmButton: false,
         timer: arg.duration * 1000
-    }, false, false);
+    });
 
 });
