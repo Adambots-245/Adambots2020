@@ -21,6 +21,7 @@
     <!-- The main body of the dashboard, by default contains the gyro monitor and the robot diagram -->
     <article>
         <!-- Example robot diagram, arm moves when encoder value changes -->
+        <div id="diagramcontainer">
         <svg id="robot-diagram" width="332" height="450">
             <text x="40" y="340">Example SVG Robot Diagram</text>
             <rect x="75" y="360" width="230" height="40"></rect>
@@ -35,6 +36,7 @@
             <circle cx="90" cy="90" r="90" style="fill: transparent; stroke:transparent;"></circle>
             <rect id="robot-arm" x="90" y="90" z="-1" width="80" height="13" style="stroke:red; stroke-width:2;"></rect>
         </svg>
+        </div>
     </article>
     <!-- The sidebar of the dashboard. Designed for smaller control elements like selection boxes and small buttons. -->
     <aside>

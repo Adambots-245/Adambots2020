@@ -148,8 +148,8 @@ text {
 #robot-diagram {
     position: absolute;
     bottom: 1px;
-    right: 0;
-    z-index: 1;
+    right: 0px;
+    z-index: 20;
 }
 #arm-rotational {
     position: absolute;
@@ -172,7 +172,9 @@ aside {
     right: 0;
     top: 0;
     width: 12vw;
-    height: 100vh;
+    height: 80vh;
+    border: 1px solid red;
+    z-index: 2;
 }
 aside > * {
     margin-bottom: 10px;
@@ -210,7 +212,7 @@ body.login #login {
 #logo {
     position: fixed;
     bottom: 0;
-    right: 0;
+    left: 0;
     width: 75px;
     height: 50px;
 }
@@ -248,4 +250,12 @@ body.login #login {
 
 .toggle:focus {
     filter: brightness(80%);
+}
+
+#diagramcontainer {
+    display: block;
+    z-index: 20;
+    position: fixed;
+    bottom: 0;
+    right: 0;
 }
