@@ -15,11 +15,15 @@ import frc.robot.Gamepad.GamepadConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveForwardDistanceCommand;
 import frc.robot.commands.GyroDriveForDistCommand;
+import frc.robot.commands.WinchCommand;
+import frc.robot.commands.GondolaCommand;
 import frc.robot.commands.MeasureDistanceCommand;
 import frc.robot.commands.SetLowSpeedCommand;
 import frc.robot.commands.SetNormalSpeedCommand;
+import frc.robot.commands.RaiseElevatorCommand;
 import frc.robot.commands.ShiftHighGearCommand;
 import frc.robot.commands.ShiftLowGearCommand;
+import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.commands.StopIntakeOuttakeCommand;
 import frc.robot.commands.TurnToTargetCommand;
@@ -53,6 +57,8 @@ public class RobotContainer {
 
   // subsystems
   private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+  private final HangSubsystem hangSubsystem = new HangSubsystem();
+
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private LidarSubsystem lidarSubsystem = null;
   private GyroSubsystem gyroSubsystem = null;
@@ -61,6 +67,11 @@ public class RobotContainer {
   // commands
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
   private GyroDriveForDistCommand autonGyroDriveForwardDistanceCommand;
+
+  private RaiseElevatorCommand raiseElevatorCommand;
+  private GondolaCommand gondolaCommand;
+  private WinchCommand winchCommand;
+  
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -74,6 +85,9 @@ public class RobotContainer {
       gyroSubsystem = new GyroSubsystem();
       turretSubsystem = new TurretSubsystem();
     }
+    winchCommand = new WinchCommand(hangSubsystem, ()->secondaryJoystick.getAButton());
+    raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
+    gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
     
     driveTrainSubsystem.resetEncoders();
     driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, () -> primaryJoystick.getY(Hand.kLeft),
@@ -97,6 +111,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //primary buttons
     final JoystickButton primaryAButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_A);
+    final JoystickButton YButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_Y);
     final JoystickButton primaryYButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_Y);
     final JoystickButton primaryLB = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_LB);
     final JoystickButton primaryRB = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_RB);
