@@ -69,7 +69,7 @@ header {
 #camera {
     padding: 0;
     position: fixed;
-    bottom: 20vh;
+    top: 10vh;
     left: 1vw;
     width: 480px/*50vw*/;
     height: 360px/*80vh*/;
@@ -82,7 +82,7 @@ header {
 #camera2 {
     padding: 0;
     position: fixed;
-    bottom: 20vh;
+    top: 10vh;
     left: calc(480px + 2vw);
     width: 480px/*50vw*/;
     height: 360px/*80vh*/;
