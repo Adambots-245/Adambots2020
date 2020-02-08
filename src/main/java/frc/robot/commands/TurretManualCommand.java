@@ -30,6 +30,7 @@ public class TurretManualCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    turretSubsystem.enable();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -48,6 +49,7 @@ public class TurretManualCommand extends CommandBase {
     {
       System.out.println("TurretManualCommand Ended");
     }
+    turretSubsystem.disable();
   }
 
   // Returns true when the command should end.
