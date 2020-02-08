@@ -1,20 +1,34 @@
-ui.asides = {};
-ui.asides.connections = [];
-ui.asides.element = document.querySelector("aside");
+/**
+ * SETTINGS SHOULD BE SET BY TEAM MEMBERS AHEAD OF TIME FOR ALL DASHBOARD VALUES
+ */
 
-NetworkTables.addKeyListener('/SmartDashboard/added_object', (key, value) => {
-    ui.asides.connections.push({title: value});
-    console.log("Added " + value + " to the Dashboard245");
+var settings = {
 
-    ui.asides.element.innerHTML += `<div class="${value}"><p class="header">${value}:</p><br><p class="content">Unknown</p></div>`;
+    dashboard: {
 
-    NetworkTables.addKeyListener("/SmartDashboard/" + value, (title, val) => {
+        //Values to be put on the dashboard as small, sidebar elements
+        small: [
+            
+            //Sample Format for Dashboard Elements:
 
-        let elem = document.querySelector(`.${value}`);;
-        elem.innerHTML = `<p class="header">${value}:</p><br><p class="content">${val}</p>`;
 
-    });
+            /** 
+             * {
+             *     name: "Gyro",
+             *     type: "number"
+             * }
+             * 
+             */
+        ],
 
-});
+        //Values to be put on the dashboard as medium-sized, main elements
+        medium: [
 
-NetworkTables.putValue("d245_ready", true);
+        ]
+
+    }
+
+}
+
+
+
