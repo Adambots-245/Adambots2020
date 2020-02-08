@@ -19,11 +19,13 @@ public class IntakeSubsystem extends SubsystemBase {
    */
 
   public WPI_TalonSRX IntakeMotor;
+  public WPI_TalonSRX ConveyorMotor;
 
   public IntakeSubsystem() {
     super();
 
     IntakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR_PORT);
+    ConveyorMotor = new WPI_TalonSRX(Constants.INFEED_CONVEYOR_MOTOR_PORT);
 
   }
 
@@ -33,7 +35,12 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void outtake() {
     IntakeMotor.set(ControlMode.PercentOutput, Constants.OUTTAKE_SPEED);
+  } 
+
+  public void conveyor() {
+    ConveyorMotor.set(ControlMode.PercentOutput, Constants.CONVEYOR_SPEED);
   }
+
   public void stop(){
     IntakeMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
   }

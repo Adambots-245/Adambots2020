@@ -70,6 +70,7 @@ public final class Constants {
     public static final double LOW_SPEED_MODIFIER = 0.5;
     public static final double MAX_MOTOR_SPEED = 1;
     public static final double WINCH_SPEED = -0.5;
+    public static final double CONVEYOR_SPEED = 0.8; // test speeds
 
     // control panel constants
     public final static int MIN_ROTATIONS = 3;

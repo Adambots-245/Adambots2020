@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Gamepad.DPad_JoystickButton;
 import frc.robot.Gamepad.GamepadConstants;
+import frc.robot.Gamepad.Conveyor;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveForwardDistanceCommand;
 import frc.robot.commands.GyroDriveForDistCommand;
@@ -55,19 +56,17 @@ public class RobotContainer {
   // subsystems
   private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   private final HangSubsystem hangSubsystem = new HangSubsystem();
-
-  private RaiseElevatorCommand raiseElevatorCommand;
-  private GondolaCommand gondolaCommand;
-  private ElevateCommand elevateCommand;
-
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private LidarSubsystem lidarSubsystem = null;
   private GyroSubsystem gyroSubsystem = null;
-
+  
   // commands
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
   private GyroDriveForDistCommand autonGyroDriveForwardDistanceCommand;
-
+  private RaiseElevatorCommand raiseElevatorCommand;
+  private GondolaCommand gondolaCommand;
+  private ElevateCommand elevateCommand;
+  private ConveyorCommand conveyorCommand;
   
 
   /**
@@ -117,6 +116,7 @@ public class RobotContainer {
     //secondary buttons
     final JoystickButton secondaryStartButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_START);
     final JoystickButton secondaryBackButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_BACK);
+    final JoystickButton secondaryLBButton = new JoystickButtons(secondaryJoystick, GamepadConstants.BUTTON_LB);
     final DPad_JoystickButton secondaryDPadN = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_N_ANGLE);
     
     StartIntakeCommand startIntakeCommand = new StartIntakeCommand(intakeSubsystem,
@@ -127,6 +127,7 @@ public class RobotContainer {
     // startIntakeCommand.addRequirements(elevatorSubsystem, conveyorSubsystem, alignmentBeltSubsystem);
     secondaryBackButton.whenPressed(startIntakeCommand);
     secondaryStartButton.whenPressed(new StopIntakeOuttakeCommand(intakeSubsystem));
+    secondaryLBButton.whenPressed(new ConveyorCommand(intakeSubsystem);)
 
     primaryYButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
     primaryAButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
