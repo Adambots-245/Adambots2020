@@ -218,3 +218,28 @@ body.login #login {
     color: white;
     font-size: 9pt;
 }
+
+*[val="false"] {
+    background: red;
+    color: white;
+}
+
+*[val="true"] {
+    background: green;
+    color: white;
+}
+
+.toggle {
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    outline: none;
+}
+
+.toggle:hover {
+    filter: brightness(90%);
+}
+
+.toggle:focus {
+    filter: brightness(80%);
+}

@@ -21,7 +21,14 @@ let ui = {
         readout: document.getElementById('example-readout').firstChild
     },
     autoSelect: document.getElementById('auto-select'),
-    armPosition: document.getElementById('arm-position')
+    armPosition: document.getElementById('arm-position'),
+    toggleFrame: document.getElementById("toggleFrame"),
+    toast: {}
+};
+
+//Add toast function:
+ui.toast = function ({text, duration, type}) {
+    ipc.send("addToast", {text: text, duration: duration, type: type});
 };
 
 // Key Listeners
@@ -59,6 +66,10 @@ NetworkTables.addKeyListener('/SmartDashboard/arm/encoder', (key, value) => {
     ui.robotDiagram.rotationalsvg.style.transformOrigin = `50% 50%`;
     ui.robotDiagram.rotationalsvg.style.transform = `rotate(${armAngle}deg)`;
 });
+
+//Set robot arm to initial position
+ui.robotDiagram.rotationalsvg.style.transformOrigin = `50% 50%`;
+ui.robotDiagram.rotationalsvg.style.transform = `rotate(180deg)`;
 
 // This button is just an example of triggering an event on the robot by clicking a button.
 NetworkTables.addKeyListener('/SmartDashboard/example_variable', (key, value) => {
@@ -105,6 +116,7 @@ ui.gyro.container.onclick = function () {
     ui.gyro.offset = ui.gyro.val;
     // Trigger the gyro to recalculate value.
     updateGyro('/SmartDashboard/drive/navx/yaw', ui.gyro.val);
+    ui.toast({text: "Reset Gyro.", duration: 3, type: "success"});
 };
 // Update NetworkTables when autonomous selector is changed
 ui.autoSelect.onchange = function () {
@@ -118,3 +130,16 @@ ui.armPosition.oninput = function () {
 addEventListener('error', (ev) => {
     ipc.send('windowError', { mesg: ev.message, file: ev.filename, lineNumber: ev.lineno })
 })
+
+ipc.on("receiveFrame", (ev, arg) => {
+
+    ui.toggleFrame.setAttribute("val", arg);
+
+});
+
+ui.toggleFrame.onclick = () => {
+
+    ui.toast({text: "Added/Removed Frame.", duration: 3, type: "success"});
+    ipc.send("toggleFrame", "toggle");
+
+}
