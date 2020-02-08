@@ -104,6 +104,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    //SmartDashboard.putNumber("yaw",gyroSubsystem.getYaw());
+    
   }
 
   @Override
@@ -122,6 +124,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    
   }
 
   @Override
@@ -129,11 +132,13 @@ public class Robot extends TimedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }
-
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
+    // SmartDashboard.putNumber("pitch",gyroSubsystem.getPitch());
+    // SmartDashboard.putNumber("roll",gyroSubsystem.getRoll());
+    // SmartDashboard.putNumber("yaw",gyroSubsystem.getYaw());
   }
 }

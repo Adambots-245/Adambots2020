@@ -41,6 +41,7 @@ public class DriveCommand extends CommandBase {
   public void execute() {
     //System.out.println("FBI: " + forwardBackwardInput.getAsDouble() + " - RI:" + rotationInput.getAsDouble());
     // rotationInput.getAsDouble());
+    drivetrain.getAverageDriveEncoderValue();
     drivetrain.arcadeDrive(forwardBackwardInput.getAsDouble(), rotationInput.getAsDouble());
   }
 

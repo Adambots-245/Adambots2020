@@ -121,6 +121,13 @@ public final class Constants {
     public static int TURRET_TOLERANCE = 5;
     public static final double TURRET_TARGET_ANGLE = 0;
     public static final double TURRET_SPEED = 0.5;
+	public static final double GYRO_kP = 0.3;
+	public static final double GYRO_kI = 0;
+	public static final double GYRO_kD = 0;
+	public static final double GYRO_TOLERANCE = 0;
+	public static final float GYRO_TARGET_ANGLE = 0;
+	public static final double AUTON_PUSH_ROBOT_DISTANCE = 644;
+	public static final double AUTON_FORWARD_BALL_PICKUP_DISTANCE = 7500 + 644;
     
 }
 
