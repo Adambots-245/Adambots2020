@@ -23,10 +23,10 @@ public class HangSubsystem extends SubsystemBase{
         super();
 
         //TODO add actual value for motor
-        hangMotor = new WPI_TalonSRX(0);
-        winchMotor1 = new WPI_TalonSRX(0);
-        winchmotor2 = new WPI_TalonSRX(0);
-        gondola = new WPI_TalonSRX(0);
+        hangMotor = new WPI_TalonSRX(Constants.CLIMBING_RAISE_ELEVATOR_MOTOR_PORT);
+        winchMotor1 = new WPI_TalonSRX(Constants.CLIMBING_1_MOTOR_PORT);
+        winchmotor2 = new WPI_TalonSRX(Constants.CLIMBING_2_MOTOR_PORT);
+        gondola = new WPI_TalonSRX(Constants.CLIMBING_GONDOLA_ADJUSTMENT_MOTOR_PORT);
     }
 
     public static void climb(double speed){
