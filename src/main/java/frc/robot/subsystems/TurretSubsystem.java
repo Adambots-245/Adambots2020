@@ -14,7 +14,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
 
@@ -22,6 +21,7 @@ public class TurretSubsystem extends PIDSubsystem {
 
   private final VictorSPX turretMotor = new VictorSPX(Constants.TURRET_MOTOR_PORT);
   private NetworkTable table;
+  private double angleOffset = 0;
   //private final SimpleMotorFeedforward m_shooterFeedforward =
   //    new SimpleMotorFeedforward(ShooterConstants.kSVolts,
   //                               ShooterConstants.kVVoltSecondsPerRotation);
@@ -53,12 +53,21 @@ public class TurretSubsystem extends PIDSubsystem {
     return m_controller.atSetpoint();
   }
 
-  public void runTurret() {
-    turretMotor.set(ControlMode.PercentOutput, Constants.TURRET_SPEED);
+  public void runTurret(double speed) {
+    turretMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public void stopTurret() {
     turretMotor.set(ControlMode.PercentOutput, 0);
+  }
+
+  public double getOffset() {
+    return angleOffset;
+  }
+
+  public void changeOffset(double value) {
+    angleOffset += value;
+    setSetpoint(Constants.TURRET_TARGET_ANGLE + angleOffset);
   }
 
   @Override

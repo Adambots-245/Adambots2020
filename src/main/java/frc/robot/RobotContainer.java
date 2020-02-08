@@ -26,11 +26,14 @@ import frc.robot.commands.ShiftLowGearCommand;
 import frc.robot.subsystems.HangSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.commands.StopIntakeOuttakeCommand;
+import frc.robot.commands.TurnToTargetCommand;
+import frc.robot.commands.TurretManualCommand;
 import frc.robot.commands.StartOuttakeCommand;
 import frc.robot.commands.StartIntakeCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -59,6 +62,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private LidarSubsystem lidarSubsystem = null;
   private GyroSubsystem gyroSubsystem = null;
+  private TurretSubsystem turretSubsystem = null;
 
   // commands
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
@@ -79,6 +83,7 @@ public class RobotContainer {
     if (Robot.isReal()) {
       lidarSubsystem = new LidarSubsystem();
       gyroSubsystem = new GyroSubsystem();
+      turretSubsystem = new TurretSubsystem();
     }
     winchCommand = new WinchCommand(hangSubsystem, ()->secondaryJoystick.getAButton());
     raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
@@ -116,6 +121,7 @@ public class RobotContainer {
     //secondary buttons
     final JoystickButton secondaryStartButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_START);
     final JoystickButton secondaryBackButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_BACK);
+    final JoystickButton secondaryLeftButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_LB);
     final DPad_JoystickButton secondaryDPadN = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_N_ANGLE);
     
     StartIntakeCommand startIntakeCommand = new StartIntakeCommand(intakeSubsystem,
@@ -126,6 +132,12 @@ public class RobotContainer {
     // startIntakeCommand.addRequirements(elevatorSubsystem, conveyorSubsystem, alignmentBeltSubsystem);
     secondaryBackButton.whenPressed(startIntakeCommand);
     secondaryStartButton.whenPressed(new StopIntakeOuttakeCommand(intakeSubsystem));
+
+    // Turret commands
+    TurretManualCommand turretManualCommand = new TurretManualCommand(turretSubsystem,
+        () -> secondaryJoystick.getTriggerAxis(Hand.kLeft),
+        () -> secondaryJoystick.getTriggerAxis(Hand.kRight));
+    secondaryLeftButton.whenHeld(new TurnToTargetCommand(turretSubsystem));
 
     primaryYButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
     primaryAButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
