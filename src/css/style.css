@@ -52,18 +52,18 @@ body > * {
 #timer {
     font-family: monospace;
     display: block;
-    height: 20vh;
-    width: 30vw;
+    height: 10vh;
+    width: 20vw;
     top: 0;
     left: 0;
-    font-size: 20vh;
+    font-size: 10vh;
     line-height: .8;
 }
 header {
     width: 20vw;
     height: 20vh;
     top: 0;
-    left: 30vw;
+    left: 15vw;
     color: white;
 }
 #camera {
@@ -124,11 +124,17 @@ text {
     stroke: none;
     fill: white;
 }
+.gyro {
+    width: 100%;
+    height: calc(12vw - 20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
 #gyro {
-    width: 175px;
-    height: 175px;
-    margin-left: 30px;
-    margin-top: 15px;
+    width: 125px;
+    height: 125px;
 }
 #gyro-arm {
     -webkit-transform-origin: bottom;
@@ -136,7 +142,7 @@ text {
     transform-origin: bottom;
 }
 #gyro-number {
-    font-size: 25px;
+    font-size: 22px;
     text-anchor: middle;
 }
 #robot-diagram {
@@ -169,7 +175,7 @@ aside {
     height: 100vh;
 }
 aside > * {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 aside > * > * {
     margin-bottom: 5px;
