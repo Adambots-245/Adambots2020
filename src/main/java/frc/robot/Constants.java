@@ -23,6 +23,11 @@ public final class Constants {
     public static final int BR_TALON = 13;
     public static final int INTAKE_MOTOR_PORT = 18;
 
+    //TODO: Make these accurate
+    public static final int WINCH1_PORT = 0;
+    public static final int WINCH2_PORT = 0;
+    public static final int GLIDE_PORT = 0;
+
     //solenoid IDs
     public static final int HIGH_GEAR_SOLENOID_ID = 7;
 	//public static final int LOW_GEAR_SOLENOID_ID = 7;
@@ -41,6 +46,9 @@ public final class Constants {
     
     //PID slots
 	public static final int DRIVE_PID_SLOT = 0;
+	public static final double MAX_GLIDE_SPEED = 0;
+	public static final double MAX_LIFT_SPEED = 0;
+	public static final int CLIMB_ARM1_PORT = 0;
 	
 }
 
