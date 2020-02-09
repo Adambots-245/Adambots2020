@@ -34,15 +34,18 @@ public final class Constants {
     public static final int BR_TALON = 13;
 
     public static final int BLASTER_MOTOR_PORT = 14;
+
     public static final int CLIMBING_1_MOTOR_PORT = 15;
     public static final int CLIMBING_2_MOTOR_PORT = 16;
+    public static final int CLIMBING_RAISE_ELEVATOR_MOTOR_PORT = 23;
+    public static final int CLIMBING_GONDOLA_ADJUSTMENT_MOTOR_PORT = 24;
+
     public static final int INTAKE_MOTOR_PORT = 18;
     public static final int INFEED_CONVEYOR_MOTOR_PORT = 19;
     public static final int INFEED_CONVEYOR_INDEXER_MOTOR_PORT = 20;
     public static final int FEED_TO_BLASTER_MOTOR_PORT = 21;
+
     public static final int TURRET_MOTOR_PORT = 22;
-    public static final int CLIMBING_RAISE_ELEVATOR_MOTOR_PORT = 23;
-    public static final int CLIMBING_GONDOLA_ADJUSTMENT_MOTOR_PORT = 24;
 
     // TODO: Add accurate PANEL_MOTOR_PORTs (ports of motors that spin control
     // panel)
@@ -51,19 +54,19 @@ public final class Constants {
     // solenoid IDs
     public static final int RAISE_POWER_CELL_INTAKE_SOL_PORT = 0;
     public static final int LOWER_POWER_CELL_INTAKE_SOL_PORT = 1;
+
     public static final int RAISE_BLASTER_HOOD_SOL_PORT = 2;
     public static final int LOWER_BLASTER_HOOD_SOL_PORT = 3;
-    public static final int RAISE_PCM = 0;
-    public static final int LOWER_PCM = 1;
+    public static final int BACKBOARD_SOLENOID_PORT = 2; //3?
+
     public static final int YELLOW_LEDS_SOL_PORT = 6;
+
     public static final int HIGH_GEAR_SOL_PORT = 7;
 
+	
     // sensor IDs
     public static final int LIDAR_DIO = 0;
 
-    // auton
-    public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
-    public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
 
     // speed values
     public static final int INTAKE_SPEED = 1;
@@ -72,7 +75,7 @@ public final class Constants {
     public static final double NORMAL_SPEED_MODIFIER = 1;
     public static final double LOW_SPEED_MODIFIER = 0.5;
     public static final double MAX_MOTOR_SPEED = 1;
-    public static final double WINCH_SPEED = -0.5;
+    public static final double WINCH_SPEED = -0.25;
 
     // control panel constants
     public final static int MIN_ROTATIONS = 3;
@@ -131,13 +134,19 @@ public final class Constants {
     public static int TURRET_TOLERANCE = 5;
     public static final double TURRET_TARGET_ANGLE = 0;
     public static final double TURRET_SPEED = 0.5;
+
+    //gyro PID constants
 	public static final double GYRO_kP = 0.3;
 	public static final double GYRO_kI = 0;
 	public static final double GYRO_kD = 0;
 	public static final double GYRO_TOLERANCE = 0;
-	public static final float GYRO_TARGET_ANGLE = 0;
+    public static final float GYRO_TARGET_ANGLE = 0;
+    
+    //auton constants
 	public static final double AUTON_PUSH_ROBOT_DISTANCE = 644;
-	public static final double AUTON_FORWARD_BALL_PICKUP_DISTANCE = 7500 + 644;
-	public static final int BACKBOARD_SOLENOID_PORT = 2; //3?
+    public static final double AUTON_FORWARD_BALL_PICKUP_DISTANCE = 7500 + 644;
+    public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
+    public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
+    
 
 }

@@ -23,7 +23,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     super();
-    armRaiseLower = new DoubleSolenoid(Constants.RAISE_PCM, Constants.LOWER_PCM); // raise = forward lower = kreverse
+    armRaiseLower = new DoubleSolenoid(Constants.RAISE_POWER_CELL_INTAKE_SOL_PORT, Constants.LOWER_POWER_CELL_INTAKE_SOL_PORT); // raise = forward lower = kreverse
     IntakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR_PORT);
 
   }

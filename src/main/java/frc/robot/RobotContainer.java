@@ -95,7 +95,7 @@ public class RobotContainer {
     driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, () -> primaryJoystick.getY(Hand.kLeft),
         () -> primaryJoystick.getX(Hand.kRight)));
 
-    //commands
+    //auton commands
     autonDriveForwardDistanceCommand = new DriveForwardDistanceCommand(driveTrainSubsystem,
         Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED);
 
@@ -115,56 +115,97 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //primary buttons
-    final JoystickButton primaryAButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_A);
-    final JoystickButton YButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_Y);
+    final JoystickButton primaryBackButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_BACK);
+    final JoystickButton primaryStartButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_START);
+    final JoystickButton primaryXButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_X);
     final JoystickButton primaryYButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_Y);
+    final JoystickButton primaryBButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_B);
+    final JoystickButton primaryAButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_A);
     final JoystickButton primaryLB = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_LB);
     final JoystickButton primaryRB = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_RB);
-    final JoystickButton primaryXButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_X);
-    final JoystickButton primaryBButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_B);
-
+    final JoystickButton primaryLeftStickButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_LEFT_STICK);
+    final JoystickButton primaryRightStickButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_RIGHT_STICK);
+    //primary DPad
+    final DPad_JoystickButton primaryDPadN = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_N_ANGLE);
+    final DPad_JoystickButton primaryDPadNW = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_NW_ANGLE);
+    final DPad_JoystickButton primaryDPadW = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_W_ANGLE);
+    final DPad_JoystickButton primaryDPadSW = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_SW_ANGLE);
+    final DPad_JoystickButton primaryDPadS = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_S_ANGLE);
+    final DPad_JoystickButton primaryDPadSE = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_SE_ANGLE);
+    final DPad_JoystickButton primaryDPadE = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_E_ANGLE);
+    final DPad_JoystickButton primaryDPadNE = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_NE_ANGLE);
+    //primary axes
+    //RIGHT TRIGGER       primaryJoystick.getTriggerAxis(Hand.kRight)
+    //LEFT TRIGGER        primaryJoystick.getTriggerAxis(Hand.kLeft)
+    //LEFT STICK X AXIS   primaryJoystick.getX(Hand.kLeft)
+    //LEFT STICK Y AXIS   primaryJoystick.getY(Hand.kLeft)
+    //RIGHT STICK X AXIS  primaryJoystick.getX(Hand.kRight)
+    //RIGHT STICK Y AXIS  primaryJoystick.getY(Hand.kRight)
+    
     //secondary buttons
-    final JoystickButton secondaryAButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_A);
-    final JoystickButton secondaryStartButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_START);
     final JoystickButton secondaryBackButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_BACK);
-    final JoystickButton secondaryLeftButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_LB);
+    final JoystickButton secondaryStartButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_START);
+    final JoystickButton secondaryXButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_X);
+    final JoystickButton secondaryYButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_Y);
+    final JoystickButton secondaryBButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_B);
+    final JoystickButton secondaryAButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_A);
+    final JoystickButton secondaryLB = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_LB);
+    final JoystickButton secondaryRB = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_RB);  
+    //secondary DPad  
+    final JoystickButton secondaryLeftStickButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_LEFT_STICK);
+    final JoystickButton secondaryRightStickButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_RIGHT_STICK);
     final DPad_JoystickButton secondaryDPadN = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_N_ANGLE);
+    final DPad_JoystickButton secondaryDPadNW = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_NW_ANGLE);
+    final DPad_JoystickButton secondaryDPadW = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_W_ANGLE);
+    final DPad_JoystickButton secondaryDPadSW = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_SW_ANGLE);
     final DPad_JoystickButton secondaryDPadS = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_S_ANGLE);
+    final DPad_JoystickButton secondaryDPadSE = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_SE_ANGLE);
+    final DPad_JoystickButton secondaryDPadE = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_E_ANGLE);
+    final DPad_JoystickButton secondaryDPadNE = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_NE_ANGLE);
+    //secondary axes    
+    //RIGHT TRIGGER       secondaryJoystick.getTriggerAxis(Hand.kRight)
+    //LEFT TRIGGER        secondaryJoystick.getTriggerAxis(Hand.kLeft)
+    //LEFT STICK X AXIS   secondaryJoystick.getX(Hand.kLeft)
+    //LEFT STICK Y AXIS   secondaryJoystick.getY(Hand.kLeft)
+    //RIGHT STICK X AXIS  secondaryJoystick.getX(Hand.kRight)
+    //RIGHT STICK Y AXIS  secondaryJoystick.getY(Hand.kRight)
 
-    StartIntakeCommand startIntakeCommand = new StartIntakeCommand(intakeSubsystem,
-        () -> secondaryJoystick.getY(Hand.kRight));
 
     // intake subsystem
-
     // startIntakeCommand.addRequirements(elevatorSubsystem, conveyorSubsystem, alignmentBeltSubsystem);
-    secondaryBackButton.whenPressed(startIntakeCommand);
-    secondaryStartButton.whenPressed(new StopIntakeOuttakeCommand(intakeSubsystem));
-
-    // Turret commands
-    TurretManualCommand turretManualCommand = new TurretManualCommand(turretSubsystem,
-        () -> secondaryJoystick.getTriggerAxis(Hand.kLeft),
-        () -> secondaryJoystick.getTriggerAxis(Hand.kRight));
-    secondaryLeftButton.whenHeld(new TurnToTargetCommand(turretSubsystem));
-
-    primaryYButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
-    primaryAButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
-    //primaryAButton.whileHeld(new TestCommand());
-    primaryYButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
-
+    StartIntakeCommand startIntakeCommand = new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight));
     secondaryDPadN.whenPressed(new RaiseIntakeArmCommand(intakeSubsystem));
-    secondaryDPadS.whenPressed(new LowerIntakeArmCommand(intakeSubsystem));
+    secondaryDPadS.whenPressed(new LowerIntakeArmCommand(intakeSubsystem));    
+    // primaryYButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
+    // primaryAButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
+    // //primaryAButton.whileHeld(new TestCo  mmand());
+    // primaryYButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
+
+    // Turret subsystem
+    //TurretManualCommand turretManualCommand = new TurretManualCommand(turretSubsystem,
+    //    () -> secondaryJoystick.getTriggerAxis(Hand.kLeft), () -> secondaryJoystick.getTriggerAxis(Hand.kRight));
+    //secondaryLB.whenHeld(new TurnToTargetCommand(turretSubsystem));
 
     // drive subsystem
-    primaryLB.whenPressed(new ShiftLowGearCommand(driveTrainSubsystem));
-    primaryRB.whenPressed(new ShiftHighGearCommand(driveTrainSubsystem));
-    primaryXButton.whenPressed(new SetLowSpeedCommand(driveTrainSubsystem));
-    primaryBButton.whenPressed(new SetNormalSpeedCommand(driveTrainSubsystem));
+    primaryAButton.whenPressed(new ShiftLowGearCommand(driveTrainSubsystem));
+    primaryYButton.whenPressed(new ShiftHighGearCommand(driveTrainSubsystem));
+    primaryLB.whenPressed(new SetLowSpeedCommand(driveTrainSubsystem));
+    primaryRB.whenPressed(new SetNormalSpeedCommand(driveTrainSubsystem));
 
-    // primaryXButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
     //hang subsystem
     secondaryAButton.whenPressed(new WinchCommand(hangSubsystem));
-    raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
-    gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
+    //hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft)));
+    //raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
+    //gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
+    hangSubsystem.setDefaultCommand(new GondolaCommand(hangSubsystem, () -> secondaryJoystick.getX(Hand.kLeft)));
+    
+    
+    // lidar susbsystem
+    // primaryXButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
+
+    //MODE SHIFTING
+    secondaryBackButton.whenPressed(startIntakeCommand);
+    secondaryStartButton.whenPressed(new StopIntakeOuttakeCommand(intakeSubsystem));
   }
 
   /**
