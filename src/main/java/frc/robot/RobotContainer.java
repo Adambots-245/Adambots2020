@@ -14,6 +14,7 @@ import frc.robot.Gamepad.DPad_JoystickButton;
 import frc.robot.Gamepad.GamepadConstants;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveForwardDistanceCommand;
+import frc.robot.commands.DriveForwardGyroDistanceCommand;
 import frc.robot.commands.GyroDriveForDistCommand;
 import frc.robot.commands.WinchCommand;
 import frc.robot.commands.GondolaCommand;
@@ -35,6 +36,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -67,7 +70,7 @@ public class RobotContainer {
   // commands
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
   private GyroDriveForDistCommand autonGyroDriveForwardDistanceCommand;
-
+  private SequentialCommandGroup autonDriveForwardGyroDistanceCommand;
   private RaiseElevatorCommand raiseElevatorCommand;
   private GondolaCommand gondolaCommand;
   private WinchCommand winchCommand;
@@ -82,7 +85,7 @@ public class RobotContainer {
 
     if (Robot.isReal()) {
       lidarSubsystem = new LidarSubsystem();
-      gyroSubsystem = new GyroSubsystem();
+      // gyroSubsystem = new GyroSubsystem();
       turretSubsystem = new TurretSubsystem();
     }
     winchCommand = new WinchCommand(hangSubsystem, ()->secondaryJoystick.getAButton());
@@ -97,8 +100,11 @@ public class RobotContainer {
     autonDriveForwardDistanceCommand = new DriveForwardDistanceCommand(driveTrainSubsystem,
         Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED);
 
-    autonGyroDriveForwardDistanceCommand = new GyroDriveForDistCommand(driveTrainSubsystem,
-        Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED, gyroSubsystem.getYaw());
+    // autonGyroDriveForwardDistanceCommand = new GyroDriveForDistCommand(driveTrainSubsystem,
+        // Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED, gyroSubsystem.getYaw());
+        double autonSpeed = .75;
+    autonDriveForwardGyroDistanceCommand = new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_PUSH_ROBOT_DISTANCE, autonSpeed*.5, 0, true).andThen(new WaitCommand(1)).andThen(new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_FORWARD_BALL_PICKUP_DISTANCE, -autonSpeed, 0, false));
+    
 
   }
 
@@ -141,6 +147,7 @@ public class RobotContainer {
 
     primaryYButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
     primaryAButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
+    //primaryAButton.whileHeld(new TestCommand());
     primaryYButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
 
     // drive subsystem
@@ -159,6 +166,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // autonDriveForwardDistanceCommand will run in autonomous
-    return autonDriveForwardDistanceCommand;
+    return autonDriveForwardGyroDistanceCommand;
   }
 }

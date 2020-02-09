@@ -32,6 +32,8 @@ public final class Constants {
     public static final int BL_TALON = 11;
     public static final int FR_TALON = 12;
     public static final int BR_TALON = 13;
+
+    public static final int INTAKE_MOTOR_PORT = 18;
     public static final int BLASTER_MOTOR_PORT = 14;
     public static final int CLIMBING_1_MOTOR_PORT = 15;
     public static final int CLIMBING_2_MOTOR_PORT = 16;
@@ -128,5 +130,12 @@ public final class Constants {
     public static int TURRET_TOLERANCE = 5;
     public static final double TURRET_TARGET_ANGLE = 0;
     public static final double TURRET_SPEED = 0.5;
+	public static final double GYRO_kP = 0.3;
+	public static final double GYRO_kI = 0;
+	public static final double GYRO_kD = 0;
+	public static final double GYRO_TOLERANCE = 0;
+	public static final float GYRO_TARGET_ANGLE = 0;
+	public static final double AUTON_PUSH_ROBOT_DISTANCE = 644;
+	public static final double AUTON_FORWARD_BALL_PICKUP_DISTANCE = 7500 + 644;
 
 }

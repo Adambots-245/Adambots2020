@@ -12,8 +12,9 @@ public class GyroSubsystem extends SubsystemBase {
     public float yaw;
 
     private AHRS ahrs;
+    private static GyroSubsystem instance = null;
 
-    public void init() {
+    private GyroSubsystem() {
         try {
             /* Communicate w/navX-MXP via the MXP SPI Bus. */
             /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */
@@ -21,10 +22,27 @@ public class GyroSubsystem extends SubsystemBase {
              * See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for
              * details.
              */
-            ahrs = new AHRS(SerialPort.Port.kMXP); // PUT IN PORT!!!
+            ahrs = new AHRS(); // PUT IN PORT!!!
+            ahrs.enableBoardlevelYawReset(true);
+            //ahrs.setAngleAdjustment(0.05);
+            ahrs.reset();
         } catch (RuntimeException ex) {
             System.out.println("Error instantiating navX-MXP:  " + ex.getMessage());
+            throw ex;
         }
+    }
+    
+    //TODO: Make it threadsafe
+    public static GyroSubsystem getInstance(){
+        if (instance == null){
+            instance = new GyroSubsystem();
+        }
+        return instance;
+    }
+
+    public void reset(){
+        ahrs.reset();
+        // ahrs.enableBoardlevelYawReset(true);
     }
 
     public void calibrationCheck() {
@@ -50,5 +68,5 @@ public class GyroSubsystem extends SubsystemBase {
         calibrationCheck();
         return ahrs.getYaw();
     }
-
+    
 }
