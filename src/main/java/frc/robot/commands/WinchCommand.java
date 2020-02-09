@@ -15,7 +15,7 @@ import frc.robot.subsystems.HangSubsystem;
 /**
  * An example command that uses an example subsystem.
  */
-public class ElevateCommand extends CommandBase {
+public class WinchCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   /**
@@ -26,9 +26,8 @@ public class ElevateCommand extends CommandBase {
   public DoubleSupplier winchSpeed;
   private final HangSubsystem hangsubsystem;
   
-  public ElevateCommand(HangSubsystem hangSubsystem, DoubleSupplier speed) {
-    this.hangsubsystem = hangSubsystem;
-    winchSpeed = speed;
+  public WinchCommand(HangSubsystem hangSubsystem) {
+    this.hangsubsystem = hangSubsystem; 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(hangsubsystem);
   }

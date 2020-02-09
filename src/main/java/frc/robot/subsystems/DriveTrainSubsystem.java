@@ -38,7 +38,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     super();
     speedModifier = Constants.NORMAL_SPEED_MODIFIER;
 
-    GearShifter = new Solenoid(Constants.HIGH_GEAR_SOLENOID_ID);
+    GearShifter = new Solenoid(Constants.HIGH_GEAR_SOL_PORT);
 
     FrontRightMotor = new WPI_TalonFX(Constants.FR_TALON);
     FrontLeftMotor = new WPI_TalonFX(Constants.FL_TALON);
@@ -70,7 +70,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
     System.out.println(averageEncoderPos);
     return averageEncoderPos;
   }
+  public double getLeftDriveEncoderVelocity() {
+    return FrontLeftMotor.getSelectedSensorVelocity();
+  }
 
+  public double getRightDriveEncoderVelocity() {
+    return FrontRightMotor.getSelectedSensorVelocity();
+  }
   public void setLowSpeed() {
     speedModifier = Constants.LOW_SPEED_MODIFIER;
   }

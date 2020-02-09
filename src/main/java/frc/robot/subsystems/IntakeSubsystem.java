@@ -57,7 +57,6 @@ public class IntakeSubsystem extends SubsystemBase {
             armRaiseLower.set(Value.kReverse);
         
     }
-}
 
 
   @Override

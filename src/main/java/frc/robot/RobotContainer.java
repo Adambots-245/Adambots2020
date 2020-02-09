@@ -90,9 +90,6 @@ public class RobotContainer {
       // gyroSubsystem = new GyroSubsystem();
       turretSubsystem = new TurretSubsystem();
     }
-    winchCommand = new WinchCommand(hangSubsystem, ()->secondaryJoystick.getAButton());
-    raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
-    gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
     
     driveTrainSubsystem.resetEncoders();
     driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, () -> primaryJoystick.getY(Hand.kLeft),
@@ -127,6 +124,7 @@ public class RobotContainer {
     final JoystickButton primaryBButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_B);
 
     //secondary buttons
+    final JoystickButton secondaryAButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_A);
     final JoystickButton secondaryStartButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_START);
     final JoystickButton secondaryBackButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_BACK);
     final JoystickButton secondaryLeftButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_LB);
@@ -163,6 +161,10 @@ public class RobotContainer {
     primaryBButton.whenPressed(new SetNormalSpeedCommand(driveTrainSubsystem));
 
     // primaryXButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
+    //hang subsystem
+    secondaryAButton.whenPressed(new WinchCommand(hangSubsystem));
+    raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
+    gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
   }
 
   /**
