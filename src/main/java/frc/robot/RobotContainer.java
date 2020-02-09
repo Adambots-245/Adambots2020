@@ -17,8 +17,10 @@ import frc.robot.commands.DriveForwardDistanceCommand;
 import frc.robot.commands.DriveForwardGyroDistanceCommand;
 import frc.robot.commands.GyroDriveForDistCommand;
 import frc.robot.commands.WinchCommand;
+import frc.robot.commands.LowerIntakeArmCommand;
 import frc.robot.commands.GondolaCommand;
 import frc.robot.commands.MeasureDistanceCommand;
+import frc.robot.commands.RaiseIntakeArmCommand;
 import frc.robot.commands.SetLowSpeedCommand;
 import frc.robot.commands.SetNormalSpeedCommand;
 import frc.robot.commands.RaiseElevatorCommand;
@@ -129,7 +131,8 @@ public class RobotContainer {
     final JoystickButton secondaryBackButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_BACK);
     final JoystickButton secondaryLeftButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_LB);
     final DPad_JoystickButton secondaryDPadN = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_N_ANGLE);
-    
+    final DPad_JoystickButton secondaryDPadS = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_S_ANGLE);
+
     StartIntakeCommand startIntakeCommand = new StartIntakeCommand(intakeSubsystem,
         () -> secondaryJoystick.getY(Hand.kRight));
 
@@ -149,6 +152,9 @@ public class RobotContainer {
     primaryAButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
     //primaryAButton.whileHeld(new TestCommand());
     primaryYButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
+
+    secondaryDPadN.whenPressed(new RaiseIntakeArmCommand(intakeSubsystem));
+    secondaryDPadS.whenPressed(new LowerIntakeArmCommand(intakeSubsystem));
 
     // drive subsystem
     primaryLB.whenPressed(new ShiftLowGearCommand(driveTrainSubsystem));

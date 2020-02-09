@@ -6,10 +6,10 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -19,10 +19,11 @@ public class IntakeSubsystem extends SubsystemBase {
    */
 
   public WPI_TalonSRX IntakeMotor;
+  private static DoubleSolenoid armRaiseLower;
 
   public IntakeSubsystem() {
     super();
-
+    armRaiseLower = new DoubleSolenoid(Constants.RAISE_PCM, Constants.LOWER_PCM); // raise = forward lower = kreverse
     IntakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR_PORT);
 
   }
@@ -41,6 +42,23 @@ public class IntakeSubsystem extends SubsystemBase {
   public void arm(double armSpeed) {
     
   }
+    public void RaiseIntake() {
+        // Supposedly, if(D-Pad up is pressed)
+        //if (GamepadConstants.AXIS_DPAD_POV==true)
+        // lol I tried
+        armRaiseLower.set(Value.kForward);
+        
+    }
+    
+    public void LowerIntake(){
+        //Supposedly, if(D-Pad down is pressed)
+        //if (GamepadConstants.BUTTON_RB==false)
+        //lol I tried
+            armRaiseLower.set(Value.kReverse);
+        
+    }
+}
+
 
   @Override
   public void periodic() {
