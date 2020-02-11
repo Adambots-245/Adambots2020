@@ -1,7 +1,7 @@
 {
-  "name": "Dashboard245",
+  "name": "dashboard245",
   "version": "2.1.0",
-  "description": "Robot control dashboard boilerplate for FRC.",
+  "description": "Robot control dashboard FRC, based on FRCDashboard and modified by Team 245, the Adambots.",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
@@ -21,6 +21,7 @@
   "homepage": "http://frcdashboard.github.io",
   "dependencies": {
     "electron-alert": "^0.1.5",
+    "fs": "0.0.1-security",
     "wpilib-nt-client": "^1.7.1"
   },
   "devDependencies": {
