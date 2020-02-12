@@ -34,6 +34,7 @@ import frc.robot.commands.TurretManualCommand;
 import frc.robot.commands.StartOuttakeCommand;
 import frc.robot.commands.StartIntakeCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.GondolaSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
@@ -68,6 +69,7 @@ public class RobotContainer {
   private LidarSubsystem lidarSubsystem = null;
   private GyroSubsystem gyroSubsystem = null;
   private TurretSubsystem turretSubsystem = null;
+  private final GondolaSubsystem gondolaSubsystem = new GondolaSubsystem();
 
   // commands
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
@@ -94,6 +96,11 @@ public class RobotContainer {
     driveTrainSubsystem.resetEncoders();
     driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, () -> primaryJoystick.getY(Hand.kLeft),
         () -> primaryJoystick.getX(Hand.kRight)));
+
+        hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft)));
+        gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> secondaryJoystick.getX(Hand.kLeft)));
+        intakeSubsystem.setDefaultCommand(new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight)));
+
 
     //auton commands
     autonDriveForwardDistanceCommand = new DriveForwardDistanceCommand(driveTrainSubsystem,
@@ -173,7 +180,6 @@ public class RobotContainer {
 
     // intake subsystem
     // startIntakeCommand.addRequirements(elevatorSubsystem, conveyorSubsystem, alignmentBeltSubsystem);
-    StartIntakeCommand startIntakeCommand = new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight));
     secondaryDPadN.whenPressed(new RaiseIntakeArmCommand(intakeSubsystem));
     secondaryDPadS.whenPressed(new LowerIntakeArmCommand(intakeSubsystem));    
     // primaryYButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
@@ -193,18 +199,16 @@ public class RobotContainer {
     primaryRB.whenPressed(new SetNormalSpeedCommand(driveTrainSubsystem));
 
     //hang subsystem
-    secondaryAButton.whenPressed(new WinchCommand(hangSubsystem));
-    //hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft)));
+    secondaryAButton.whenHeld(new WinchCommand(hangSubsystem), false);
     //raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
     //gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
-    hangSubsystem.setDefaultCommand(new GondolaCommand(hangSubsystem, () -> secondaryJoystick.getX(Hand.kLeft)));
     
     
     // lidar susbsystem
     // primaryXButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
 
     //MODE SHIFTING
-    secondaryBackButton.whenPressed(startIntakeCommand);
+    //secondaryBackButton.whenPressed(startIntakeCommand);
     secondaryStartButton.whenPressed(new StopIntakeOuttakeCommand(intakeSubsystem));
   }
 
