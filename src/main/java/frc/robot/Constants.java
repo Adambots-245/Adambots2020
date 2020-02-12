@@ -147,6 +147,9 @@ public final class Constants {
     public static final double AUTON_FORWARD_BALL_PICKUP_DISTANCE = 7500 + 644;
     public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
     public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
+    //the following are approximate and in feet
+	public static final double SNAG_N_YEET_DISTANCE_TO_TRENCH = 8.888889;
+	public static final double SNAG_N_YEET_DISTANCE_ACROSS_FIELD = 17.77778;
     
 
 }
