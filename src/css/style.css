@@ -259,3 +259,18 @@ body.login #login {
     bottom: 0;
     right: 0;
 }
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 100%;
+    background: brown;
+    padding: 2px;
+    z-index: 200;
+    cursor: pointer;
+}
+
+#sidebar > * {
+    font-size: 7.2pt;
+}

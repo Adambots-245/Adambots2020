@@ -19,8 +19,10 @@ let ui = {
     autoSelect: document.getElementById('auto-select'),
     armPosition: document.getElementById('arm-position'),
     toggleFrame: document.getElementById("toggleFrame"),
-    toast: {}
+    toast: {},
+    sidebar: document.getElementById("sidebar")
 };
+
 
 //Add toast function:
 ui.toast = function ({text, duration, type}) {
@@ -134,4 +136,8 @@ ui.toggleFrame.onclick = () => {
     ui.toast({text: "Added/Removed Frame.", duration: 3, type: "success"});
     ipc.send("toggleFrame", "toggle");
 
+}
+
+ui.sidebar.onclick = function () {
+    
 }
