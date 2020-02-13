@@ -144,11 +144,13 @@ ui.sidebar.onclick = function () {
     if (!sidebarIsOpen) {
         //Opens the sidebar
         document.getElementById("sidebar").style.width = "500px";
+        document.getElementById("sidebar_bar").innerHTML = "&#9668;";
         sidebarIsOpen = true;
     }
     else {
         //Closes the sidebar
         document.getElementById("sidebar").style.width = "12px";
+        document.getElementById("sidebar_bar").innerHTML = "&#9658;";
         sidebarIsOpen = false;
     }
 }
