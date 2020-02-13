@@ -76,3 +76,8 @@ function setConfiguration(path, type, content) {
     fs.writeFileSync(configSrc, JSON.stringify(currentConfig));
 
 }
+
+module.exports = {
+    get: getConfiguration,
+    set: setConfiguration
+}
