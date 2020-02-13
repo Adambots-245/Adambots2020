@@ -138,6 +138,17 @@ ui.toggleFrame.onclick = () => {
 
 }
 
+var sidebarIsOpen = false;
+
 ui.sidebar.onclick = function () {
-    
+    if (!sidebarIsOpen) {
+        //Opens the sidebar
+        document.getElementById("sidebar").style.width = "500px";
+        sidebarIsOpen = true;
+    }
+    else {
+        //Closes the sidebar
+        document.getElementById("sidebar").style.width = "12px";
+        sidebarIsOpen = false;
+    }
 }

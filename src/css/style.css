@@ -265,12 +265,32 @@ body.login #login {
     left: 0;
     width: 12px;
     height: 100%;
-    background: brown;
+    max-height: 100%;
+    background: red;
     padding: 2px;
     z-index: 200;
-    cursor: pointer;
+    overflow-y: auto;
 }
 
-#sidebar > * {
+#sidebar_content {
+    /* display: none; */
+    top: 0;
+    left: 0;
+    z-index: 200;
+    width: 483px;
+    background: blue;
+    height: 100%;
+}
+
+#sidebar_bar {
     font-size: 7.2pt;
+    cursor: pointer;
+    width: 12px;
+    height: 100%;
+    background: yellow;
+    position: absolute;
+    top: 0px;
+    right: 2px;
+    color: black;
+    padding: 2px;
 }
