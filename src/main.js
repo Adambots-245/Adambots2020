@@ -20,6 +20,9 @@ const globalShortcut = electron.globalShortcut;
 //Module for custom alert popups
 var Alert = require("electron-alert");
 
+//Custom module for saving and loading config
+const Config = require("./components/configuration");
+
 /** Module for receiving messages from the BrowserWindow */
 const ipc = electron.ipcMain;
 
@@ -54,6 +57,24 @@ function toggleFrame() {
     if (!frame) {
         //Add a frame
         frame = true;
+        const menuTemplate = [
+
+            {
+                label: "Layout",
+                submenu: [
+                    {
+                        role: "Load Config",
+                        click: () => {
+                            
+                        }
+                    },
+                    {
+                        role: "Save Config"
+                    }
+                ]
+            }
+
+        ];
     }
     else {
         //Remove frame
@@ -177,8 +198,7 @@ function createWindow() {
         mainWindow.show();
     });
 
-    // Remove menu
-    //mainWindow.setMenu(null);
+    
     // Emitted when the window is closed.
     mainWindow.on('closed', () => {
         console.log('main window closed');
