@@ -10,10 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Gamepad.DPad_JoystickButton;
 import frc.robot.Gamepad.GamepadConstants;
 import frc.robot.commands.AlignColorCommand;
+import frc.robot.commands.ConveyorCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveForwardDistanceCommand;
 import frc.robot.commands.DriveForwardGyroDistanceCommand;
@@ -22,6 +24,7 @@ import frc.robot.commands.WinchCommand;
 import frc.robot.commands.LowerIntakeArmCommand;
 import frc.robot.commands.GondolaCommand;
 import frc.robot.commands.MeasureDistanceCommand;
+import frc.robot.commands.PanelMotor;
 import frc.robot.commands.RaiseIntakeArmCommand;
 import frc.robot.commands.RotatePanelCommand;
 import frc.robot.commands.SetLowSpeedCommand;
@@ -37,7 +40,9 @@ import frc.robot.commands.TurnToTargetCommand;
 import frc.robot.commands.TurretManualCommand;
 import frc.robot.commands.StartOuttakeCommand;
 import frc.robot.commands.StartIntakeCommand;
+import frc.robot.subsystems.BlasterSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.GondolaSubsystem;
 import frc.robot.subsystems.GyroPIDSubsystem;
@@ -71,7 +76,7 @@ public class RobotContainer {
   private GyroSubsystem gyroSubsystem = GyroSubsystem.getInstance();
   private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem(gyroSubsystem);
   private final HangSubsystem hangSubsystem = new HangSubsystem();
-
+  private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private LidarSubsystem lidarSubsystem = null;
   private TurretSubsystem turretSubsystem = null;
@@ -107,7 +112,9 @@ public class RobotContainer {
         hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft)));
         gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> secondaryJoystick.getX(Hand.kLeft)));
         intakeSubsystem.setDefaultCommand(new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight)));
-
+        turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
+        conveyorSubsystem.setDefaultCommand(new ConveyorCommand(conveyorSubsystem, ()-> secondaryJoystick.getY(Hand.kRight)));
+        // BlasterSubsystem.setDefaultCommand(new *command*() );
 
     //auton commands
     autonDriveForwardDistanceCommand = new DriveForwardDistanceCommand(driveTrainSubsystem,
@@ -213,6 +220,7 @@ public class RobotContainer {
     //control panel
     primaryXButton.whenPressed(new RotatePanelCommand(panelSubsystem), false);
     primaryBButton.whenPressed(new AlignColorCommand(panelSubsystem), false);
+    secondaryXButton.whenHeld(new PanelMotor(panelSubsystem));
 
     // lidar susbsystem
     // primaryXButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
