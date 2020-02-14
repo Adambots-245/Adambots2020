@@ -27,13 +27,13 @@ public class RaiseElevatorCommand extends CommandBase {
    */
   public BooleanSupplier triggerSupplier;
   public DoubleSupplier speed;
-  private final HangSubsystem hangsubsystem;
+  private final HangSubsystem hangSubsystem;
   
   public RaiseElevatorCommand(HangSubsystem subsystem, DoubleSupplier elevateSpeed) {
-    this.hangsubsystem = subsystem;
+    this.hangSubsystem = subsystem;
     speed = elevateSpeed;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(hangsubsystem);
+    addRequirements(hangSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -44,12 +44,13 @@ public class RaiseElevatorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {  
-    HangSubsystem.climb(speed.getAsDouble());
+    hangSubsystem.climb(speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("raiseElevator ended");
   }
 
   // Returns true when the command should end.
