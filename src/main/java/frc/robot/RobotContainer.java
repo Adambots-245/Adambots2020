@@ -15,17 +15,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Gamepad.DPad_JoystickButton;
 import frc.robot.Gamepad.GamepadConstants;
 import frc.robot.commands.AlignColorCommand;
+import frc.robot.commands.BlasterConstantOutputCommand;
+import frc.robot.commands.BlasterPercentOutput;
 import frc.robot.commands.ConveyorCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveForwardDistanceCommand;
 import frc.robot.commands.DriveForwardGyroDistanceCommand;
 import frc.robot.commands.GyroDriveForDistCommand;
+import frc.robot.commands.IndexToBlasterCommand;
 import frc.robot.commands.WinchCommand;
 import frc.robot.commands.LowerIntakeArmCommand;
+import frc.robot.commands.ManualTurretCommand;
 import frc.robot.commands.GondolaCommand;
 import frc.robot.commands.MeasureDistanceCommand;
 import frc.robot.commands.PanelMotor;
 import frc.robot.commands.RaiseIntakeArmCommand;
+import frc.robot.commands.ReverseIndexToBlasterCommand;
 import frc.robot.commands.RotatePanelCommand;
 import frc.robot.commands.SetLowSpeedCommand;
 import frc.robot.commands.SetNormalSpeedCommand;
@@ -82,6 +87,7 @@ public class RobotContainer {
   private TurretSubsystem turretSubsystem = null;
   private final GondolaSubsystem gondolaSubsystem = new GondolaSubsystem();
   private final ControlPanelSubsystem panelSubsystem = new ControlPanelSubsystem();
+  private final BlasterSubsystem blasterSubsystem = new BlasterSubsystem();
   
   // commands
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
@@ -190,14 +196,20 @@ public class RobotContainer {
     hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft)));
     gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> secondaryJoystick.getX(Hand.kLeft)));
     intakeSubsystem.setDefaultCommand(new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight)));
-    turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
+    //turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
+    // turretSubsystem.setDefaultCommand(new ManualTurretCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
     conveyorSubsystem.setDefaultCommand(new ConveyorCommand(conveyorSubsystem, ()-> secondaryJoystick.getY(Hand.kRight)));
+    // blasterSubsystem.setDefaultCommand(new BlasterPercentOutput(blasterSubsystem, () -> primaryJoystick.getTriggerAxis(Hand.kRight)));
     // BlasterSubsystem.setDefaultCommand(new *command*() );
-
+    SmartDashboard.putData(new BlasterConstantOutputCommand(blasterSubsystem));
+    secondaryLB.whenHeld(new BlasterConstantOutputCommand(blasterSubsystem));
 
     // intake subsystem
     secondaryDPadN.whenPressed(new RaiseIntakeArmCommand(intakeSubsystem));
     secondaryDPadS.whenPressed(new LowerIntakeArmCommand(intakeSubsystem));    
+    secondaryYButton.whenHeld(new IndexToBlasterCommand(intakeSubsystem));
+    secondaryBButton.whenHeld(new ReverseIndexToBlasterCommand(intakeSubsystem));
+    SmartDashboard.putData(new IndexToBlasterCommand(intakeSubsystem));
     
     // startIntakeCommand.addRequirements(elevatorSubsystem, conveyorSubsystem, alignmentBeltSubsystem);
     // StartIntakeCommand startIntakeCommand = new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight));

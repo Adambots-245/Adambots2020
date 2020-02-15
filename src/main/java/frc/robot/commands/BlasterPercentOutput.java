@@ -7,37 +7,39 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import java.util.function.DoubleSupplier;
 
-public class IndexToBlasterCommand extends CommandBase {
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.BlasterSubsystem;
+
+public class BlasterPercentOutput extends CommandBase {
   /**
-   * Creates a new IndexToBlaster.
+   * Creates a new BlasterPercentOutput.
    */
-  private final IntakeSubsystem intakeSubsystem;
-  
-  public IndexToBlasterCommand(IntakeSubsystem intakeSubsystem) {
-      this.intakeSubsystem = intakeSubsystem;
-      addRequirements(intakeSubsystem);
+  BlasterSubsystem blasterSubsystem;
+  DoubleSupplier speedInput;
+  public BlasterPercentOutput(BlasterSubsystem blasterSubsystem, DoubleSupplier speedInput) {
+    this.blasterSubsystem = blasterSubsystem;
+    this.speedInput = speedInput;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(blasterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.feedToBlaster();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("blaster has been fed");
+    blasterSubsystem.output(speedInput.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.stopIndex();
+    blasterSubsystem.output(0);
   }
 
   // Returns true when the command should end.

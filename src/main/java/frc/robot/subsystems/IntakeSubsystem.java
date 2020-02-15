@@ -28,11 +28,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     super();
-    armRaiseLower = new DoubleSolenoid(Constants.RAISE_POWER_CELL_INTAKE_SOL_PORT, Constants.LOWER_POWER_CELL_INTAKE_SOL_PORT); // raise = forward lower = kreverse
-    IntakeMotor = new WPI_ictorSPX(Constants.INTAKE_MOTOR_PORT);
-    ConveyorMotor = new WPI_VictorSPX(Constants.INFEED_CONVEYOR_MOTOR_PORT);
-    ConveyorIndexerMotor = new WPI_VictorSPX(Constants.INFEED_CONVEYOR_INDEXER_MOTOR_PORT);
-    FeedToBlasterMotor = new WOI_VictorSPX(Constants.FEED_TO_BLASTER_MOTOR_PORT);
+    armRaiseLower = new DoubleSolenoid(Constants.RAISE_POWER_CELL_INTAKE_SOL_PORT, Constants.LOWER_POWER_CELL_INTAKE_SOL_PORT); // raise = kforward lower = kreverse
+    IntakeMotor = new WPI_VictorSPX(Constants.INTAKE_MOTOR_PORT);
+    FeedToBlasterMotor = new WPI_VictorSPX(Constants.FEED_TO_BLASTER_MOTOR_PORT);
   }
 
   public void intake(double speed) {
@@ -52,6 +50,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void feedToBlaster() {
     FeedToBlasterMotor.set(ControlMode.PercentOutput, Constants.FEED_TO_BLASTER_SPEED);
+  }
+  public void reverseFeedToBlaster(){
+    FeedToBlasterMotor.set(ControlMode.PercentOutput, -Constants.FEED_TO_BLASTER_SPEED);
+  }
+  public void stopIndex() {
+    FeedToBlasterMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+  }
   public void stop(){
     IntakeMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
   }
@@ -78,4 +83,5 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
 }

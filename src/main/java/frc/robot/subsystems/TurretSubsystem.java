@@ -70,6 +70,10 @@ public class TurretSubsystem extends PIDSubsystem {
     setSetpoint(Constants.TURRET_TARGET_ANGLE + angleOffset);
   }
 
+  public void setSpeed(double speed){
+    turretMotor.set(ControlMode.PercentOutput, speed);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
