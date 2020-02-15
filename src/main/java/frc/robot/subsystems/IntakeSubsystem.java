@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -20,18 +21,18 @@ public class IntakeSubsystem extends SubsystemBase {
    */
 
   private static DoubleSolenoid armRaiseLower;
-  private VictorSPX IntakeMotor;
-  private VictorSPX ConveyorMotor;
-  private VictorSPX ConveyorIndexerMotor;
-  private VictorSPX FeedToBlasterMotor;
+  private WPI_VictorSPX IntakeMotor;
+  private WPI_VictorSPX ConveyorMotor;
+  private WPI_VictorSPX ConveyorIndexerMotor;
+  private WPI_VictorSPX FeedToBlasterMotor;
 
   public IntakeSubsystem() {
     super();
     armRaiseLower = new DoubleSolenoid(Constants.RAISE_POWER_CELL_INTAKE_SOL_PORT, Constants.LOWER_POWER_CELL_INTAKE_SOL_PORT); // raise = forward lower = kreverse
-    IntakeMotor = new VictorSPX(Constants.INTAKE_MOTOR_PORT);
-    ConveyorMotor = new VictorSPX(Constants.INFEED_CONVEYOR_MOTOR_PORT);
-    ConveyorIndexerMotor = new VictorSPX(Constants.INFEED_CONVEYOR_INDEXER_MOTOR_PORT);
-    FeedToBlasterMotor = new VictorSPX(Constants.FEED_TO_BLASTER_MOTOR_PORT);
+    IntakeMotor = new WPI_ictorSPX(Constants.INTAKE_MOTOR_PORT);
+    ConveyorMotor = new WPI_VictorSPX(Constants.INFEED_CONVEYOR_MOTOR_PORT);
+    ConveyorIndexerMotor = new WPI_VictorSPX(Constants.INFEED_CONVEYOR_INDEXER_MOTOR_PORT);
+    FeedToBlasterMotor = new WOI_VictorSPX(Constants.FEED_TO_BLASTER_MOTOR_PORT);
   }
 
   public void intake(double speed) {
@@ -40,8 +41,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void outtake() {
     IntakeMotor.set(ControlMode.PercentOutput, Constants.OUTTAKE_SPEED);
-  } 
-
+  }
   public void conveyor(double conveyorSpeed) {
     ConveyorMotor.set(ControlMode.PercentOutput, conveyorSpeed);
   }
@@ -52,15 +52,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void feedToBlaster() {
     FeedToBlasterMotor.set(ControlMode.PercentOutput, Constants.FEED_TO_BLASTER_SPEED);
-  }
-
   public void stop(){
     IntakeMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
   }
 
-  public void arm(double armSpeed) {
-    
-  }
 
   public void RaiseIntake() {
       // Supposedly, if(D-Pad up is pressed)

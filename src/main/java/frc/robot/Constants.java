@@ -48,7 +48,7 @@ public final class Constants {
 
     // TODO: Add accurate PANEL_MOTOR_PORTs (ports of motors that spin control
     // panel)
-    public static final int PANEL_MOTOR_PORT = 10000;
+    public static final int PANEL_MOTOR_PORT = 1;
 
     // solenoid IDs
     public static final int RAISE_POWER_CELL_INTAKE_SOL_PORT = 0;
@@ -71,7 +71,7 @@ public final class Constants {
     public static final double NORMAL_SPEED_MODIFIER = 1;
     public static final double LOW_SPEED_MODIFIER = 0.5;
     public static final double MAX_MOTOR_SPEED = 1;
-    public static final double WINCH_SPEED = -0.25;
+    public static final double WINCH_SPEED = -0.5;
     public static final double CONVEYOR_SPEED = 0.5; // test speeds
     public static final double CONVEYOR_INDEXER_SPEED = 0.5;
     public static final double FEED_TO_BLASTER_SPEED = 0.5;

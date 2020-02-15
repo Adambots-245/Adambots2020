@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -34,8 +36,15 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   private double speedModifier;
 
-  public DriveTrainSubsystem() {
+  private GyroSubsystem gyroSubsystem;
+
+  private boolean hasGyroBeenReset = false;
+
+  public DriveTrainSubsystem(GyroSubsystem gyroSubsystem) {
     super();
+
+    this.gyroSubsystem = gyroSubsystem;
+
     speedModifier = Constants.NORMAL_SPEED_MODIFIER;
 
     GearShifter = new Solenoid(Constants.HIGH_GEAR_SOL_PORT);
@@ -47,11 +56,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     BackLeftMotor.follow(FrontLeftMotor);
     BackRightMotor.follow(FrontRightMotor);
 
-
-    BackLeftMotor.setInverted(true);
-    FrontLeftMotor.setInverted(true);
-    BackRightMotor.setInverted(true);
-    FrontRightMotor.setInverted(true);
+    BackLeftMotor.setInverted(false);
+    FrontLeftMotor.setInverted(false);
+    BackRightMotor.setInverted(false);
+    FrontRightMotor.setInverted(false);
 
     drive = new DifferentialDrive(FrontLeftMotor, FrontRightMotor);
   }
@@ -70,6 +78,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     System.out.println(averageEncoderPos);
     return averageEncoderPos;
   }
+
   public double getLeftDriveEncoderVelocity() {
     return FrontLeftMotor.getSelectedSensorVelocity();
   }
@@ -77,6 +86,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public double getRightDriveEncoderVelocity() {
     return FrontRightMotor.getSelectedSensorVelocity();
   }
+
   public void setLowSpeed() {
     speedModifier = Constants.LOW_SPEED_MODIFIER;
   }
@@ -88,11 +98,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void arcadeDrive(double speed, double turnSpeed) {
     int frontRobotDirection = -1;
     double straightSpeed = frontRobotDirection * speed * speedModifier;
-    //System.out.println("straightSpeed = " + straightSpeed);
-    //System.out.println("turnSpeed = " + turnSpeed * speedModifier);
+    // System.out.println("straightSpeed = " + straightSpeed);
+    // System.out.println("turnSpeed = " + turnSpeed * speedModifier);
 
-    // double leftSpeed = Math.min(straightSpeed + turnSpeed* speedModifier, Constants.MAX_MOTOR_SPEED);
-    // double rightSpeed = Math.min(straightSpeed - turnSpeed* speedModifier, Constants.MAX_MOTOR_SPEED);
+    // double leftSpeed = Math.min(straightSpeed + turnSpeed* speedModifier,
+    // Constants.MAX_MOTOR_SPEED);
+    // double rightSpeed = Math.min(straightSpeed - turnSpeed* speedModifier,
+    // Constants.MAX_MOTOR_SPEED);
 
     // FrontRightMotor.set(ControlMode.PercentOutput, rightSpeed);
     // FrontLeftMotor.set(ControlMode.PercentOutput, leftSpeed);
@@ -118,5 +130,20 @@ public class DriveTrainSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public Double getAngle() {
+    return (double) gyroSubsystem.getYaw();
+  }
+
+  public void resetGyro(boolean force) {
+    if (!hasGyroBeenReset || force) {
+      gyroSubsystem.reset();
+      hasGyroBeenReset = true;
+    }
+  }
+
+  public void resetGyro(){
+    resetGyro(false);
   }
 }
