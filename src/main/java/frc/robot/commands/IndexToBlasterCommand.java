@@ -7,21 +7,18 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class ConveyorCommand extends CommandBase {
+public class IndexToBlasterCommand extends CommandBase {
   /**
-   * Creates a new OuttakeCommand.
+   * Creates a new IndexToBlaster.
    */
   private final IntakeSubsystem intakeSubsystem;
-  private DoubleSupplier speedInput;
-
-  public ConveyorCommand(IntakeSubsystem intakeSubsystem, DoubleSupplier speedInput) {
-    this.speedInput = speedInput;
-    this.intakeSubsystem = intakeSubsystem;
-    addRequirements(intakeSubsystem);
+  
+  public IndexToBlasterCommand(IntakeSubsystem intakeSubsystem) {
+      this.intakeSubsystem = intakeSubsystem;
+      addRequirements(intakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -33,19 +30,18 @@ public class ConveyorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.conveyor(speedInput.getAsDouble());
-    System.out.println("conveyor speed: " + speedInput.getAsDouble());
+    intakeSubsystem.feedToBlaster();
+    System.out.println("blaster has been fed");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
