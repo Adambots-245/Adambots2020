@@ -107,15 +107,6 @@ public class RobotContainer {
     }
     
     driveTrainSubsystem.resetEncoders();
-    driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, () -> primaryJoystick.getY(Hand.kLeft),
-        () -> primaryJoystick.getX(Hand.kRight)));
-
-        hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft)));
-        gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> secondaryJoystick.getX(Hand.kLeft)));
-        intakeSubsystem.setDefaultCommand(new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight)));
-        turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
-        conveyorSubsystem.setDefaultCommand(new ConveyorCommand(conveyorSubsystem, ()-> secondaryJoystick.getY(Hand.kRight)));
-        // BlasterSubsystem.setDefaultCommand(new *command*() );
 
     //auton commands
     autonDriveForwardDistanceCommand = new DriveForwardDistanceCommand(driveTrainSubsystem,
@@ -135,6 +126,7 @@ public class RobotContainer {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+
   private void configureButtonBindings() {
     //primary buttons
     final JoystickButton primaryBackButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_BACK);
@@ -192,13 +184,23 @@ public class RobotContainer {
     //RIGHT STICK X AXIS  secondaryJoystick.getX(Hand.kRight)
     //RIGHT STICK Y AXIS  secondaryJoystick.getY(Hand.kRight)
 
+    driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, () -> primaryJoystick.getY(Hand.kLeft),
+    () -> primaryJoystick.getX(Hand.kRight)));
+
+    hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft)));
+    gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> secondaryJoystick.getX(Hand.kLeft)));
+    intakeSubsystem.setDefaultCommand(new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight)));
+    turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
+    conveyorSubsystem.setDefaultCommand(new ConveyorCommand(conveyorSubsystem, ()-> secondaryJoystick.getY(Hand.kRight)));
+    // BlasterSubsystem.setDefaultCommand(new *command*() );
+
 
     // intake subsystem
-    // startIntakeCommand.addRequirements(elevatorSubsystem, conveyorSubsystem, alignmentBeltSubsystem);
-    StartIntakeCommand startIntakeCommand = new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight));
     secondaryDPadN.whenPressed(new RaiseIntakeArmCommand(intakeSubsystem));
     secondaryDPadS.whenPressed(new LowerIntakeArmCommand(intakeSubsystem));    
-    secondaryLB.whenPressed(new ConveyorCommand(intakeSubsystem));
+    
+    // startIntakeCommand.addRequirements(elevatorSubsystem, conveyorSubsystem, alignmentBeltSubsystem);
+    // StartIntakeCommand startIntakeCommand = new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight));
     // primaryYButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
     // primaryAButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
     // //primaryAButton.whileHeld(new TestCo  mmand());
