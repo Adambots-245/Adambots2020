@@ -13,7 +13,7 @@ public class GyroSubsystem extends SubsystemBase {
 
     private AHRS ahrs;
 
-    public void init() {
+    public GyroSubsystem() {
         try {
             /* Communicate w/navX-MXP via the MXP SPI Bus. */
             /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */

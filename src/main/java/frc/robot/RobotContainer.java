@@ -52,8 +52,8 @@ public class RobotContainer {
   private final XboxController secondaryJoystick = new XboxController(GamepadConstants.SECONDARY_DRIVER);
 
   // subsystems
-  private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  //private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private LidarSubsystem lidarSubsystem = null;
   private GyroSubsystem gyroSubsystem = null;
   private TurretSubsystem turretSubsystem = null;
@@ -67,14 +67,14 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    configureButtonBindings();
+    // if (Robot.isReal()) {
+    //   lidarSubsystem = new LidarSubsystem();
+    //   gyroSubsystem = new GyroSubsystem();
+    //   turretSubsystem = new TurretSubsystem();
+    // }
 
-    if (Robot.isReal()) {
-      lidarSubsystem = new LidarSubsystem();
-      gyroSubsystem = new GyroSubsystem();
-      turretSubsystem = new TurretSubsystem();
-    }
-    
+    // configureButtonBindings();
+    /*
     driveTrainSubsystem.resetEncoders();
     driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, () -> primaryJoystick.getY(Hand.kLeft),
         () -> primaryJoystick.getX(Hand.kRight)));
@@ -85,6 +85,7 @@ public class RobotContainer {
 
     autonGyroDriveForwardDistanceCommand = new GyroDriveForDistCommand(driveTrainSubsystem,
         Constants.AUTON_DRIVE_FORWARD_DISTANCE, Constants.AUTON_DRIVE_FORWARD_SPEED, gyroSubsystem.getYaw());
+      */
 
   }
 
@@ -94,6 +95,8 @@ public class RobotContainer {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+
+   /**
   private void configureButtonBindings() {
     //primary buttons
     final JoystickButton primaryAButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_A);
@@ -136,6 +139,8 @@ public class RobotContainer {
 
     // primaryXButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
   }
+
+  **/
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

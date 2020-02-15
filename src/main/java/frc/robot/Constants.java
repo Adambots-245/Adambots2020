@@ -98,6 +98,7 @@ public final class Constants {
     
     // Vision Constants
     public static final int CAM_NUMBER = 0;
+    public static final int CAM_EXPOSURE = 5;
     public static final int IMG_WIDTH = 320;
     public static final int IMG_HEIGHT = 240;
     public static final int HOR_FOV_DEGREES = 60;
