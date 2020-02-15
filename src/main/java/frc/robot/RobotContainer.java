@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Gamepad.DPad_JoystickButton;
 import frc.robot.Gamepad.GamepadConstants;
-import frc.robot.Gamepad.Conveyor;
+import frc.robot.commands.ConveyorCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveForwardDistanceCommand;
 import frc.robot.commands.DriveForwardGyroDistanceCommand;
@@ -76,7 +76,6 @@ public class RobotContainer {
   private WinchCommand winchCommand;
   private RaiseElevatorCommand raiseElevatorCommand;
   private GondolaCommand gondolaCommand;
-  private ElevateCommand elevateCommand;
   private ConveyorCommand conveyorCommand;
   
 
@@ -178,7 +177,7 @@ public class RobotContainer {
     StartIntakeCommand startIntakeCommand = new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight));
     secondaryDPadN.whenPressed(new RaiseIntakeArmCommand(intakeSubsystem));
     secondaryDPadS.whenPressed(new LowerIntakeArmCommand(intakeSubsystem));    
-    secondaryLBButton.whenPressed(new ConveyorCommand(intakeSubsystem);)
+    secondaryLB.whenPressed(new ConveyorCommand(intakeSubsystem));
     // primaryYButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
     // primaryAButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
     // //primaryAButton.whileHeld(new TestCo  mmand());

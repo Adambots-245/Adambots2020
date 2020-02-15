@@ -36,8 +36,6 @@ public final class Constants {
 
     public static final int CLIMBING_1_MOTOR_PORT = 15;
     public static final int CLIMBING_2_MOTOR_PORT = 16;
-    public static final int CLIMBING_RAISE_ELEVATOR_MOTOR_PORT = 23;
-    public static final int CLIMBING_GONDOLA_ADJUSTMENT_MOTOR_PORT = 24;
 
     public static final int INTAKE_MOTOR_PORT = 18;
     public static final int INFEED_CONVEYOR_MOTOR_PORT = 19;
@@ -65,10 +63,6 @@ public final class Constants {
 	
     // sensor IDs
     public static final int LIDAR_DIO = 0;
-
-    // auton
-    public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
-    public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
 
     // speed values
     public static final int INTAKE_SPEED = 1;
