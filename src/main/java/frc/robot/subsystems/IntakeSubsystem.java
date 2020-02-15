@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -18,15 +20,13 @@ public class IntakeSubsystem extends SubsystemBase {
    * Creates a new Intake.
    */
 
-  public WPI_TalonSRX IntakeMotor;
+  public WPI_VictorSPX IntakeMotor;
   private static DoubleSolenoid armRaiseLower;
-  public WPI_TalonSRX ConveyorMotor;
 
   public IntakeSubsystem() {
     super();
     armRaiseLower = new DoubleSolenoid(Constants.RAISE_POWER_CELL_INTAKE_SOL_PORT, Constants.LOWER_POWER_CELL_INTAKE_SOL_PORT); // raise = forward lower = kreverse
-    IntakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR_PORT);
-    ConveyorMotor = new WPI_TalonSRX(Constants.INFEED_CONVEYOR_MOTOR_PORT);
+    IntakeMotor = new WPI_VictorSPX(Constants.INTAKE_MOTOR_PORT);
 
   }
 
@@ -36,19 +36,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void outtake() {
     IntakeMotor.set(ControlMode.PercentOutput, Constants.OUTTAKE_SPEED);
-  } 
-
-  public void conveyor() {
-    ConveyorMotor.set(ControlMode.PercentOutput, Constants.CONVEYOR_SPEED);
   }
-
   public void stop(){
     IntakeMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
   }
 
-  public void arm(double armSpeed) {
-    
-  }
     public void RaiseIntake() {
         // Supposedly, if(D-Pad up is pressed)
         //if (GamepadConstants.AXIS_DPAD_POV==true)

@@ -36,6 +36,8 @@ public final class Constants {
 
     public static final int CLIMBING_1_MOTOR_PORT = 15;
     public static final int CLIMBING_2_MOTOR_PORT = 16;
+    public static final int CLIMBING_RAISE_ELEVATOR_MOTOR_PORT = 23;
+    public static final int CLIMBING_GONDOLA_ADJUSTMENT_MOTOR_PORT = 24;
 
     public static final int INTAKE_MOTOR_PORT = 18;
     public static final int INFEED_CONVEYOR_MOTOR_PORT = 19;
@@ -43,12 +45,10 @@ public final class Constants {
     public static final int FEED_TO_BLASTER_MOTOR_PORT = 21;
 
     public static final int TURRET_MOTOR_PORT = 22;
-    public static final int CLIMBING_RAISE_ELEVATOR_MOTOR_PORT = 23;
-    public static final int CLIMBING_GONDOLA_ADJUSTMENT_MOTOR_PORT = 24;
 
     // TODO: Add accurate PANEL_MOTOR_PORTs (ports of motors that spin control
     // panel)
-    public static final int PANEL_MOTOR_PORT = 10000;
+    public static final int PANEL_MOTOR_PORT = 1;
 
     // solenoid IDs
     public static final int RAISE_POWER_CELL_INTAKE_SOL_PORT = 0;
@@ -71,7 +71,7 @@ public final class Constants {
     public static final double NORMAL_SPEED_MODIFIER = 1;
     public static final double LOW_SPEED_MODIFIER = 0.5;
     public static final double MAX_MOTOR_SPEED = 1;
-    public static final double WINCH_SPEED = -0.25;
+    public static final double WINCH_SPEED = -0.5;
     public static final double CONVEYOR_SPEED = 0.8; // test speeds
 
     // control panel constants

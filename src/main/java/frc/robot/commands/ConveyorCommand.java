@@ -7,18 +7,24 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
 
 public class ConveyorCommand extends CommandBase {
   /**
-   * Creates a new OuttakeCommand.
+   * Creates a new ConveyorCommand.
    */
-  private final IntakeSubsystem intakeSubsystem;
-  public ConveyorCommand(IntakeSubsystem intakeSubsystem) {
-    this.intakeSubsystem = intakeSubsystem;
-    addRequirements(intakeSubsystem);
+  private final ConveyorSubsystem conveyorSubsystem;
+  private final DoubleSupplier speedInput;
+
+  public ConveyorCommand(ConveyorSubsystem conveyorSubsystem, DoubleSupplier speedInput) {
+    this.conveyorSubsystem = conveyorSubsystem;
+    this.speedInput = speedInput;
+
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(conveyorSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -29,8 +35,8 @@ public class ConveyorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("outtake");
-    intakeSubsystem.conveyor();
+    conveyorSubsystem.runConveyor(speedInput.getAsDouble());
+    conveyorSubsystem.runAlignmentBelt(speedInput.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
@@ -41,6 +47,6 @@ public class ConveyorCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

@@ -19,7 +19,7 @@ public class BlasterSubsystem extends SubsystemBase {
         super();
 
         BlasterMotor = new WPI_TalonSRX(Constants.BLASTER_MOTOR_PORT);
-        Backboard = new Solenoid(Constants.BACKBOARD_SOLENOID_PORT);
+        Backboard = new Solenoid(Constants.RAISE_BLASTER_HOOD_SOL_PORT);
     }
 
     public void output(double speed) {
