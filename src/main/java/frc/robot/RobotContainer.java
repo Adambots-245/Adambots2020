@@ -103,8 +103,6 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
 
     if (Robot.isReal()) {
       lidarSubsystem = new LidarSubsystem();
@@ -112,6 +110,8 @@ public class RobotContainer {
       turretSubsystem = new TurretSubsystem();
     }
     
+    // Configure the button bindings
+    configureButtonBindings();
     driveTrainSubsystem.resetEncoders();
 
     //auton commands
@@ -197,7 +197,7 @@ public class RobotContainer {
     gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> secondaryJoystick.getX(Hand.kLeft)));
     intakeSubsystem.setDefaultCommand(new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight)));
     //turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
-    // turretSubsystem.setDefaultCommand(new ManualTurretCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
+    turretSubsystem.setDefaultCommand(new ManualTurretCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
     conveyorSubsystem.setDefaultCommand(new ConveyorCommand(conveyorSubsystem, ()-> secondaryJoystick.getY(Hand.kRight)));
     // blasterSubsystem.setDefaultCommand(new BlasterPercentOutput(blasterSubsystem, () -> primaryJoystick.getTriggerAxis(Hand.kRight)));
     // BlasterSubsystem.setDefaultCommand(new *command*() );

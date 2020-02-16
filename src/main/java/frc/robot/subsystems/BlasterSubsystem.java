@@ -21,14 +21,26 @@ public class BlasterSubsystem extends SubsystemBase {
 
         BlasterMotor = new WPI_TalonFX(Constants.BLASTER_MOTOR_PORT);
         Backboard = new Solenoid(Constants.RAISE_BLASTER_HOOD_SOL_PORT);
+        BlasterMotor.config_kF(0, Constants.BLASTER_KF);
+        BlasterMotor.config_kP(0, Constants.BLASTER_KP);
+        BlasterMotor.config_kI(0, Constants.BLASTER_KI);
+        BlasterMotor.config_kD(0, Constants.BLASTER_KD);
     }
 
     public void output(double speed) {
         BlasterMotor.set(ControlMode.PercentOutput, speed);
     }
+    public void setVelocity(double speed){
+        BlasterMotor.set(ControlMode.Velocity, speed);
+
+    }
+    public int getVelocity(){
+        return BlasterMotor.getSelectedSensorVelocity();
+    }
 
     public void periodic() {
         // This method will be called once per scheduler run
+
     }
 
 }

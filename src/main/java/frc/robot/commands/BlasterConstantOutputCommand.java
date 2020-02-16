@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BlasterSubsystem;
 
@@ -25,12 +26,13 @@ public class BlasterConstantOutputCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    blasterSubsystem.output(.5);
+    blasterSubsystem.setVelocity(10343);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putNumber("BlasterVelocity", blasterSubsystem.getVelocity());
   }
 
   // Called once the command ends or is interrupted.

@@ -146,6 +146,10 @@ public final class Constants {
     public static final double AUTON_FORWARD_BALL_PICKUP_DISTANCE = 7500 + 644;
     public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
     public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
+	public static final double BLASTER_KF = .054;
+	public static final double BLASTER_KP = 1.1367;
+	public static final double BLASTER_KI = 0;
+	public static final double BLASTER_KD = 45.4667;
     
 
 }
