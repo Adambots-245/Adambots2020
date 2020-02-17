@@ -41,15 +41,24 @@ public class TurretSubsystem extends PIDSubsystem {
 
   @Override
   public void useOutput(double output, double setpoint) {
-    turretMotor.set(ControlMode.PercentOutput, output);
+    System.out.println("Output: " + output);
+    System.out.println("Current Angle in Output: " + table.getEntry("Angle").getDouble(0));
+
+    Double measurement = getMeasurement();
+    double calculatedOutput = getController().calculate(measurement, setpoint);
+    System.out.println("Calculated Output: " + calculatedOutput);
+
+    turretMotor.set(ControlMode.PercentOutput, -calculatedOutput);
   }
 
   @Override
   public double getMeasurement() {
+    System.out.println("Current Angle: " + table.getEntry("Angle").getDouble(0));
     return table.getEntry("Angle").getDouble(0);
   }
 
   public boolean atSetpoint() {
+    System.out.println("At Set Point: " + m_controller.atSetpoint());
     return m_controller.atSetpoint();
   }
 

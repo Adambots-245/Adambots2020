@@ -8,6 +8,7 @@ import frc.robot.vision.GripPipeline;
 import edu.wpi.cscore.*;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.Solenoid;
 
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
@@ -26,12 +27,17 @@ public class VisionProcessorSubsystem extends SubsystemBase {
     private Object lock = new Object();
     private Thread visionThread;
     private NetworkTableEntry angleEntry;
+    private Solenoid ringLight;
 
     public VisionProcessorSubsystem() {
         init();
     }
 
     public void init() {
+        ringLight = new Solenoid(Constants.RING_LIGHT_PORT);
+        // ringLight.clearAllPCMStickyFaults();
+        // if pcm status is flashing orange (sticky fault), run once
+        ringLight.set(true);
         camera = CameraServer.getInstance().startAutomaticCapture(Constants.CAM_NUMBER);
         camera.setExposureManual(Constants.CAM_EXPOSURE);
         processedOutputStream = CameraServer.getInstance().putVideo("Output", Constants.IMG_WIDTH, Constants.IMG_HEIGHT);
@@ -98,7 +104,7 @@ public class VisionProcessorSubsystem extends SubsystemBase {
 
     public RotatedRect[] findBoundingBoxes() {
         ArrayList<MatOfPoint> contours = grip.filterContoursOutput();
-        System.out.println(contours.size());
+        // System.out.println(contours.size());
         RotatedRect[] rects = new RotatedRect[contours.size()];
         for (int i = 0; i < contours.size(); i++)
             rects[i] = Imgproc.minAreaRect(new MatOfPoint2f(contours.get(i).toArray()));

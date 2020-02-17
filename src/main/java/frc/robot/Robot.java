@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     if (Robot.isReal()) {
@@ -46,7 +47,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-  //  m_robotContainer = new RobotContainer();
+    m_robotContainer = new RobotContainer();
 
   }
 
@@ -61,6 +62,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    
     if (Robot.isReal()) {
       SmartDashboard.putNumber("ANGLE", vision.getAngle());
     }
@@ -70,7 +72,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
-    //CommandScheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
   }
 
   /**
@@ -103,8 +105,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    //SmartDashboard.putNumber("yaw",gyroSubsystem.getYaw());
-    
+    // SmartDashboard.putNumber("yaw",gyroSubsystem.getYaw());
+
   }
 
   @Override
@@ -123,7 +125,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    
+
   }
 
   @Override
@@ -131,6 +133,7 @@ public class Robot extends TimedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }
+
   /**
    * This function is called periodically during test mode.
    */
@@ -139,6 +142,6 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putNumber("pitch",gyroSubsystem.getPitch());
     // SmartDashboard.putNumber("roll",gyroSubsystem.getRoll());
     // SmartDashboard.putNumber("yaw",gyroSubsystem.getYaw());
-    
+
   }
 }

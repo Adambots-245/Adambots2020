@@ -25,6 +25,8 @@ public class TurnToTargetCommand extends CommandBase {
   @Override
   public void initialize() {
     turretSubsystem.enable();
+
+    System.out.println("Turret Initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,6 +38,9 @@ public class TurnToTargetCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    if (interrupted) 
+      System.out.println("Turret System Interrupted");
+    turretSubsystem.stopTurret();
     turretSubsystem.disable();
   }
 

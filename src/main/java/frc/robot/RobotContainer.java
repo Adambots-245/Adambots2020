@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -203,6 +204,7 @@ public class RobotContainer {
     // BlasterSubsystem.setDefaultCommand(new *command*() );
     SmartDashboard.putData(new BlasterConstantOutputCommand(blasterSubsystem));
     secondaryLB.whenHeld(new BlasterConstantOutputCommand(blasterSubsystem));
+    secondaryRB.whileHeld(new TurnToTargetCommand(turretSubsystem), false);
 
     // intake subsystem
     secondaryDPadN.whenPressed(new RaiseIntakeArmCommand(intakeSubsystem));
