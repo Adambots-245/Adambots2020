@@ -33,8 +33,12 @@ public class VisionProcessorSubsystem extends SubsystemBase {
 
     public void init() {
         camera = CameraServer.getInstance().startAutomaticCapture(Constants.CAM_NUMBER);
+        camera.setExposureManual(Constants.CAM_EXPOSURE);
         processedOutputStream = CameraServer.getInstance().putVideo("Output", Constants.IMG_WIDTH, Constants.IMG_HEIGHT);
-        processedOutputStream.setVideoMode(PixelFormat.kMJPEG, Constants.IMG_WIDTH, Constants.IMG_HEIGHT, Constants.DRIVER_STATION_FPS);
+        processedOutputStream.setVideoMode(PixelFormat.kGray, Constants.IMG_WIDTH, Constants.IMG_HEIGHT, Constants.DRIVER_STATION_FPS);
+        processedOutputStream.setFPS(Constants.DRIVER_STATION_FPS);
+        processedOutputStream.setPixelFormat(PixelFormat.kGray);
+
         cvSink = CameraServer.getInstance().getVideo();
         grip = new GripPipeline();
         mat = new Mat();
@@ -56,6 +60,7 @@ public class VisionProcessorSubsystem extends SubsystemBase {
 
     public void run() {
         // Main vision loop
+        int frameCount = 0;
         while (!Thread.interrupted()) {
             crosshair = null;
             if (cvSink.grabFrame(mat) == 0) {
@@ -67,7 +72,10 @@ public class VisionProcessorSubsystem extends SubsystemBase {
             grip.process(mat);
 
             RotatedRect[] rects = findBoundingBoxes();
-            draw(rects);
+            if (rects.length != 0) {
+                RotatedRect rect = findLargestRect(rects);
+                draw(rect);
+            }
 
             if (crosshair != null) {
                 synchronized (lock) {
@@ -77,7 +85,12 @@ public class VisionProcessorSubsystem extends SubsystemBase {
                 
             }
 
-            processedOutputStream.putFrame(mat);
+            if (frameCount == 6) {
+                processedOutputStream.putFrame(mat);
+                frameCount = 0;
+            }
+
+            frameCount++;
 
         }
 
@@ -85,50 +98,34 @@ public class VisionProcessorSubsystem extends SubsystemBase {
 
     public RotatedRect[] findBoundingBoxes() {
         ArrayList<MatOfPoint> contours = grip.filterContoursOutput();
+        System.out.println(contours.size());
         RotatedRect[] rects = new RotatedRect[contours.size()];
         for (int i = 0; i < contours.size(); i++)
             rects[i] = Imgproc.minAreaRect(new MatOfPoint2f(contours.get(i).toArray()));
 
-        rects = filterBoundingBoxes(rects);
-
         return rects;
 
     }
 
-    public RotatedRect[] filterBoundingBoxes(RotatedRect[] rects) {
-        ArrayList<RotatedRect> newRects = new ArrayList<RotatedRect>();
-
+    public RotatedRect findLargestRect(RotatedRect[] rects) {
+        RotatedRect rect = rects[0];
         for (int i = 0; i < rects.length; i++) {
-            double ratio = rects[i].size.width / rects[i].size.height;
-            if (1 / ratio > ratio) ratio = 1 / ratio;
-
-            if (ratio > 1.5 && ratio < 3.5) newRects.add(rects[i]);
+            if (rects[i].size.area() > rect.size.area())
+                rect = rects[i];
 
         }
 
-        rects = new RotatedRect[newRects.size()];
-        for (int i = 0; i < newRects.size(); i++) {
-            rects[i] = newRects.get(i);
-        }
-
-        return rects;
-
+        return rect;
     }
 
-    public void draw(RotatedRect[] rects) {
-        if (rects.length != 0) {
-            // Loop that gets and draws all rotated rectangles
-            for (int i = 0; i < rects.length; i++) {
-                rects[i].points(pts);
-                drawRect(pts);
-                findCrosshair(pts);
+    public void draw(RotatedRect rect) {
 
-            }
+        rect.points(pts);
+        drawRect(pts);
+        findCrosshair(pts);
 
-            if (crosshair != null)
-                drawCrosshair();
-
-        }
+        if (crosshair != null)
+            drawCrosshair();
 
     }
 
