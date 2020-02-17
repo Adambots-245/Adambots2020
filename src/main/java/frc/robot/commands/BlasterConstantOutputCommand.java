@@ -7,46 +7,43 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.BlasterSubsystem;
 
-public class TurnToTargetCommand extends CommandBase {
-  private TurretSubsystem turretSubsystem;
+public class BlasterConstantOutputCommand extends CommandBase {
   /**
-   * Creates a new TurnToTargetCommand.
+   * Creates a new BlasterConstantOutputCommand.
    */
-  public TurnToTargetCommand(TurretSubsystem turretSubsystem) {
-    this.turretSubsystem = turretSubsystem;
-    addRequirements(turretSubsystem);
+  BlasterSubsystem blasterSubsystem;
 
+  public BlasterConstantOutputCommand(BlasterSubsystem blasterSubsystem) {
+    this.blasterSubsystem = blasterSubsystem;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(blasterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    turretSubsystem.enable();
-
-    System.out.println("Turret Initialized");
+    blasterSubsystem.setVelocity(10343);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //turretSystem PID loop should deal with movement
+    SmartDashboard.putNumber("BlasterVelocity", blasterSubsystem.getVelocity());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (interrupted) 
-      System.out.println("Turret System Interrupted");
-    turretSubsystem.stopTurret();
-    turretSubsystem.disable();
+    blasterSubsystem.output(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return turretSubsystem.atSetpoint();
+    return false;
   }
 }

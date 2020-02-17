@@ -51,14 +51,17 @@ public final class Constants {
     public static final int PANEL_MOTOR_PORT = 1;
 
     // solenoid IDs
+    public static final int HIGH_GEAR_SOL_PORT = 7;
+
     public static final int RAISE_POWER_CELL_INTAKE_SOL_PORT = 0;
     public static final int LOWER_POWER_CELL_INTAKE_SOL_PORT = 1;
 
     public static final int RAISE_BLASTER_HOOD_SOL_PORT = 2;
 
+	public static final int RING_LIGHT_PORT = 5;
+
     public static final int YELLOW_LEDS_SOL_PORT = 6;
 
-    public static final int HIGH_GEAR_SOL_PORT = 7;
 
 	
     // sensor IDs
@@ -112,6 +115,7 @@ public final class Constants {
 
     // Vision Constants
     public static final int CAM_NUMBER = 0;
+    public static final int CAM_EXPOSURE = 5;
     public static final int IMG_WIDTH = 320;
     public static final int IMG_HEIGHT = 240;
     public static final int HOR_FOV_DEGREES = 60;
@@ -130,7 +134,7 @@ public final class Constants {
     public static double TURRET_kI = 0;
     public static double TURRET_kD = 0;
 
-    public static int TURRET_TOLERANCE = 5;
+    public static int TURRET_TOLERANCE = 1;
     public static final double TURRET_TARGET_ANGLE = 0;
     public static final double TURRET_SPEED = 0.5;
 
@@ -146,6 +150,10 @@ public final class Constants {
     public static final double AUTON_FORWARD_BALL_PICKUP_DISTANCE = 7500 + 644;
     public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
     public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
+	public static final double BLASTER_KF = .054;
+	public static final double BLASTER_KP = 1.1367;
+	public static final double BLASTER_KI = 0;
+	public static final double BLASTER_KD = 45.4667;
     
 
 }

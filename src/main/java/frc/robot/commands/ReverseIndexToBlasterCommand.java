@@ -8,45 +8,41 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
-public class TurnToTargetCommand extends CommandBase {
-  private TurretSubsystem turretSubsystem;
+public class ReverseIndexToBlasterCommand extends CommandBase {
   /**
-   * Creates a new TurnToTargetCommand.
+   * Creates a new ReverseFeedToBlasterCommand.
    */
-  public TurnToTargetCommand(TurretSubsystem turretSubsystem) {
-    this.turretSubsystem = turretSubsystem;
-    addRequirements(turretSubsystem);
+  private final IntakeSubsystem intakeSubsystem;
 
+  public ReverseIndexToBlasterCommand(IntakeSubsystem intakeSubsystem) {
+    this.intakeSubsystem = intakeSubsystem;
+    addRequirements(intakeSubsystem);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    turretSubsystem.enable();
-
-    System.out.println("Turret Initialized");
+    intakeSubsystem.reverseFeedToBlaster();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //turretSystem PID loop should deal with movement
+    System.out.println("blaster has been unfed");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (interrupted) 
-      System.out.println("Turret System Interrupted");
-    turretSubsystem.stopTurret();
-    turretSubsystem.disable();
+    intakeSubsystem.stopIndex();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return turretSubsystem.atSetpoint();
+    return false;
   }
 }

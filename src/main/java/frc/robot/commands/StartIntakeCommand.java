@@ -35,7 +35,7 @@ public class StartIntakeCommand extends CommandBase {
   @Override
   public void execute() {
     intakeSubsystem.intake(speedInput.getAsDouble());
-    System.out.println("intake speed: " + speedInput.getAsDouble());
+   // System.out.println("intake speed: " + speedInput.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
