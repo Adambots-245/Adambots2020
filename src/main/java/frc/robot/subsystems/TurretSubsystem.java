@@ -70,7 +70,6 @@ public class TurretSubsystem extends PIDSubsystem {
     setSetpoint(Constants.TURRET_TARGET_ANGLE + angleOffset);
   }
 
-  @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
