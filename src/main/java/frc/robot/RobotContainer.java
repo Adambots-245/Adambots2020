@@ -43,6 +43,7 @@ public class RobotContainer {
   // initialize controllers
   private final XboxController primaryJoystick = new XboxController(GamepadConstants.PRIMARY_DRIVER);
   private final XboxController secondaryJoystick = new XboxController(GamepadConstants.SECONDARY_DRIVER);
+  
 
   // subsystems
   private GyroSubsystem gyroSubsystem = GyroSubsystem.getInstance();
@@ -106,6 +107,11 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
 
+  // deadzoning
+  private double deaden(double rawInput) {
+    return Math.abs(rawInput) < GamepadConstants.DEADZONE ? 0 : rawInput;
+  }
+
   private void configureButtonBindings() {
     //primary buttons
     final JoystickButton primaryBackButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_BACK);
@@ -167,9 +173,11 @@ public class RobotContainer {
     //RIGHT STICK X AXIS  secondaryJoystick.getX(Hand.kRight)
     //RIGHT STICK Y AXIS  secondaryJoystick.getY(Hand.kRight)
 
+
     // primary controls
       // drive subsystem
-      driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, () -> primaryJoystick.getY(Hand.kLeft),
+      
+      driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, () -> deaden(primaryJoystick.getY(Hand.kLeft)),
       () -> primaryJoystick.getX(Hand.kRight)));    
       primaryAButton.whenPressed(new ShiftLowGearCommand(driveTrainSubsystem));
       primaryYButton.whenPressed(new ShiftHighGearCommand(driveTrainSubsystem));
@@ -183,8 +191,8 @@ public class RobotContainer {
 
     // secondary controls
       // intake 
-      intakeSubsystem.setDefaultCommand(new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight)));
-      conveyorSubsystem.setDefaultCommand(new ConveyorCommand(conveyorSubsystem, ()-> secondaryJoystick.getY(Hand.kRight)));
+      intakeSubsystem.setDefaultCommand(new StartIntakeCommand(intakeSubsystem, () -> deaden(secondaryJoystick.getY(Hand.kRight))));
+      conveyorSubsystem.setDefaultCommand(new ConveyorCommand(conveyorSubsystem, ()-> deaden(secondaryJoystick.getY(Hand.kRight))));
       secondaryDPadN.whenPressed(new RaiseIntakeArmCommand(intakeSubsystem));
       secondaryDPadS.whenPressed(new LowerIntakeArmCommand(intakeSubsystem));    
       // secondaryYButton.whenHeld(new IndexToBlasterCommand(intakeSubsystem));  
@@ -192,7 +200,7 @@ public class RobotContainer {
       secondaryRB.whenHeld(new IndexToBlasterCommand(intakeSubsystem));  
       
       // turret 
-      turretSubsystem.setDefaultCommand(new ManualTurretCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
+      turretSubsystem.setDefaultCommand(new ManualTurretCommand(turretSubsystem, ()->deaden(secondaryJoystick.getTriggerAxis(Hand.kLeft)), ()->deaden(secondaryJoystick.getTriggerAxis(Hand.kRight))));
       // secondaryRB.whileHeld(new TurnToTargetCommand(turretSubsystem), false);
       //turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
       
@@ -205,8 +213,8 @@ public class RobotContainer {
       //blasterSubsystem.setDefaultCommand(new BlasterPercentOutput(blasterSubsystem, () -> primaryJoystick.getTriggerAxis(Hand.kRight)));
     
       // hang 
-      hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft)));
-      gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> secondaryJoystick.getX(Hand.kLeft)));
+      hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> deaden(secondaryJoystick.getY(Hand.kLeft))));
+      gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> deaden(secondaryJoystick.getX(Hand.kLeft))));
       secondaryAButton.whenHeld(new WinchCommand(hangSubsystem), false);
       //raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
       //gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
