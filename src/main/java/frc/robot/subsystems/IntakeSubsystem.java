@@ -31,6 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
     armRaiseLower = new DoubleSolenoid(Constants.RAISE_POWER_CELL_INTAKE_SOL_PORT, Constants.LOWER_POWER_CELL_INTAKE_SOL_PORT); // raise = kforward lower = kreverse
     IntakeMotor = new WPI_VictorSPX(Constants.INTAKE_MOTOR_PORT);
     FeedToBlasterMotor = new WPI_VictorSPX(Constants.FEED_TO_BLASTER_MOTOR_PORT);
+    FeedToBlasterMotor.setInverted(true);
   }
 
   public void intake(double speed) {

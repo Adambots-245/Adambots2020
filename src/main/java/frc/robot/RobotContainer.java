@@ -9,57 +9,22 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Gamepad.DPad_JoystickButton;
-import frc.robot.Gamepad.GamepadConstants;
-import frc.robot.commands.AlignColorCommand;
-import frc.robot.commands.BlasterConstantOutputCommand;
-import frc.robot.commands.BlasterPercentOutput;
-import frc.robot.commands.BackboardToggleCommand;
-import frc.robot.commands.ConveyorCommand;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.DriveForwardDistanceCommand;
-import frc.robot.commands.DriveForwardGyroDistanceCommand;
-import frc.robot.commands.GyroDriveForDistCommand;
-import frc.robot.commands.IndexToBlasterCommand;
-import frc.robot.commands.WinchCommand;
-import frc.robot.commands.LowerIntakeArmCommand;
-import frc.robot.commands.ManualTurretCommand;
-import frc.robot.commands.GondolaCommand;
-import frc.robot.commands.MeasureDistanceCommand;
-import frc.robot.commands.PanelMotor;
-import frc.robot.commands.RaiseIntakeArmCommand;
-import frc.robot.commands.ReverseIndexToBlasterCommand;
-import frc.robot.commands.RotatePanelCommand;
-import frc.robot.commands.SetLowSpeedCommand;
-import frc.robot.commands.SetNormalSpeedCommand;
-import frc.robot.commands.RaiseElevatorCommand;
-import frc.robot.commands.ShiftHighGearCommand;
-import frc.robot.commands.ShiftLowGearCommand;
-import frc.robot.subsystems.HangSubsystem;
-import frc.robot.subsystems.GyroSubsystem;
-import frc.robot.commands.StopIntakeOuttakeCommand;
-import frc.robot.commands.TestCommand;
-import frc.robot.commands.TurnToTargetCommand;
-import frc.robot.commands.TurretManualCommand;
-import frc.robot.commands.StartOuttakeCommand;
-import frc.robot.commands.StartIntakeCommand;
-import frc.robot.subsystems.BlasterSubsystem;
-import frc.robot.subsystems.ControlPanelSubsystem;
-import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.GondolaSubsystem;
-import frc.robot.subsystems.GyroPIDSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LidarSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import frc.robot.Gamepad.DPad_JoystickButton;
+import frc.robot.Gamepad.GamepadConstants;
+
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -75,33 +40,33 @@ public class RobotContainer {
   // private final ExampleCommand m_autoCommand = new
   // ExampleCommand(m_exampleSubsystem);
 
-  // controllers
+  // initialize controllers
   private final XboxController primaryJoystick = new XboxController(GamepadConstants.PRIMARY_DRIVER);
   private final XboxController secondaryJoystick = new XboxController(GamepadConstants.SECONDARY_DRIVER);
 
   // subsystems
   private GyroSubsystem gyroSubsystem = GyroSubsystem.getInstance();
-  private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem(gyroSubsystem);
-  private final HangSubsystem hangSubsystem = new HangSubsystem();
+  private final BlasterSubsystem blasterSubsystem = new BlasterSubsystem();
+  private final ControlPanelSubsystem panelSubsystem = new ControlPanelSubsystem();
   private final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
+  private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem(gyroSubsystem);
+  private final GondolaSubsystem gondolaSubsystem = new GondolaSubsystem();
+  private final HangSubsystem hangSubsystem = new HangSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private LidarSubsystem lidarSubsystem = null;
   private TurretSubsystem turretSubsystem = null;
-  private final GondolaSubsystem gondolaSubsystem = new GondolaSubsystem();
-  private final ControlPanelSubsystem panelSubsystem = new ControlPanelSubsystem();
-  private final BlasterSubsystem blasterSubsystem = new BlasterSubsystem();
   
   // commands
+  private BackboardToggleCommand backboardToggleCommand;
+  private ConveyorCommand conveyorCommand;
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
+  private GondolaCommand gondolaCommand;
   private GyroDriveForDistCommand autonGyroDriveForwardDistanceCommand;
+  private RaiseElevatorCommand raiseElevatorCommand;
   private SequentialCommandGroup autonDriveForwardGyroDistanceCommand;
   private WinchCommand winchCommand;
-  private RaiseElevatorCommand raiseElevatorCommand;
-  private GondolaCommand gondolaCommand;
-  private ConveyorCommand conveyorCommand;
-  private BackboardToggleCommand backboardToggleCommand;
   
-  
+  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -117,6 +82,10 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     driveTrainSubsystem.resetEncoders();
+
+    // configure the dashboard
+    dash();
+
 
     //auton commands
     autonDriveForwardDistanceCommand = new DriveForwardDistanceCommand(driveTrainSubsystem,
@@ -149,6 +118,7 @@ public class RobotContainer {
     final JoystickButton primaryRB = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_RB);
     final JoystickButton primaryLeftStickButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_LEFT_STICK);
     final JoystickButton primaryRightStickButton = new JoystickButton(primaryJoystick, GamepadConstants.BUTTON_RIGHT_STICK);
+    
     //primary DPad
     final DPad_JoystickButton primaryDPadN = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_N_ANGLE);
     final DPad_JoystickButton primaryDPadNW = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_NW_ANGLE);
@@ -158,6 +128,7 @@ public class RobotContainer {
     final DPad_JoystickButton primaryDPadSE = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_SE_ANGLE);
     final DPad_JoystickButton primaryDPadE = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_E_ANGLE);
     final DPad_JoystickButton primaryDPadNE = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_NE_ANGLE);
+    
     //primary axes
     //RIGHT TRIGGER       primaryJoystick.getTriggerAxis(Hand.kRight)
     //LEFT TRIGGER        primaryJoystick.getTriggerAxis(Hand.kLeft)
@@ -175,9 +146,10 @@ public class RobotContainer {
     final JoystickButton secondaryAButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_A);
     final JoystickButton secondaryLB = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_LB);
     final JoystickButton secondaryRB = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_RB);  
-    //secondary DPad  
     final JoystickButton secondaryLeftStickButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_LEFT_STICK);
     final JoystickButton secondaryRightStickButton = new JoystickButton(secondaryJoystick, GamepadConstants.BUTTON_RIGHT_STICK);
+    
+    //secondary DPad
     final DPad_JoystickButton secondaryDPadN = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_N_ANGLE);
     final DPad_JoystickButton secondaryDPadNW = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_NW_ANGLE);
     final DPad_JoystickButton secondaryDPadW = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_W_ANGLE);
@@ -186,6 +158,7 @@ public class RobotContainer {
     final DPad_JoystickButton secondaryDPadSE = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_SE_ANGLE);
     final DPad_JoystickButton secondaryDPadE = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_E_ANGLE);
     final DPad_JoystickButton secondaryDPadNE = new DPad_JoystickButton(secondaryJoystick, GamepadConstants.DPAD_NE_ANGLE);
+    
     //secondary axes    
     //RIGHT TRIGGER       secondaryJoystick.getTriggerAxis(Hand.kRight)
     //LEFT TRIGGER        secondaryJoystick.getTriggerAxis(Hand.kLeft)
@@ -194,66 +167,77 @@ public class RobotContainer {
     //RIGHT STICK X AXIS  secondaryJoystick.getX(Hand.kRight)
     //RIGHT STICK Y AXIS  secondaryJoystick.getY(Hand.kRight)
 
-    driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, () -> primaryJoystick.getY(Hand.kLeft),
-    () -> primaryJoystick.getX(Hand.kRight)));
+    // primary controls
+      // drive subsystem
+      driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem, () -> primaryJoystick.getY(Hand.kLeft),
+      () -> primaryJoystick.getX(Hand.kRight)));    
+      primaryAButton.whenPressed(new ShiftLowGearCommand(driveTrainSubsystem));
+      primaryYButton.whenPressed(new ShiftHighGearCommand(driveTrainSubsystem));
+      primaryLB.whenPressed(new SetLowSpeedCommand(driveTrainSubsystem));
+      primaryRB.whenPressed(new SetNormalSpeedCommand(driveTrainSubsystem));
 
-    hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft)));
-    gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> secondaryJoystick.getX(Hand.kLeft)));
-    intakeSubsystem.setDefaultCommand(new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight)));
-    //turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
-    turretSubsystem.setDefaultCommand(new ManualTurretCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
-    conveyorSubsystem.setDefaultCommand(new ConveyorCommand(conveyorSubsystem, ()-> secondaryJoystick.getY(Hand.kRight)));
-    // blasterSubsystem.setDefaultCommand(new BlasterPercentOutput(blasterSubsystem, () -> primaryJoystick.getTriggerAxis(Hand.kRight)));
-    // BlasterSubsystem.setDefaultCommand(new *command*() );
-    SmartDashboard.putData(new BlasterConstantOutputCommand(blasterSubsystem));
-    secondaryLB.whenHeld(new BlasterConstantOutputCommand(blasterSubsystem));
-    secondaryRB.whileHeld(new TurnToTargetCommand(turretSubsystem), false);
+      //control panel
+      primaryXButton.whenPressed(new RotatePanelCommand(panelSubsystem), false);
+      primaryBButton.whenPressed(new AlignColorCommand(panelSubsystem), false);
+      secondaryXButton.whenHeld(new PanelMotor(panelSubsystem)); //CHANGE THIS TO PRIMARY SOMEHOW
 
-    // intake subsystem
-    secondaryDPadN.whenPressed(new RaiseIntakeArmCommand(intakeSubsystem));
-    secondaryDPadS.whenPressed(new LowerIntakeArmCommand(intakeSubsystem));    
-    secondaryYButton.whenHeld(new IndexToBlasterCommand(intakeSubsystem));
-    secondaryBButton.whenHeld(new ReverseIndexToBlasterCommand(intakeSubsystem));
-    SmartDashboard.putData(new IndexToBlasterCommand(intakeSubsystem));
-
-    //secondaryYButton.whenPressed(new BackboardToggleCommand(BlasterSubsystem));
+    // secondary controls
+      // intake 
+      intakeSubsystem.setDefaultCommand(new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight)));
+      conveyorSubsystem.setDefaultCommand(new ConveyorCommand(conveyorSubsystem, ()-> secondaryJoystick.getY(Hand.kRight)));
+      secondaryDPadN.whenPressed(new RaiseIntakeArmCommand(intakeSubsystem));
+      secondaryDPadS.whenPressed(new LowerIntakeArmCommand(intakeSubsystem));    
+      // secondaryYButton.whenHeld(new IndexToBlasterCommand(intakeSubsystem));  
+      secondaryBButton.whenHeld(new ReverseIndexToBlasterCommand(intakeSubsystem));
+      secondaryRB.whenHeld(new IndexToBlasterCommand(intakeSubsystem));  
+      
+      // turret 
+      turretSubsystem.setDefaultCommand(new ManualTurretCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
+      // secondaryRB.whileHeld(new TurnToTargetCommand(turretSubsystem), false);
+      //turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
+      
+      // lidar susbsystem
+        // primaryXButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
+      
+      // blaster  
+      secondaryLB.whenHeld(new BlasterConstantOutputCommand(blasterSubsystem));
+      // secondaryYButton.whenPressed(new BackboardToggleCommand(blasterSubsystem));
+      //blasterSubsystem.setDefaultCommand(new BlasterPercentOutput(blasterSubsystem, () -> primaryJoystick.getTriggerAxis(Hand.kRight)));
     
-    // startIntakeCommand.addRequirements(elevatorSubsystem, conveyorSubsystem, alignmentBeltSubsystem);
-    // StartIntakeCommand startIntakeCommand = new StartIntakeCommand(intakeSubsystem, () -> secondaryJoystick.getY(Hand.kRight));
-    // primaryYButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
-    // primaryAButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
-    // //primaryAButton.whileHeld(new TestCo  mmand());
-    // primaryYButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
+      // hang 
+      hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft)));
+      gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> secondaryJoystick.getX(Hand.kLeft)));
+      secondaryAButton.whenHeld(new WinchCommand(hangSubsystem), false);
+      //raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
+      //gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
+      
+    // dashboard control buttons  
+      SmartDashboard.putData(new BlasterConstantOutputCommand(blasterSubsystem));
+      SmartDashboard.putData(new IndexToBlasterCommand(intakeSubsystem));
 
-    // Turret subsystem
-    //TurretManualCommand turretManualCommand = new TurretManualCommand(turretSubsystem,
-    //    () -> secondaryJoystick.getTriggerAxis(Hand.kLeft), () -> secondaryJoystick.getTriggerAxis(Hand.kRight));
-    //secondaryLB.whenHeld(new TurnToTargetCommand(turretSubsystem));
+    // mode switching 
+      // startIntakeCommand.addRequirements(elevatorSubsystem, conveyorSubsystem, alignmentBeltSubsystem);
+      //secondaryBackButton.whenPressed(startIntakeCommand);
+      secondaryStartButton.whenPressed(new StopIntakeOuttakeCommand(intakeSubsystem));
 
-    // drive subsystem
-    primaryAButton.whenPressed(new ShiftLowGearCommand(driveTrainSubsystem));
-    primaryYButton.whenPressed(new ShiftHighGearCommand(driveTrainSubsystem));
-    primaryLB.whenPressed(new SetLowSpeedCommand(driveTrainSubsystem));
-    primaryRB.whenPressed(new SetNormalSpeedCommand(driveTrainSubsystem));
+    // test stuff 
+      // primaryYButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
+      // primaryAButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
+      // //primaryAButton.whileHeld(new TestCo  mmand());
+      // primaryYButton.whenReleased(new StopIntakeOuttakeCommand(intakeSubsystem));
 
-    //hang subsystem
-    secondaryAButton.whenHeld(new WinchCommand(hangSubsystem), false);
-    //raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
-    //gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
-    
-    //control panel
-    primaryXButton.whenPressed(new RotatePanelCommand(panelSubsystem), false);
-    primaryBButton.whenPressed(new AlignColorCommand(panelSubsystem), false);
-    secondaryXButton.whenHeld(new PanelMotor(panelSubsystem));
+      // Turret subsystem
+      //TurretManualCommand turretManualCommand = new TurretManualCommand(turretSubsystem,
+      //    () -> secondaryJoystick.getTriggerAxis(Hand.kLeft), () -> secondaryJoystick.getTriggerAxis(Hand.kRight));
+      //secondaryLB.whenHeld(new TurnToTargetCommand(turretSubsystem));
 
-    // lidar susbsystem
-    // primaryXButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
-
-    //MODE SHIFTING
-    //secondaryBackButton.whenPressed(startIntakeCommand);
-    secondaryStartButton.whenPressed(new StopIntakeOuttakeCommand(intakeSubsystem));
   }
 
+  private void dash(){
+    autoChooser.setDefaultOption("None", null);
+    autoChooser.addOption("Snag N' Yeet", null);
+    SmartDashboard.putData("Auton Mode", autoChooser);
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -261,6 +245,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // autonDriveForwardDistanceCommand will run in autonomous
-    return autonDriveForwardGyroDistanceCommand;
+    // return autonDriveForwardGyroDistanceCommand;
+    return autoChooser.getSelected();
   }
 }
