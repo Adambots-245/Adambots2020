@@ -61,6 +61,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
     BackRightMotor.setInverted(false);
     FrontRightMotor.setInverted(false);
 
+    FrontLeftMotor.configClosedloopRamp(Constants.SEC_NEUTRAL_TO_FULL);
+    FrontRightMotor.configClosedloopRamp(Constants.SEC_NEUTRAL_TO_FULL);
+
     drive = new DifferentialDrive(FrontLeftMotor, FrontRightMotor);
   }
 

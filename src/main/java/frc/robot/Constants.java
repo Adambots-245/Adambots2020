@@ -113,6 +113,9 @@ public final class Constants {
     // PID slots
     public static final int DRIVE_PID_SLOT = 0;
 
+    // Acceleration ramping constant for drive train
+    public static final double SEC_NEUTRAL_TO_FULL = 0.4;
+
     // Vision Constants
     public static final int CAM_NUMBER = 0;
     public static final int CAM_EXPOSURE = 5;
