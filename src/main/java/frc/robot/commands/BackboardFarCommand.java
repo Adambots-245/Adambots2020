@@ -7,17 +7,18 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.BlasterSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.BlasterSubsystem;
 
-public class BackboardToggleCommand extends CommandBase {
+public class BackboardFarCommand extends CommandBase {
   /**
    * Creates a new BackboardFarCommand.
    */
-  
+
   private final BlasterSubsystem blasterSubsystem;
-  public BackboardToggleCommand(BlasterSubsystem blasterSubsystem) {
+
+  public BackboardFarCommand(BlasterSubsystem blasterSubsystem) {
     this.blasterSubsystem = blasterSubsystem;
     addRequirements(blasterSubsystem);
   }
@@ -30,14 +31,8 @@ public class BackboardToggleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (blasterSubsystem.getBackboardPosition()) {
-      blasterSubsystem.setBackboard(false);
-      SmartDashboard.putString("Backboard set to ", "near yeeting.");
-    } else {
-      blasterSubsystem.setBackboard(true);
-      SmartDashboard.putString("Backboard set to ", "far yeeting.");
-    }
-    System.out.println("backboard has been toggled");
+    blasterSubsystem.setBackboard(true);
+    SmartDashboard.putString("Backboard set to ", "far yeeting.");
   }
 
   // Called once the command ends or is interrupted.

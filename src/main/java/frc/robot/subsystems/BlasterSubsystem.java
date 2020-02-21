@@ -42,19 +42,18 @@ public class BlasterSubsystem extends SubsystemBase {
      * if backboard solenoid is false, the hood is lowered
      * and the ball has a more vertical trajectory (near shooting).
      */
-    public void toggleBackboard() {
-        if (Backboard.get()) {
-            Backboard.set(false);
-            SmartDashboard.putString("Backboard set to ", "near yeeting.");
-        } else { 
-            Backboard.set(true);
-            SmartDashboard.putString("Backboard set to ", "far yeeting.");
-        }
+    public boolean getBackboardPosition(){
+        return Backboard.get();
     }
+    
+	public void setBackboard(boolean isBackboardFarPosition) {
+        Backboard.set(isBackboardFarPosition);
+	}
 
     public void periodic() {
         // This method will be called once per scheduler run
 
     }
+
 
 }
