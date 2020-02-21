@@ -36,6 +36,8 @@ public final class Constants {
 
     public static final int CLIMBING_1_MOTOR_PORT = 15;
     public static final int CLIMBING_2_MOTOR_PORT = 16;
+    public static final int CLIMBING_RAISE_ELEVATOR_MOTOR_PORT = 23;
+    public static final int CLIMBING_GONDOLA_ADJUSTMENT_MOTOR_PORT = 24;
 
     public static final int INTAKE_MOTOR_PORT = 18;
     public static final int INFEED_CONVEYOR_MOTOR_PORT = 19;
@@ -43,8 +45,6 @@ public final class Constants {
     public static final int FEED_TO_BLASTER_MOTOR_PORT = 21;
 
     public static final int TURRET_MOTOR_PORT = 22;
-    public static final int CLIMBING_RAISE_ELEVATOR_MOTOR_PORT = 23;
-    public static final int CLIMBING_GONDOLA_ADJUSTMENT_MOTOR_PORT = 24;
 
     // TODO: Add accurate PANEL_MOTOR_PORTs (ports of motors that spin control
     // panel)
@@ -153,6 +153,9 @@ public final class Constants {
     public static final double AUTON_FORWARD_BALL_PICKUP_DISTANCE = 7500 + 644;
     public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
     public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
+    //the following are approximate and in feet
+	public static final double SNAG_N_YEET_DISTANCE_TO_TRENCH = 8.888889;
+	public static final double SNAG_N_YEET_DISTANCE_ACROSS_FIELD = 17.77778;
 	public static final double BLASTER_KF = .054;
 	public static final double BLASTER_KP = 1.1367;
 	public static final double BLASTER_KI = 0;
