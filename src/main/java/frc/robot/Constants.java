@@ -141,6 +141,12 @@ public final class Constants {
     public static final double TURRET_TARGET_ANGLE = 0;
     public static final double TURRET_SPEED = 0.5;
 
+    // blaster PID constants
+    public static final double BLASTER_KF = .054;
+	public static final double BLASTER_KP = 1.1367;
+	public static final double BLASTER_KI = 0;
+	public static final double BLASTER_KD = 45.4667;
+	
     //gyro PID constants
 	public static final double GYRO_kP = 0.3;
 	public static final double GYRO_kI = 0;
@@ -156,10 +162,9 @@ public final class Constants {
     //the following are approximate and in feet
 	public static final double SNAG_N_YEET_DISTANCE_TO_TRENCH = 8.888889;
 	public static final double SNAG_N_YEET_DISTANCE_ACROSS_FIELD = 17.77778;
-	public static final double BLASTER_KF = .054;
-	public static final double BLASTER_KP = 1.1367;
-	public static final double BLASTER_KI = 0;
-	public static final double BLASTER_KD = 45.4667;
+	public static final double AUTON_PUSH_ROBOT_SPEED = .5;
+	public static final double YEET3PUSHNOM3_DIAG_DISTANCE_TO_TRENCH = 00000;
+	public static final double YEET3PUSHNOM3_3_BALL_STRAIGHT_DISTANCE = 00000;
     
 
 }
