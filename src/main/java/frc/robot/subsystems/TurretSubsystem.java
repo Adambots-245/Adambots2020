@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
@@ -19,7 +20,11 @@ import frc.robot.Constants;
 
 public class TurretSubsystem extends PIDSubsystem {
 
-  private final VictorSPX turretMotor = new VictorSPX(Constants.TURRET_MOTOR_PORT);
+  private final VictorSPX turretMotor = new VictorSPX(Constants.TURRET_MOTOR_PORT); 
+  private DigitalInput turretAdvanced = new DigitalInput(Constants.TURRET_ADVANCED_DIO);
+  private DigitalInput turretReturned = new DigitalInput(Constants.TURRET_RETURNED_DIO);
+  
+  
   private NetworkTable table;
   private double angleOffset = 0;
   //private final SimpleMotorFeedforward m_shooterFeedforward =
@@ -45,10 +50,25 @@ public class TurretSubsystem extends PIDSubsystem {
     System.out.println("Current Angle in Output: " + table.getEntry("Angle").getDouble(0));
 
     Double measurement = getMeasurement();
-    double calculatedOutput = getController().calculate(measurement, setpoint);
+    double calculatedOutput = -getController().calculate(measurement, setpoint);
     System.out.println("Calculated Output: " + calculatedOutput);
 
-    turretMotor.set(ControlMode.PercentOutput, -calculatedOutput);
+    if (turretAdvanced.get()) {
+      if (calculatedOutput > 0)
+        turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+      else
+        turretMotor.set(ControlMode.PercentOutput, calculatedOutput);
+      
+    } else if (turretReturned.get()) {
+      if (calculatedOutput < 0)
+        turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+      else
+        turretMotor.set(ControlMode.PercentOutput, calculatedOutput);
+
+    } else {
+      turretMotor.set(ControlMode.PercentOutput, calculatedOutput);
+    }
+
   }
 
   @Override
