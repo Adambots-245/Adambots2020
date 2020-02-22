@@ -65,7 +65,7 @@ public final class Constants {
 
 	
     // sensor IDs
-    public static final int LIDAR_DIO = 0;
+    public static final int LIDAR_DIO = 5;
 
     // speed values
     public static final int INTAKE_SPEED = 1;
@@ -79,11 +79,12 @@ public final class Constants {
     public static final double CONVEYOR_INDEXER_SPEED = 0.5;
     public static final double FEED_TO_BLASTER_SPEED = 0.5;
 
-    // control panel constants
-    public final static int MIN_ROTATIONS = 3;
-    public final static int MAX_ROTATIONS = 5;
+    // control panel constants - count 2 times for each rotation
+    public final static int MIN_ROTATIONS = 7; // = 3.5 rotations
+    public final static int MAX_ROTATIONS = 10;
     // TODO: Add accurate panel motor speeds (motors that spin control panel)
-    public static final double PANEL_MOTOR_SPEED = 0.5;
+    public static final double PANEL_MOTOR_SPEED_ROTATION = 0.65;
+    public static final double PANEL_MOTOR_SPEED_ALIGNMENT = 0.25;
 
     public final static I2C.Port I2C_PORT = I2C.Port.kOnboard;
 
@@ -104,7 +105,7 @@ public final class Constants {
 
     // Note: The direction that the color wheel itself turns will be the opposite of
     // the below direction
-    public final static String DIRECTION = "Clockwise";
+    public final static String DIRECTION = "Counterclockwise";
 
     // The distance between our color sensor and the game's color sensor in number
     // of color slices away
@@ -133,11 +134,11 @@ public final class Constants {
     public static final Scalar BLUE = new Scalar(255, 0, 0);
 
     // turret PID constants
-    public static double TURRET_kP = 0.5;
+    public static double TURRET_kP = 0.0325;
     public static double TURRET_kI = 0;
-    public static double TURRET_kD = 0;
+    public static double TURRET_kD = 40;
 
-    public static int TURRET_TOLERANCE = 1;
+    public static double TURRET_TOLERANCE = 0.25;
     public static final double TURRET_TARGET_ANGLE = 0;
     public static final double TURRET_SPEED = 0.5;
 
@@ -148,10 +149,10 @@ public final class Constants {
 	public static final double BLASTER_KD = 45.4667;
 	
     //gyro PID constants
-	public static final double GYRO_kP = 0.3;
+	public static final double GYRO_kP = 0.1240;
 	public static final double GYRO_kI = 0;
-	public static final double GYRO_kD = 0;
-	public static final double GYRO_TOLERANCE = 0;
+	public static final double GYRO_kD = 0.0572;
+	public static final double GYRO_TOLERANCE = 0.5;
     public static final float GYRO_TARGET_ANGLE = 0;
     
     //auton constants

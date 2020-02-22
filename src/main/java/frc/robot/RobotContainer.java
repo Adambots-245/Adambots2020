@@ -62,6 +62,7 @@ public class RobotContainer {
   private BackboardToggleCommand backboardToggleCommand;
   private ConveyorCommand conveyorCommand;
   private DriveForwardDistanceCommand autonDriveForwardDistanceCommand;
+  private TurnToAngleCommand autonTurn90DegreeCommand;
   private GondolaCommand gondolaCommand;
   private GyroDriveForDistCommand autonGyroDriveForwardDistanceCommand;
   private RaiseElevatorCommand raiseElevatorCommand;
@@ -76,6 +77,12 @@ public class RobotContainer {
   public RobotContainer() {
 
     if (Robot.isReal()) {
+
+      // For tuning only
+      SmartDashboard.putNumber("kP", Constants.GYRO_kP);
+      SmartDashboard.putNumber("kI", Constants.GYRO_kI);
+      SmartDashboard.putNumber("kD", Constants.GYRO_kD);
+      
       lidarSubsystem = new LidarSubsystem();
       // gyroSubsystem = new GyroSubsystem();
       turretSubsystem = new TurretSubsystem();
@@ -98,7 +105,7 @@ public class RobotContainer {
         double autonSpeed = .75;
     autonDriveForwardGyroDistanceCommand = new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_PUSH_ROBOT_DISTANCE, autonSpeed*.5, 0, true).andThen(new WaitCommand(1)).andThen(new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_FORWARD_BALL_PICKUP_DISTANCE, -autonSpeed, 0, false));
     
-
+    autonTurn90DegreeCommand = new TurnToAngleCommand(driveTrainSubsystem, autonSpeed*0.5, 90, true);
   }
 
   /**
@@ -185,8 +192,8 @@ public class RobotContainer {
       primaryRB.whenPressed(new SetNormalSpeedCommand(driveTrainSubsystem));
 
       //control panel
-      primaryXButton.whenPressed(new RotatePanelCommand(panelSubsystem), false);
-      primaryBButton.whenPressed(new AlignColorCommand(panelSubsystem), false);
+      primaryXButton.whenPressed(new RotatePanelCommand(panelSubsystem));
+      primaryBButton.whenPressed(new AlignColorCommand(panelSubsystem));
       secondaryXButton.whenHeld(new PanelMotor(panelSubsystem)); //CHANGE THIS TO PRIMARY SOMEHOW
 
     // secondary controls
@@ -201,26 +208,28 @@ public class RobotContainer {
       
       // turret 
       turretSubsystem.setDefaultCommand(new ManualTurretCommand(turretSubsystem, ()->deaden(secondaryJoystick.getTriggerAxis(Hand.kLeft)), ()->deaden(secondaryJoystick.getTriggerAxis(Hand.kRight))));
-      // secondaryRB.whileHeld(new TurnToTargetCommand(turretSubsystem), false);
+     
+      secondaryAButton.whileHeld(new TurnToTargetCommand(turretSubsystem), false);
       //turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
       
       // lidar susbsystem
         // primaryXButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
       
       // blaster  
-      secondaryLB.whenHeld(new BlasterConstantOutputCommand(blasterSubsystem));
-      // secondaryYButton.whenPressed(new BackboardToggleCommand(blasterSubsystem));
+      // secondaryLB.toggleWhenPressed(new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem));
+      secondaryLB.toggleWhenPressed(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem));
+      secondaryYButton.whenReleased(new BackboardToggleCommand(blasterSubsystem));
       //blasterSubsystem.setDefaultCommand(new BlasterPercentOutput(blasterSubsystem, () -> primaryJoystick.getTriggerAxis(Hand.kRight)));
     
       // hang 
       hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> deaden(secondaryJoystick.getY(Hand.kLeft))));
       gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> deaden(secondaryJoystick.getX(Hand.kLeft))));
-      secondaryAButton.whenHeld(new WinchCommand(hangSubsystem), false);
+      //secondaryAButton.whenHeld(new WinchCommand(hangSubsystem), false);
       //raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
       //gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
       
     // dashboard control buttons  
-      SmartDashboard.putData(new BlasterConstantOutputCommand(blasterSubsystem));
+      SmartDashboard.putData(new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem));
       SmartDashboard.putData(new IndexToBlasterCommand(intakeSubsystem));
 
     // mode switching 
@@ -244,7 +253,16 @@ public class RobotContainer {
   private void dash(){
     autoChooser.setDefaultOption("None", null);
     autoChooser.addOption("Snag N' Yeet", null);
+    autoChooser.addOption("90Degrees", autonTurn90DegreeCommand);
     SmartDashboard.putData("Auton Mode", autoChooser);
+
+    if (lidarSubsystem == null)
+      lidarSubsystem = new LidarSubsystem();
+
+    SmartDashboard.putNumber("Distance", lidarSubsystem.getInches());
+
+    gyroSubsystem.reset();
+    SmartDashboard.putNumber("Yaw", gyroSubsystem.getYaw());
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -254,6 +272,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // autonDriveForwardDistanceCommand will run in autonomous
     // return autonDriveForwardGyroDistanceCommand;
-    return autoChooser.getSelected();
+    return autonTurn90DegreeCommand;
+    // return autoChooser.getSelected();
   }
 }

@@ -90,13 +90,14 @@ public class VisionProcessorSubsystem extends SubsystemBase {
                 }
                 
             }
-
-            if (frameCount == 6) {
+            
+            if (frameCount == 1) {
                 processedOutputStream.putFrame(mat);
                 frameCount = 0;
             }
 
             frameCount++;
+            
 
         }
 

@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -51,8 +52,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     FrontRightMotor = new WPI_TalonFX(Constants.FR_TALON);
     FrontLeftMotor = new WPI_TalonFX(Constants.FL_TALON);
+
     BackLeftMotor = new WPI_TalonFX(Constants.BL_TALON);
     BackRightMotor = new WPI_TalonFX(Constants.BR_TALON);
+
     BackLeftMotor.follow(FrontLeftMotor);
     BackRightMotor.follow(FrontRightMotor);
 
@@ -61,8 +64,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     BackRightMotor.setInverted(false);
     FrontRightMotor.setInverted(false);
 
-    FrontLeftMotor.configClosedloopRamp(Constants.SEC_NEUTRAL_TO_FULL);
-    FrontRightMotor.configClosedloopRamp(Constants.SEC_NEUTRAL_TO_FULL);
+    FrontLeftMotor.configOpenloopRamp(Constants.SEC_NEUTRAL_TO_FULL);
+    FrontRightMotor.configOpenloopRamp(Constants.SEC_NEUTRAL_TO_FULL);
 
     drive = new DifferentialDrive(FrontLeftMotor, FrontRightMotor);
   }
@@ -114,6 +117,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // FrontLeftMotor.setExpiration(.5);
     // FrontRightMotor.setExpiration(.5);
     // System.out.println(FrontLeftMotor.getExpiration());
+    SmartDashboard.putNumber("Yaw", gyroSubsystem.getYaw());
+
     drive.arcadeDrive(straightSpeed, turnSpeed * speedModifier);
   }
 

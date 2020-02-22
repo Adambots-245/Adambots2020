@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -15,12 +16,18 @@ public class LidarSubsystem extends SubsystemBase {
 	public LidarSubsystem () {
 		//super();
 
+		System.out.println("Initializing Lidar");
+
 		DigitalInput source = new DigitalInput(Constants.LIDAR_DIO);
+		System.out.println("Source: " + source);
 		counter = new Counter(source);
+
 	    counter.setMaxPeriod(1.0);
 	    // Configure for measuring rising to falling pulses
 	    counter.setSemiPeriodMode(true);
 	    counter.reset();
+		System.out.println("Counter: " + counter);
+
 	}
 
 	/**
@@ -30,9 +37,15 @@ public class LidarSubsystem extends SubsystemBase {
 	 */
 	public double getDistance() {
 		double cm;
-		while (counter.get() < 1) {
-			System.out.println("Lidar: waiting for distance measurement");
-		}
+
+		SmartDashboard.putNumber("Period", counter.getPeriod());
+
+		// if (counter.get() < 1)
+			// return 0;
+
+		// while (counter.get() < 1) {
+		// 	System.out.println("Lidar: waiting for distance measurement");
+		// }
 		/* getPeriod returns time in seconds. The hardware resolution is microseconds.
 		 * The LIDAR-Lite unit sends a high signal for 10 microseconds per cm of distance.
 		 */

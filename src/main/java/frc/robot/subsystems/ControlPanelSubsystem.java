@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 //Motor dependencies:
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 public class ControlPanelSubsystem extends SubsystemBase {
   /**
@@ -60,13 +61,13 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
         
 
-    Color detectedColor = Constants.M_COLOR_SENSOR.getColor();
+    final Color detectedColor = Constants.M_COLOR_SENSOR.getColor();
 
     /**
      * Run the color match algorithm on our detected color
      */
     String colorString;
-    ColorMatchResult match = Constants.M_COLOR_MATCHER.matchClosestColor(detectedColor);
+    final ColorMatchResult match = Constants.M_COLOR_MATCHER.matchClosestColor(detectedColor);
 
     if (match.color == Constants.BLUE_TARGET) {
       colorString = "Blue";
@@ -105,11 +106,11 @@ public String getDirection() {
 
 //Predicts the next color our sensor will detect given our current color and the direction we are spinning
 public String mapNextColor(String color) {
-    String currentColor = color;
-    String currentDirection = getDirection();
+    final String currentColor = color;
+    final String currentDirection = getDirection();
     String nextColor;
 
-    int index = Arrays.asList(Constants.COLOR_ORDER).indexOf(currentColor);
+    final int index = Arrays.asList(Constants.COLOR_ORDER).indexOf(currentColor);
     int newIndex;
 
     if (currentDirection.equals("Clockwise")) {
@@ -145,8 +146,8 @@ public double getProximity() {
 }
 
 //Starts spinning
-public void startMotor() {
-    panelMotor.set(ControlMode.PercentOutput, Constants.PANEL_MOTOR_SPEED);
+public void startMotor(Modes mode) {
+    panelMotor.set(ControlMode.PercentOutput, mode == Modes.Rotations? Constants.PANEL_MOTOR_SPEED_ROTATION : Constants.PANEL_MOTOR_SPEED_ALIGNMENT);
 }
 
 //Stops spinning
@@ -160,23 +161,27 @@ private int rotationalColorCount;
 private boolean offStartingColor = false;
 
 //For the first phase of the control panel: rotating the wheel 3-5 times
-public void startRotations() {
+public void startRotations(Modes mode) {
     //We can use the color our sensor is detecting as opposed to the game's sensor, it will still work:
     rotationalStartingColor = getColor();
     rotationalColorCount = 0;
     offStartingColor = false;
+    rotationsFinished = false;
 
+    SmartDashboard.putBoolean("Start Rotations", true);
     //start rotating control wheel motor
-    startMotor();
+    startMotor(mode);
 }
 
 //This method returns the number of rotations of the color wheel
 public int getRotations() {
-    return rotationalColorCount / 2;
+    return rotationalColorCount;
 }
 
 //This method monitors the rotations of the wheel and stops rotating once 3 rotations are complete
 public void monitorRotations() {
+
+    SmartDashboard.putNumber("Rotational Color Count", rotationalColorCount);
 
     if (rotationalStartingColor.equals(getColor()) && offStartingColor) {
         rotationalColorCount++;
@@ -190,14 +195,16 @@ public void monitorRotations() {
         //stop rotating
         rotationsFinished = true;
         stopMotor();
+        SmartDashboard.putBoolean("Start Rotations", false);
+
     }
 }
 
-public boolean isFinished(String event) {
-    if (event.equals("rotations")) {
+public boolean isFinished(Modes event) {
+    if (event == Modes.Rotations) {
         return rotationsFinished;
     }
-    else if(event.equals("aligner")) {
+    else if(event == Modes.Alignment) {
         return alignerFinished;
     }
     else {
@@ -233,12 +240,14 @@ public String getFmsColor() {
 private String targetColor;
 
 /* For the second/final phase of control panel: aligning the game's sensor to a specific color on the panel */
-public void startAligner() {
+public void startAligner(Modes mode) {
     targetColor = getFmsColor();
+    alignerFinished = false;
 
-
+    SmartDashboard.putString("FMS Color", targetColor);
+    SmartDashboard.putBoolean("Start Alignment", true);
     //Start rotating
-    startMotor();
+    startMotor(mode);
 }
 
 //Gets the distance, in color slices, between our sensor and the game sensor
@@ -272,6 +281,10 @@ public void monitorAligner() {
 
     if (isTarget) {
         stopMotor();
+        alignerFinished = true;
+
+        SmartDashboard.putBoolean("Start Alignment", false);
+
     }
     
 }
@@ -301,5 +314,10 @@ public void putDashAligner() {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public static enum Modes{
+    Rotations,
+    Alignment
   }
 }

@@ -24,7 +24,7 @@ public class PanelMotor extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    controlPanelSubsystem.startMotor();
+    controlPanelSubsystem.startMotor(ControlPanelSubsystem.Modes.Rotations);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

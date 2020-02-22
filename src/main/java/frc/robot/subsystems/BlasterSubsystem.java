@@ -34,6 +34,8 @@ public class BlasterSubsystem extends SubsystemBase {
 
     }
     public int getVelocity(){
+
+        SmartDashboard.putNumber("Current", BlasterMotor.getSupplyCurrent());
         return BlasterMotor.getSelectedSensorVelocity();
     }
 
