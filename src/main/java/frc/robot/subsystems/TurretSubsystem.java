@@ -21,8 +21,8 @@ import frc.robot.Constants;
 public class TurretSubsystem extends PIDSubsystem {
 
   private final VictorSPX turretMotor = new VictorSPX(Constants.TURRET_MOTOR_PORT); 
-  private DigitalInput turretAdvanced = new DigitalInput(Constants.TURRET_ADVANCED_DIO);
-  private DigitalInput turretReturned = new DigitalInput(Constants.TURRET_RETURNED_DIO);
+  private DigitalInput leftLimitSwitch = new DigitalInput(Constants.TURRET_LEFT_DIO);
+  private DigitalInput rightLimitSwitch = new DigitalInput(Constants.TURRET_RIGHT_DIO);
   
   
   private NetworkTable table;
@@ -52,23 +52,8 @@ public class TurretSubsystem extends PIDSubsystem {
     Double measurement = getMeasurement();
     double calculatedOutput = -getController().calculate(measurement, setpoint);
     System.out.println("Calculated Output: " + calculatedOutput);
-
-    if (turretAdvanced.get()) {
-      if (calculatedOutput > 0)
-        turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
-      else
-        turretMotor.set(ControlMode.PercentOutput, calculatedOutput);
-      
-    } else if (turretReturned.get()) {
-      if (calculatedOutput < 0)
-        turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
-      else
-        turretMotor.set(ControlMode.PercentOutput, calculatedOutput);
-
-    } else {
-      turretMotor.set(ControlMode.PercentOutput, calculatedOutput);
-    }
-
+    
+    setSpeed(-calculatedOutput);  
   }
 
   @Override
@@ -83,11 +68,11 @@ public class TurretSubsystem extends PIDSubsystem {
   }
 
   public void runTurret(double speed) {
-    turretMotor.set(ControlMode.PercentOutput, speed);
+    setSpeed(speed);
   }
 
   public void stopTurret() {
-    turretMotor.set(ControlMode.PercentOutput, 0);
+    setSpeed(Constants.STOP_MOTOR_SPEED);
   }
 
   public double getOffset() {
@@ -100,7 +85,21 @@ public class TurretSubsystem extends PIDSubsystem {
   }
 
   public void setSpeed(double speed){
-    turretMotor.set(ControlMode.PercentOutput, speed);
+    if (leftLimitSwitch.get()) {
+      if (speed < 0)
+        turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+      else
+        turretMotor.set(ControlMode.PercentOutput, speed);
+      
+    } else if (rightLimitSwitch.get()) {
+      if (speed > 0)
+        turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+      else
+        turretMotor.set(ControlMode.PercentOutput, speed);
+
+    } else {
+      turretMotor.set(ControlMode.PercentOutput, speed);
+    }
   }
 
   @Override
