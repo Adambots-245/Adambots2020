@@ -23,11 +23,11 @@ import frc.robot.subsystems.TurretSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class Yeet3PushNom3 extends SequentialCommandGroup {
+public class Yeet3Nom3 extends SequentialCommandGroup {
   /**
    * Creates a new Yeet3PushNom3.
    */
-  public Yeet3PushNom3(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, ConveyorSubsystem conveyorSubsystem) {
+  public Yeet3Nom3(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, ConveyorSubsystem conveyorSubsystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     super(
@@ -41,9 +41,6 @@ public class Yeet3PushNom3 extends SequentialCommandGroup {
         new ConveyorCommand(conveyorSubsystem, ()->1.0)
       ),
 
-      // PUSH OTHER ROBOT OFF LINE (PHASE 2)
-      new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_PUSH_ROBOT_DISTANCE, Constants.AUTON_PUSH_ROBOT_SPEED, 0, false),
-     
       // DRIVE TO OTHER BALLS (diagonally)
       new LowerIntakeArmCommand(intakeSubsystem),
       new ParallelDeadlineGroup( // deadline because it should move on after it has reached the position
