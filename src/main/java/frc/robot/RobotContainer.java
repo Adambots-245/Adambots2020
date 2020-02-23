@@ -259,8 +259,6 @@ public class RobotContainer {
     if (lidarSubsystem == null)
       lidarSubsystem = new LidarSubsystem();
 
-    SmartDashboard.putNumber("Distance", lidarSubsystem.getInches());
-
     gyroSubsystem.reset();
     SmartDashboard.putNumber("Yaw", gyroSubsystem.getYaw());
   }

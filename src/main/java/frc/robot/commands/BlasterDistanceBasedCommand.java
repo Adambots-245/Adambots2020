@@ -33,6 +33,7 @@ public class BlasterDistanceBasedCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    SmartDashboard.putNumber("fps", 59);
 
     blasterSubsystem.setVelocity(10343);
   }
@@ -40,12 +41,15 @@ public class BlasterDistanceBasedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double distanceInFeet = lidarSubsystem.getInches() / 12;
+    // double distanceInFeet = lidarSubsystem.getInches() / 12;
+    double distanceInFeet = 182/12;
 
     double feetsPerSec = (-0.0047360 * Math.pow(distanceInFeet, 3)) + (0.3441226 * Math.pow(distanceInFeet, 2))
         - (8.135303 * distanceInFeet) + 93.69801;
 
-    feetsPerSec = feetsPerSec * 1.5;
+    feetsPerSec = feetsPerSec * 1.75;
+
+    feetsPerSec = SmartDashboard.getNumber("fps", 0);
 
     double inchesInFeet = 12;
     double secondsInMinute = 60;

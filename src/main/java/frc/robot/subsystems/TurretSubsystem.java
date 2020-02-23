@@ -38,7 +38,7 @@ public class TurretSubsystem extends PIDSubsystem {
   public TurretSubsystem() {
     super(new PIDController(Constants.TURRET_kP, Constants.TURRET_kI, Constants.TURRET_kD));
     getController().setTolerance(Constants.TURRET_TOLERANCE);
-    setSetpoint(Constants.TURRET_TARGET_ANGLE);
+    setSetpoint(Constants.TURRET_TARGET_ANGLE+angleOffset);
 
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     table = instance.getTable("Vision");
@@ -86,26 +86,21 @@ public class TurretSubsystem extends PIDSubsystem {
   }
 
   public void setSpeed(double speed){
-    if (leftLimitSwitch.get()) {
-      if (speed < 0)
-        turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
-      else
-        turretMotor.set(ControlMode.PercentOutput, speed);
+    // if (leftLimitSwitch.get()) {
+    //   if (speed < 0)
+    //     turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+    //   else
+    //     turretMotor.set(ControlMode.PercentOutput, speed);
       
-    } else if (rightLimitSwitch.get()) {
-      if (speed > 0)
-        turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
-      else
-        turretMotor.set(ControlMode.PercentOutput, speed);
+    // } else if (rightLimitSwitch.get()) {
+    //   if (speed > 0)
+    //     turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+    //   else
+    //     turretMotor.set(ControlMode.PercentOutput, speed);
 
-    } else {
+    // } else {
       turretMotor.set(ControlMode.PercentOutput, speed);
-    }
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+    // }
   }
 
 }
