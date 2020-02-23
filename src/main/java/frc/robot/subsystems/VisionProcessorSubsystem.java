@@ -128,10 +128,10 @@ public class VisionProcessorSubsystem extends SubsystemBase {
             Imgproc.approxPolyDP(convexContourSet, reducedConvexContours, Constants.TARGET_APPROXIMATION_ACCURACY * perimeter, true);
 
             // if too many or too few vertices, remove
-            if (reducedContours.rows() < Constants.TARGET_VERTICES + Constants.TARGET_VERTICES_MOE ||
-                reducedContours.rows() > Constants.TARGET_VERTICES - Constants.TARGET_VERTICES_MOE ||
-                reducedConvexContours.rows() < Constants.CONVEX_TARGET_VERTICES + Constants.TARGET_VERTICES_MOE ||
-                reducedConvexContours.rows() > Constants.CONVEX_TARGET_VERTICES - Constants.TARGET_VERTICES_MOE) {
+            if (reducedContours.rows() > Constants.TARGET_VERTICES + Constants.TARGET_VERTICES_MOE ||
+                reducedContours.rows() < Constants.TARGET_VERTICES - Constants.TARGET_VERTICES_MOE ||
+                reducedConvexContours.rows() > Constants.CONVEX_TARGET_VERTICES + Constants.TARGET_VERTICES_MOE ||
+                reducedConvexContours.rows() < Constants.CONVEX_TARGET_VERTICES - Constants.TARGET_VERTICES_MOE) {
                 contours.remove(i);
                 convexContours.remove(i);
                 i--;
