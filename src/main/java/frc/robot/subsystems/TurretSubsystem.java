@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,24 +21,21 @@ import frc.robot.Constants;
 
 public class TurretSubsystem extends PIDSubsystem {
 
-  private final VictorSPX turretMotor = new VictorSPX(Constants.TURRET_MOTOR_PORT);
+  private final VictorSPX turretMotor = new VictorSPX(Constants.TURRET_MOTOR_PORT); 
+  private DigitalInput leftLimitSwitch = new DigitalInput(Constants.TURRET_LEFT_DIO);
+  private DigitalInput rightLimitSwitch = new DigitalInput(Constants.TURRET_RIGHT_DIO);
+  
+  
   private NetworkTable table;
   private double angleOffset = 0;
   //private final SimpleMotorFeedforward m_shooterFeedforward =
   //    new SimpleMotorFeedforward(ShooterConstants.kSVolts,
   //                               ShooterConstants.kVVoltSecondsPerRotation);
-  
-  //Tuning values
-  static double kP = SmartDashboard.getNumber("kP", 0.03);
-  static double kI = SmartDashboard.getNumber("kI", 0);
-  static double kD = SmartDashboard.getNumber("kD", 30);
-  
+
   /**
    * The shooter subsystem for the robot.
    */
   public TurretSubsystem() {
-    // super(new PIDController(kP, kI, kD));
-
     super(new PIDController(Constants.TURRET_kP, Constants.TURRET_kI, Constants.TURRET_kD));
     getController().setTolerance(Constants.TURRET_TOLERANCE);
     setSetpoint(Constants.TURRET_TARGET_ANGLE);
@@ -49,24 +47,14 @@ public class TurretSubsystem extends PIDSubsystem {
 
   @Override
   public void useOutput(double output, double setpoint) {
-    // kP = SmartDashboard.getNumber("kP", 0.03);
-    // kI = SmartDashboard.getNumber("kI", 0);
-    // kD = SmartDashboard.getNumber("kD", 30);
-  
-    
-    // System.out.println("Output: " + output);
-    // getController().setP(kP);
-    // getController().setI(kI);
-    // getController().setD(kD);
-
-    // System.out.println("kP: " + kP + " kD: " + kD);
-    // System.out.println("Current Angle in Output: " + table.getEntry("Angle").getDouble(0));
+    System.out.println("Output: " + output);
+    System.out.println("Current Angle in Output: " + table.getEntry("Angle").getDouble(0));
 
     Double measurement = getMeasurement();
     double calculatedOutput = getController().calculate(measurement, setpoint);
     // System.out.println("Calculated Output: " + calculatedOutput);
-
-    turretMotor.set(ControlMode.PercentOutput, -calculatedOutput);
+    
+    setSpeed(-calculatedOutput);  
   }
 
   @Override
@@ -81,11 +69,11 @@ public class TurretSubsystem extends PIDSubsystem {
   }
 
   public void runTurret(double speed) {
-    turretMotor.set(ControlMode.PercentOutput, speed);
+    setSpeed(speed);
   }
 
   public void stopTurret() {
-    turretMotor.set(ControlMode.PercentOutput, 0);
+    setSpeed(Constants.STOP_MOTOR_SPEED);
   }
 
   public double getOffset() {
@@ -98,9 +86,26 @@ public class TurretSubsystem extends PIDSubsystem {
   }
 
   public void setSpeed(double speed){
-    turretMotor.set(ControlMode.PercentOutput, speed);
+    if (leftLimitSwitch.get()) {
+      if (speed < 0)
+        turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+      else
+        turretMotor.set(ControlMode.PercentOutput, speed);
+      
+    } else if (rightLimitSwitch.get()) {
+      if (speed > 0)
+        turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+      else
+        turretMotor.set(ControlMode.PercentOutput, speed);
+
+    } else {
+      turretMotor.set(ControlMode.PercentOutput, speed);
+    }
   }
 
-  
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
 
 }

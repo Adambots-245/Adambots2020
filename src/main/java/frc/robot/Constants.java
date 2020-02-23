@@ -67,6 +67,10 @@ public final class Constants {
     // sensor IDs
     public static final int LIDAR_DIO = 5;
 
+    public static final int TURRET_LEFT_DIO = 3;
+    public static final int TURRET_RIGHT_DIO = 4;
+
+
     // speed values
     public static final int INTAKE_SPEED = 1;
     public static final int OUTTAKE_SPEED = -1;
