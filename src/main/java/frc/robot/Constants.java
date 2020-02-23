@@ -112,6 +112,11 @@ public final class Constants {
     public static final Scalar GREEN = new Scalar(0, 255, 0);
     public static final Scalar BLUE = new Scalar(255, 0, 0);
     
+    // targeting constants
+    public static double TARGET_APPROXIMATION_ACCURACY = 0.0075;
+    public static int TARGET_VERTICES = 8;
+    public static int CONVEX_TARGET_VERTICES = 4;
+    public static int TARGET_VERTICES_MOE = 1;
 
     // turret PID constants
     public static int TURRET_MOTOR_PORT = 22;

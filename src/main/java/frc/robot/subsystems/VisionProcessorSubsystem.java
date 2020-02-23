@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -35,9 +36,6 @@ public class VisionProcessorSubsystem extends SubsystemBase {
         camera = CameraServer.getInstance().startAutomaticCapture(Constants.CAM_NUMBER);
         camera.setExposureManual(Constants.CAM_EXPOSURE);
         processedOutputStream = CameraServer.getInstance().putVideo("Output", Constants.IMG_WIDTH, Constants.IMG_HEIGHT);
-        processedOutputStream.setVideoMode(PixelFormat.kGray, Constants.IMG_WIDTH, Constants.IMG_HEIGHT, Constants.DRIVER_STATION_FPS);
-        processedOutputStream.setFPS(Constants.DRIVER_STATION_FPS);
-        processedOutputStream.setPixelFormat(PixelFormat.kGray);
 
         cvSink = CameraServer.getInstance().getVideo();
         grip = new GripPipeline();
@@ -85,7 +83,7 @@ public class VisionProcessorSubsystem extends SubsystemBase {
                 
             }
 
-            if (frameCount == 6) {
+            if (frameCount == (Constants.PROCESSING_FPS / Constants.DRIVER_STATION_FPS)) {
                 processedOutputStream.putFrame(mat);
                 frameCount = 0;
             }
@@ -98,6 +96,8 @@ public class VisionProcessorSubsystem extends SubsystemBase {
 
     public RotatedRect[] findBoundingBoxes() {
         ArrayList<MatOfPoint> contours = grip.filterContoursOutput();
+        ArrayList<MatOfPoint> convexContours = grip.convexHullsOutput();
+        contours = filterContoursByVertices(contours, convexContours);
         System.out.println(contours.size());
         RotatedRect[] rects = new RotatedRect[contours.size()];
         for (int i = 0; i < contours.size(); i++)
@@ -105,6 +105,41 @@ public class VisionProcessorSubsystem extends SubsystemBase {
 
         return rects;
 
+    }
+
+    public ArrayList<MatOfPoint> filterContoursByVertices(ArrayList<MatOfPoint> contours, ArrayList<MatOfPoint> convexContours) {
+        MatOfPoint2f contourSet, convexContourSet, reducedContours, reducedConvexContours;
+        double perimeter, convexPerimeter;
+
+        for (int i = 0; i < contours.size(); i++) {
+            // work with contourSet and convexContourSet instead so proper data type is used
+            contourSet = new MatOfPoint2f(contours.get(i).toArray());
+            convexContourSet = new MatOfPoint2f(convexContours.get(i).toArray());
+
+            // gets perimeter of target
+            perimeter = Imgproc.arcLength(contourSet, true);
+            convexPerimeter = Imgproc.arcLength(convexContourSet, true);
+
+            reducedContours = new MatOfPoint2f();
+            reducedConvexContours = new MatOfPoint2f();
+
+            // puts reduced contours into reducedContours and reducedConvexContours
+            Imgproc.approxPolyDP(contourSet, reducedContours, Constants.TARGET_APPROXIMATION_ACCURACY * perimeter, true);
+            Imgproc.approxPolyDP(convexContourSet, reducedConvexContours, Constants.TARGET_APPROXIMATION_ACCURACY * perimeter, true);
+
+            // if too many or too few vertices, remove
+            if (reducedContours.rows() < Constants.TARGET_VERTICES + Constants.TARGET_VERTICES_MOE ||
+                reducedContours.rows() > Constants.TARGET_VERTICES - Constants.TARGET_VERTICES_MOE ||
+                reducedConvexContours.rows() < Constants.CONVEX_TARGET_VERTICES + Constants.TARGET_VERTICES_MOE ||
+                reducedConvexContours.rows() > Constants.CONVEX_TARGET_VERTICES - Constants.TARGET_VERTICES_MOE) {
+                contours.remove(i);
+                convexContours.remove(i);
+                i--;
+
+            }
+        }
+
+        return contours;
     }
 
     public RotatedRect findLargestRect(RotatedRect[] rects) {
