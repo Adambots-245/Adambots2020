@@ -138,11 +138,15 @@ public final class Constants {
     public static final Scalar BLUE = new Scalar(255, 0, 0);
 
     // turret PID constants
-    public static double TURRET_kP = 0.0325;
+    // public static double TURRET_kP = 0.0325;
+    public static double TURRET_kP = 0.04;
+    // public static double TURRET_kI = 0.01;
     public static double TURRET_kI = 0;
-    public static double TURRET_kD = 40;
+    // public static double TURRET_kD = 40;
+    // public static double TURRET_kD = 35; //second value
+    public static double TURRET_kD = 0; //6.8
 
-    public static double TURRET_TOLERANCE = 0.25;
+    public static double TURRET_TOLERANCE = 0.25; //0.25;
     public static final double TURRET_TARGET_ANGLE = 0;
     public static final double TURRET_SPEED = 0.5;
 
@@ -159,8 +163,10 @@ public final class Constants {
 	public static final double GYRO_TOLERANCE = 0.5;
     public static final float GYRO_TARGET_ANGLE = 0;
     
-    //auton constants
-	public static final double AUTON_PUSH_ROBOT_DISTANCE = 644;
+    //auton constants    
+    public static final double ENCODER_TICKS_PER_INCH = 3500;
+
+	public static final double AUTON_PUSH_ROBOT_DISTANCE = 4*ENCODER_TICKS_PER_INCH;
     public static final double AUTON_FORWARD_BALL_PICKUP_DISTANCE = 7500 + 644;
     public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
     public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
@@ -169,11 +175,13 @@ public final class Constants {
 	public static final double SNAG_N_YEET_DISTANCE_ACROSS_FIELD = 17.77778;
     public static final double AUTON_PUSH_ROBOT_SPEED = .5;
     
-	public static final double YEET3PUSHNOM3_DIAG_DISTANCE_TO_TRENCH = 00000;
-	public static final double YEET3PUSHNOM3_3_BALL_STRAIGHT_DISTANCE = 00000;
+    
+	public static final double YEET3PUSHNOM3_DIAG_DISTANCE_TO_TRENCH = 60*ENCODER_TICKS_PER_INCH;
+	public static final double YEET3PUSHNOM3_3_BALL_STRAIGHT_DISTANCE = 36*ENCODER_TICKS_PER_INCH;
 	public static final double AUTON_2_BALL_STRAIGHT_DISTANCE = 0;
 	public static final double AUTON_1_BALL_STRAIGHT_DISTANCE = 0;
-	public static final double AUTON_2_BALL_RP_STRAIGHT_DISTANCE = 0;
+    public static final double AUTON_2_BALL_RP_STRAIGHT_DISTANCE = 0;
+    
     
 
 }

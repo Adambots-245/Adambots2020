@@ -58,7 +58,7 @@ public class TurnToAngleCommand extends CommandBase {
   @Override
   public void execute() {
     double turnSpeed = gyroPIDSubsystem.getController().calculate(gyroPIDSubsystem.getMeasurement(), targetAngle);
-    System.out.println("executing DFGDC");
+    System.out.println("executing turn to angle");
     SmartDashboard.putNumber("yaw", gyroSubsystem.getYaw());
     // SmartDashboard.putNumber("yaw",gyroPIDSubsystem.getGyroSubsystem().getYaw());
     SmartDashboard.putNumber("gyroPIDSubsystem.getMeasurement()", gyroPIDSubsystem.getMeasurement());
@@ -75,7 +75,7 @@ public class TurnToAngleCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     if (interrupted) {
-      System.out.println("DFGDC interrupted");
+      System.out.println("turn to angle interrupted");
     }
   }
 

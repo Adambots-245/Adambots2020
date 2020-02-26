@@ -24,6 +24,10 @@ import frc.robot.Gamepad.GamepadConstants;
 
 import frc.robot.commands.*;
 import frc.robot.commands.autonCommands.*;
+import frc.robot.commands.autonCommands.autonCommandGroups.PushNom2Yeet5;
+import frc.robot.commands.autonCommands.autonCommandGroups.SnagNYeetCommandGroup;
+import frc.robot.commands.autonCommands.autonCommandGroups.Yeet3Nom3;
+import frc.robot.commands.autonCommands.autonCommandGroups.Yeet3PushNom3;
 import frc.robot.subsystems.*;
 
 
@@ -105,7 +109,7 @@ public class RobotContainer {
         double autonSpeed = .75;
     autonDriveForwardGyroDistanceCommand = new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_PUSH_ROBOT_DISTANCE, autonSpeed*.5, 0, true).andThen(new WaitCommand(1)).andThen(new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_FORWARD_BALL_PICKUP_DISTANCE, -autonSpeed, 0, false));
     
-    autonTurn90DegreeCommand = new TurnToAngleCommand(driveTrainSubsystem, autonSpeed*0.5, 90, true);
+    autonTurn90DegreeCommand = new TurnToAngleCommand(driveTrainSubsystem, autonSpeed*0.5, 45, true);
   }
 
   /**
@@ -251,9 +255,13 @@ public class RobotContainer {
   }
 
   private void dash(){
-    autoChooser.setDefaultOption("None", null);
-    autoChooser.addOption("Snag N' Yeet", null);
+    // autoChooser.setDefaultOption("None", null);
+    // autoChooser.addOption("Snag N' Yeet", new SnagNYeetCommandGroup(driveTrainSubsystem, intakeSubsystem, turretSubsystem));
+    autoChooser.setDefaultOption("Yeet3PushNom3", new Yeet3PushNom3(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
+    // autoChooser.addOption("Yeet3Nom3", new Yeet3Nom3(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
+    // autoChooser.addOption("PushNom2Yeet5", new PushNom2Yeet5(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
     autoChooser.addOption("90Degrees", autonTurn90DegreeCommand);
+    // autoChooser.addOption("0 to 45 to 0", new );
     SmartDashboard.putData("Auton Mode", autoChooser);
 
     if (lidarSubsystem == null)
@@ -270,7 +278,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // autonDriveForwardDistanceCommand will run in autonomous
     // return autonDriveForwardGyroDistanceCommand;
-    return autonTurn90DegreeCommand;
-    // return autoChooser.getSelected();
+    
+    // return autonTurn90DegreeCommand.andThen(new WaitCommand(3)).andThen(new TurnToAngleCommand(driveTrainSubsystem, 0.5, -45, false));
+    System.out.println(autoChooser.getSelected());
+    return autoChooser.getSelected();
   }
 }

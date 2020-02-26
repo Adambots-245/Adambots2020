@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Constants;
 
 public class TurretSubsystem extends PIDSubsystem {
@@ -27,7 +28,8 @@ public class TurretSubsystem extends PIDSubsystem {
   
   
   private NetworkTable table;
-  private double angleOffset = 0;
+  private double angleOffset = 5;
+  private StringBuilder results = new StringBuilder();
   //private final SimpleMotorFeedforward m_shooterFeedforward =
   //    new SimpleMotorFeedforward(ShooterConstants.kSVolts,
   //                               ShooterConstants.kVVoltSecondsPerRotation);
@@ -38,7 +40,9 @@ public class TurretSubsystem extends PIDSubsystem {
   public TurretSubsystem() {
     super(new PIDController(Constants.TURRET_kP, Constants.TURRET_kI, Constants.TURRET_kD));
     getController().setTolerance(Constants.TURRET_TOLERANCE);
-    setSetpoint(Constants.TURRET_TARGET_ANGLE+angleOffset);
+    setSetpoint(Constants.TURRET_TARGET_ANGLE + angleOffset);
+    // getController().setIntegratorRange(-0.05, 0.05);
+    
 
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     table = instance.getTable("Vision");
@@ -52,9 +56,16 @@ public class TurretSubsystem extends PIDSubsystem {
 
     Double measurement = getMeasurement();
     double calculatedOutput = getController().calculate(measurement, setpoint);
+    SmartDashboard.putNumber("Calculated Output", calculatedOutput);
+
     // System.out.println("Calculated Output: " + calculatedOutput);
-    
+    double clampAbs = MathUtil.clamp(Math.abs(calculatedOutput), 0.1, 1.0);
+    clampAbs = Math.signum(calculatedOutput) * clampAbs;
+
+    SmartDashboard.putNumber("Turret Output", clampAbs);
+    // SmartDashboard.putNumber("Turret Output", calculatedOutput);
     setSpeed(-calculatedOutput);  
+    // setSpeed(-clampAbs);  
   }
 
   @Override

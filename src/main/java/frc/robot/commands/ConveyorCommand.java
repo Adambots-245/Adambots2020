@@ -42,6 +42,8 @@ public class ConveyorCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    conveyorSubsystem.runConveyor(0);
+    System.out.println("conveyor end");
     
   }
 

@@ -18,6 +18,7 @@ public class BlasterDistanceBasedCommand extends CommandBase {
    */
   BlasterSubsystem blasterSubsystem;
   private LidarSubsystem lidarSubsystem;
+  private double initialDistance = 0;
 
   public BlasterDistanceBasedCommand(BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem) {
     this.blasterSubsystem = blasterSubsystem;
@@ -41,15 +42,17 @@ public class BlasterDistanceBasedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // double distanceInFeet = lidarSubsystem.getInches() / 12;
-    double distanceInFeet = 182/12;
+    initialDistance = lidarSubsystem.getInches();
 
-    double feetsPerSec = (-0.0047360 * Math.pow(distanceInFeet, 3)) + (0.3441226 * Math.pow(distanceInFeet, 2))
-        - (8.135303 * distanceInFeet) + 93.69801;
+    double distanceInFeet =  initialDistance / 12;
+    // double distanceInFeet = 182/12;
 
-    feetsPerSec = feetsPerSec * 1.75;
+    // double feetsPerSec = (-0.0047360 * Math.pow(distanceInFeet, 3)) + (0.3441226 * Math.pow(distanceInFeet, 2))
+      // - (8.135303 * distanceInFeet) + 93.69801;
+    double feetsPerSec = (0.02142857 * Math.pow(distanceInFeet, 2)) + (0.732857 * distanceInFeet) + 58.50;
+    // feetsPerSec = feetsPerSec * 1.75;
 
-    feetsPerSec = SmartDashboard.getNumber("fps", 0);
+    // feetsPerSec = SmartDashboard.getNumber("fps", 0);
 
     double inchesInFeet = 12;
     double secondsInMinute = 60;
@@ -73,6 +76,7 @@ public class BlasterDistanceBasedCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("blaster distance end");
     blasterSubsystem.output(0);
   }
 

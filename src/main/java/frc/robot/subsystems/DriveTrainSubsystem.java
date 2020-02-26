@@ -78,10 +78,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // BackRightMotor.getSensorCollection().setQuadraturePosition(0, 0);
   }
 
+  // public double getRightDriveEncoderValue(){
+  //   FrontRightMotor.getSelectedSensorPosition()
+  // }
   public double getAverageDriveEncoderValue() {
-    double averageEncoderPos = Math
-        .abs((FrontLeftMotor.getSelectedSensorPosition() + FrontRightMotor.getSelectedSensorPosition()) / 2);
-    System.out.println(averageEncoderPos);
+    double averageEncoderPos = (Math
+        .abs(FrontLeftMotor.getSelectedSensorPosition()) + Math.abs(FrontRightMotor.getSelectedSensorPosition()) / 2);
+    // System.out.println(averageEncoderPos);
     return averageEncoderPos;
   }
 

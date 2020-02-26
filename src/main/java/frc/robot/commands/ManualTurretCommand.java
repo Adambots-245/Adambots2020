@@ -41,6 +41,8 @@ public class ManualTurretCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    turretSubsystem.setSpeed(0);
+    System.out.println("manual turret command ended");
   }
 
   // Returns true when the command should end.
