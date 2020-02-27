@@ -69,6 +69,9 @@ public final class Constants {
 
     public static final int TURRET_LEFT_DIO = 3;
     public static final int TURRET_RIGHT_DIO = 4;
+    
+	public static final int ELEVATOR_LIMIT_SWITCH_1_PORT = 0;
+	public static final int ELEVATOR_LIMIT_SWITCH_2_PORT = 0;
 
 
     // speed values
@@ -173,7 +176,10 @@ public final class Constants {
 	public static final double YEET3PUSHNOM3_3_BALL_STRAIGHT_DISTANCE = 00000;
 	public static final double AUTON_2_BALL_STRAIGHT_DISTANCE = 0;
 	public static final double AUTON_1_BALL_STRAIGHT_DISTANCE = 0;
-	public static final double AUTON_2_BALL_RP_STRAIGHT_DISTANCE = 0;
+    public static final double AUTON_2_BALL_RP_STRAIGHT_DISTANCE = 0;
+    
+	public static final double AUTON_DRIVE_OFF_LINE_SPEED = 0;
+	public static final double AUTON_DRIVE_OFF_LINE_DISTANCE = 0;
     
 
 }
