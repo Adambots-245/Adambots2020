@@ -97,13 +97,13 @@ public class TurretSubsystem extends PIDSubsystem {
   }
 
   public void setSpeed(double speed){
-    // if (leftLimitSwitch.get()) {
+    // if (!leftLimitSwitch.get()) {
     //   if (speed < 0)
     //     turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
     //   else
     //     turretMotor.set(ControlMode.PercentOutput, speed);
       
-    // } else if (rightLimitSwitch.get()) {
+    // } else if (!rightLimitSwitch.get()) {
     //   if (speed > 0)
     //     turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
     //   else

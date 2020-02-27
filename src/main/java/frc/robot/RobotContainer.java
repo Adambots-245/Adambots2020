@@ -198,7 +198,7 @@ public class RobotContainer {
       //control panel
       primaryXButton.whenPressed(new RotatePanelCommand(panelSubsystem));
       primaryBButton.whenPressed(new AlignColorCommand(panelSubsystem));
-      secondaryXButton.whenHeld(new PanelMotor(panelSubsystem)); //CHANGE THIS TO PRIMARY SOMEHOW
+      // secondaryXButton.whenHeld(new PanelMotor(panelSubsystem)); //CHANGE THIS TO PRIMARY SOMEHOW
 
     // secondary controls
       // intake 
@@ -213,8 +213,8 @@ public class RobotContainer {
       // turret 
       turretSubsystem.setDefaultCommand(new ManualTurretCommand(turretSubsystem, ()->deaden(secondaryJoystick.getTriggerAxis(Hand.kLeft)), ()->deaden(secondaryJoystick.getTriggerAxis(Hand.kRight))));
      
-      secondaryAButton.whileHeld(new TurnToTargetCommand(turretSubsystem), false);
-      //turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
+      secondaryXButton.whileHeld(new TurnToTargetCommand(turretSubsystem), false);
+      // turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
       
       // lidar susbsystem
         // primaryXButton.whenPressed(new MeasureDistanceCommand(lidarSubsystem));
@@ -223,12 +223,12 @@ public class RobotContainer {
       // secondaryLB.toggleWhenPressed(new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem));
       secondaryLB.toggleWhenPressed(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem));
       secondaryYButton.whenReleased(new BackboardToggleCommand(blasterSubsystem));
-      //blasterSubsystem.setDefaultCommand(new BlasterPercentOutput(blasterSubsystem, () -> primaryJoystick.getTriggerAxis(Hand.kRight)));
+      // blasterSubsystem.setDefaultCommand(new BlasterPercentOutput(blasterSubsystem, () -> primaryJoystick.getTriggerAxis(Hand.kRight)));
     
       // hang 
       hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> deaden(secondaryJoystick.getY(Hand.kLeft))));
       gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> deaden(secondaryJoystick.getX(Hand.kLeft))));
-      //secondaryAButton.whenHeld(new WinchCommand(hangSubsystem), false);
+      secondaryAButton.whenHeld(new WinchCommand(hangSubsystem), false);
       //raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
       //gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
       

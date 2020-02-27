@@ -32,6 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
     IntakeMotor = new WPI_VictorSPX(Constants.INTAKE_MOTOR_PORT);
     FeedToBlasterMotor = new WPI_VictorSPX(Constants.FEED_TO_BLASTER_MOTOR_PORT);
     FeedToBlasterMotor.setInverted(true);
+    IntakeMotor.setInverted(true);
   }
 
   public void intake(double speed) {

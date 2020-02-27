@@ -25,6 +25,8 @@ public class HangSubsystem extends SubsystemBase {
         hangMotor = new WPI_VictorSPX(Constants.CLIMBING_RAISE_ELEVATOR_MOTOR_PORT);
         winchMotor1 = new WPI_VictorSPX(Constants.CLIMBING_1_MOTOR_PORT);
         winchmotor2 = new WPI_VictorSPX(Constants.CLIMBING_2_MOTOR_PORT);
+
+        winchmotor2.setInverted(true);
     }
 
     public void climb(double speed) {
