@@ -10,6 +10,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.HangSubsystem;
 
 /**
@@ -24,11 +25,13 @@ public class RaiseElevatorCommand extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   private DoubleSupplier elevateSpeed;
+  private JoystickButton overrideButton;
   private final HangSubsystem hangSubsystem;
   
-  public RaiseElevatorCommand(HangSubsystem subsystem, DoubleSupplier elevateSpeed) {
+  public RaiseElevatorCommand(HangSubsystem subsystem, DoubleSupplier elevateSpeed, JoystickButton secondaryStartButton) {
     this.hangSubsystem = subsystem;
     this.elevateSpeed = elevateSpeed;
+    this.overrideButton = secondaryStartButton;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(hangSubsystem);
   }
@@ -41,7 +44,7 @@ public class RaiseElevatorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {  
-    hangSubsystem.climb(elevateSpeed.getAsDouble());
+    hangSubsystem.climb(elevateSpeed.getAsDouble(), overrideButton);
   }
 
   // Called once the command ends or is interrupted.

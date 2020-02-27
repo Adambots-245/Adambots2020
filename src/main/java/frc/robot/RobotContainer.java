@@ -222,7 +222,7 @@ public class RobotContainer {
       //blasterSubsystem.setDefaultCommand(new BlasterPercentOutput(blasterSubsystem, () -> primaryJoystick.getTriggerAxis(Hand.kRight)));
     
       // hang 
-      hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> deaden(secondaryJoystick.getY(Hand.kLeft))));
+      hangSubsystem.setDefaultCommand(new RaiseElevatorCommand(hangSubsystem, () -> deaden(secondaryJoystick.getY(Hand.kLeft)), secondaryStartButton));
       gondolaSubsystem.setDefaultCommand(new GondolaCommand(gondolaSubsystem, () -> deaden(secondaryJoystick.getX(Hand.kLeft))));
       //secondaryAButton.whenHeld(new WinchCommand(hangSubsystem), false);
       //raiseElevatorCommand = new RaiseElevatorCommand(hangSubsystem, () -> secondaryJoystick.getY(Hand.kLeft));    
@@ -235,7 +235,7 @@ public class RobotContainer {
     // mode switching 
       // startIntakeCommand.addRequirements(elevatorSubsystem, conveyorSubsystem, alignmentBeltSubsystem);
       //secondaryBackButton.whenPressed(startIntakeCommand);
-      secondaryStartButton.whenPressed(new StopIntakeOuttakeCommand(intakeSubsystem));
+      // secondaryStartButton.whenPressed(new StopIntakeOuttakeCommand(intakeSubsystem));
 
     // test stuff 
       // primaryYButton.whenPressed(new StartOuttakeCommand(intakeSubsystem));
