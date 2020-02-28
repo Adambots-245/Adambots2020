@@ -45,7 +45,7 @@ public class PushNom2Yeet5 extends SequentialCommandGroup {
 
         // YEET 5 BALLS
         // new BackboardNearCommand(blasterSubsystem),
-        new TurnToTargetCommand(turretSubsystem),
+        new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
         new ParallelDeadlineGroup(
           new WaitCommand(5), 
           new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem),

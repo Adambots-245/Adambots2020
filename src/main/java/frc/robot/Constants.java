@@ -159,8 +159,8 @@ public final class Constants {
 	public static final double BLASTER_KI = 0;
     public static final double BLASTER_KD = 45.4667;
 
-    private static final double KNOWN_LIDAR_DISTANCE_TO_TARGET = 10;
-    private static final double KNOWN_OFFSET_ANGLE = 4.75;
+    private static final double KNOWN_LIDAR_DISTANCE_TO_TARGET = 120;
+    private static final double KNOWN_OFFSET_ANGLE = Math.toRadians(4.75);
     public static final double SHOOTER_OFFSET_DISTANCE = Constants.KNOWN_LIDAR_DISTANCE_TO_TARGET*Math.tan(Constants.KNOWN_OFFSET_ANGLE);
 	
     //gyro PID constants

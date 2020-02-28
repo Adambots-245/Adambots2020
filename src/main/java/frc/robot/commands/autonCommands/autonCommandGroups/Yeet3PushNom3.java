@@ -58,7 +58,8 @@ public class Yeet3PushNom3 extends SequentialCommandGroup {
       //   new TurnToTargetCommand(turretSubsystem)
       // ),
      // new TimedCommand(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem), 2000),
-      new TurnToTargetCommand(turretSubsystem),
+     //new TimedCommand(TurnToTargetCommand(turretSubsystem, lidarSubsystem), 3000),
+     TurnToTargetCommand(turretSubsystem, lidarSubsystem),
       
       // new InstantCommand(()->{turretSubsystem.setSpeed(0);}, turretSubsystem),
       // new ParallelCommandGroup(

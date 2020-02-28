@@ -38,9 +38,10 @@ public class TurnToTargetCommand extends CommandBase {
   @Override
   public void execute() {
     double calculatedOffset;
-    calculatedOffset = Math.atan(Constants.SHOOTER_OFFSET_DISTANCE/lidarSubsystem.getInches());
-    calculatedOffset = Math.toDegrees(calculatedOffset);
-    turretSubsystem.setAngleOffset(calculatedOffset);
+    calculatedOffset = Math.toDegrees(Math.atan(Constants.SHOOTER_OFFSET_DISTANCE/lidarSubsystem.getInches()));
+    // turretSubsystem.setAngleOffset(calculatedOffset);
+    turretSubsystem.setSetpoint(calculatedOffset);
+    SmartDashboard.putNumber("angleOffset", calculatedOffset);
     //turretSystem PID loop should deal with movement
   }
 

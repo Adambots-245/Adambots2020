@@ -33,7 +33,7 @@ public class Yeet3Nom3 extends SequentialCommandGroup {
     super(
       // YEET 3 BALLS (PHASE 1)
       // new BackboardNearCommand(blasterSubsystem),
-      new TurnToTargetCommand(turretSubsystem),
+      new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
       new ParallelDeadlineGroup(
         new WaitCommand(5),
         new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem),

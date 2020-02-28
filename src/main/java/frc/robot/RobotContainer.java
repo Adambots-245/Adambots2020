@@ -26,6 +26,7 @@ import frc.robot.commands.*;
 import frc.robot.commands.autonCommands.*;
 import frc.robot.commands.autonCommands.autonCommandGroups.PushNom2Yeet5;
 import frc.robot.commands.autonCommands.autonCommandGroups.SnagNYeetCommandGroup;
+import frc.robot.commands.autonCommands.autonCommandGroups.Yeet3;
 import frc.robot.commands.autonCommands.autonCommandGroups.Yeet3Nom3;
 import frc.robot.commands.autonCommands.autonCommandGroups.Yeet3PushNom3;
 import frc.robot.subsystems.*;
@@ -258,9 +259,10 @@ public class RobotContainer {
   private void dash(){
     // autoChooser.setDefaultOption("None", null);
     // autoChooser.addOption("Snag N' Yeet", new SnagNYeetCommandGroup(driveTrainSubsystem, intakeSubsystem, turretSubsystem));
-    autoChooser.setDefaultOption("Yeet3PushNom3", new Yeet3PushNom3(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
+    // autoChooser.setDefaultOption("Yeet3PushNom3", new Yeet3PushNom3(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
     // autoChooser.addOption("Yeet3Nom3", new Yeet3Nom3(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
     // autoChooser.addOption("PushNom2Yeet5", new PushNom2Yeet5(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
+    autoChooser.setDefaultOption("yeet3", new Yeet3(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, lidarSubsystem));
     autoChooser.addOption("90Degrees", autonTurn90DegreeCommand);
     // autoChooser.addOption("0 to 45 to 0", new );
     SmartDashboard.putData("Auton Mode", autoChooser);
