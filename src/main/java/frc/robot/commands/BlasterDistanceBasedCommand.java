@@ -71,6 +71,13 @@ public class BlasterDistanceBasedCommand extends CommandBase {
     SmartDashboard.putNumber("Blaster Velocity (RPM)", rpm);
     SmartDashboard.putNumber("Blaster Velocity (Feets Per Sec)", vfps);
     SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
+    // at velocity checker
+    boolean atVelocity = false;
+    double velocityThresh = 3000; // ticks per 100ms
+    if(targetVelocity-velocityThresh <= blasterSubsystem.getVelocity() && blasterSubsystem.getVelocity() <= targetVelocity+velocityThresh){
+      atVelocity = true;
+    }
+    SmartDashboard.putBoolean("atVelocity?", atVelocity);
   }
 
   // Called once the command ends or is interrupted.
