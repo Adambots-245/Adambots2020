@@ -18,10 +18,12 @@ public class BlasterConstantOutputCommand extends CommandBase {
    */
   BlasterSubsystem blasterSubsystem;
   private LidarSubsystem lidarSubsystem;
+  private double velocityInEncoderTicks;
 
-  public BlasterConstantOutputCommand(BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem) {
+  public BlasterConstantOutputCommand(BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, double velocityInEncoderTicks) {
     this.blasterSubsystem = blasterSubsystem;
     this.lidarSubsystem = lidarSubsystem;
+    this.velocityInEncoderTicks = velocityInEncoderTicks;
     
     SmartDashboard.putNumber("Blaster Velocity", blasterSubsystem.getVelocity());
     SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
@@ -33,8 +35,8 @@ public class BlasterConstantOutputCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-    blasterSubsystem.setVelocity(10343);
+    // blasterSubsystem.setVelocity(10343);
+    blasterSubsystem.setVelocity(velocityInEncoderTicks);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

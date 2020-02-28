@@ -213,7 +213,7 @@ public class RobotContainer {
       // turret 
       turretSubsystem.setDefaultCommand(new ManualTurretCommand(turretSubsystem, ()->deaden(secondaryJoystick.getTriggerAxis(Hand.kLeft)), ()->deaden(secondaryJoystick.getTriggerAxis(Hand.kRight))));
      
-      secondaryXButton.whileHeld(new TurnToTargetCommand(turretSubsystem), false);
+      secondaryXButton.whileHeld(new TurnToTargetCommand(turretSubsystem, lidarSubsystem), false);
       // turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
       
       // lidar susbsystem
@@ -233,7 +233,8 @@ public class RobotContainer {
       //gondolaCommand = new GondolaCommand(hangSubsystem, ()->secondaryJoystick.getX(Hand.kLeft));
       
     // dashboard control buttons  
-      SmartDashboard.putData(new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem));
+      SmartDashboard.putData("10 foot blaster velocity", new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem, Constants.AUTON_TARGET_CENTER_LINE_CONSTANT_VELOCITY));
+      SmartDashboard.putData("trench 35 foot blaster velocity", new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem, Constants.TRENCH_SHOOTER_VELOCITY));
       SmartDashboard.putData(new IndexToBlasterCommand(intakeSubsystem));
 
     // mode switching 

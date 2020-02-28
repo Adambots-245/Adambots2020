@@ -30,14 +30,26 @@ public class Yeet3PushNom3 extends SequentialCommandGroup {
    */
   public Yeet3PushNom3(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, ConveyorSubsystem conveyorSubsystem) {
     // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());super();
+    // super(new FooCommand(), new BarCommand());
     super(
       // release control panel arm
-      new ParallelDeadlineGroup(
-        new WaitCommand(3), 
-        new ManualTurretCommand(turretSubsystem, ()->0, ()->1)
-        ),
-        new InstantCommand(()->{turretSubsystem.setSpeed(0);}, turretSubsystem),
+      new WaitCommand(0),
+      new RaiseIntakeArmCommand(intakeSubsystem),
+      new ParallelCommandGroup(
+        new TimedCommand(new ManualTurretCommand(turretSubsystem, ()->0, ()->1), 3000),
+        // new TimedCommand(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem), 3000)
+        new TimedCommand(new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem, Constants.AUTON_TARGET_CENTER_LINE_CONSTANT_VELOCITY), 3000)
+      ),
+      
+      
+      // new ParallelDeadlineGroup(
+      //   new WaitCommand(3), 
+      //   new ManualTurretCommand(turretSubsystem, ()->0, ()->1)
+      //   ),
+
+      //   new InstantCommand(()->{turretSubsystem.setSpeed(0);}, turretSubsystem),
+
+
 
       // YEET 3 BALLS (PHASE 1)
       // new BackboardNearCommand(blasterSubsystem),
@@ -45,25 +57,38 @@ public class Yeet3PushNom3 extends SequentialCommandGroup {
       //   new WaitCommand(4),
       //   new TurnToTargetCommand(turretSubsystem)
       // ),
+     // new TimedCommand(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem), 2000),
       new TurnToTargetCommand(turretSubsystem),
+      
       // new InstantCommand(()->{turretSubsystem.setSpeed(0);}, turretSubsystem),
+      // new ParallelCommandGroup(
+      //   new TimedCommand(new ManualTurretCommand(turretSubsystem, () -> 0, () -> 1), 5000))
+      // ),
 
-      new ParallelDeadlineGroup(
-        new WaitCommand(5),
-        new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem),
-        new IndexToBlasterCommand(intakeSubsystem),
-        new ConveyorCommand(conveyorSubsystem, ()->-1.0)
+      // new ParallelDeadlineGroup(
+      //   new WaitCommand(5),
+      //   new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem),
+      //   new IndexToBlasterCommand(intakeSubsystem),
+      //   new ConveyorCommand(conveyorSubsystem, ()->-1.0)
+      // ),
+
+      new ParallelCommandGroup(
+        new TimedCommand(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem), 5000),
+        new TimedCommand(new IndexToBlasterCommand(intakeSubsystem), 5000),
+        new TimedCommand(new ConveyorCommand(conveyorSubsystem, ()->-1.0), 5000)
       ),
-
+      new InstantCommand(()->{blasterSubsystem.setVelocity(0);}, blasterSubsystem),
       // PUSH OTHER ROBOT OFF LINE (PHASE 2)
       new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_PUSH_ROBOT_DISTANCE, Constants.AUTON_PUSH_ROBOT_SPEED, 0, true),
      
       // DRIVE TO OTHER BALLS (diagonally)
       new LowerIntakeArmCommand(intakeSubsystem),
+
       new ParallelDeadlineGroup( // deadline because it should move on after it has reached the position
         new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.YEET3PUSHNOM3_DIAG_DISTANCE_TO_TRENCH, -.75, -45, true), 
         new StartIntakeCommand(intakeSubsystem, ()->1.0)
       ),
+      
       new TurnToAngleCommand(driveTrainSubsystem, .5, 0, false),
 
       // NOM/INTAKE 3 BALLS (FINAL PHASE) (also keep driving (parallel to balls and guardrail))

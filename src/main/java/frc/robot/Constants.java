@@ -71,7 +71,7 @@ public final class Constants {
     public static final int TURRET_RIGHT_DIO = 3;
     
 	public static final int ELEVATOR_LIMIT_SWITCH_1_PORT = 0;
-	public static final int ELEVATOR_LIMIT_SWITCH_2_PORT = 0;
+	public static final int ELEVATOR_LIMIT_SWITCH_2_PORT = 1;
 
 
     // speed values
@@ -81,7 +81,7 @@ public final class Constants {
     public static final double NORMAL_SPEED_MODIFIER = 1;
     public static final double LOW_SPEED_MODIFIER = 0.5;
     public static final double MAX_MOTOR_SPEED = 1;
-    public static final double WINCH_SPEED = -0.5;
+    public static final double WINCH_SPEED = -.75;
     public static final double CONVEYOR_SPEED = 0.5; // test speeds
     public static final double CONVEYOR_INDEXER_SPEED = 0.5;
     public static final double FEED_TO_BLASTER_SPEED = 0.5;
@@ -157,7 +157,11 @@ public final class Constants {
     public static final double BLASTER_KF = .054;
 	public static final double BLASTER_KP = 1.1367;
 	public static final double BLASTER_KI = 0;
-	public static final double BLASTER_KD = 45.4667;
+    public static final double BLASTER_KD = 45.4667;
+
+    private static final double KNOWN_LIDAR_DISTANCE_TO_TARGET = 10;
+    private static final double KNOWN_OFFSET_ANGLE = 4.75;
+    public static final double SHOOTER_OFFSET_DISTANCE = Constants.KNOWN_LIDAR_DISTANCE_TO_TARGET*Math.tan(Constants.KNOWN_OFFSET_ANGLE);
 	
     //gyro PID constants
 	public static final double GYRO_kP = 0.1240;
@@ -180,13 +184,17 @@ public final class Constants {
     
     
 	public static final double YEET3PUSHNOM3_DIAG_DISTANCE_TO_TRENCH = 60*ENCODER_TICKS_PER_INCH;
-	public static final double YEET3PUSHNOM3_3_BALL_STRAIGHT_DISTANCE = 36*ENCODER_TICKS_PER_INCH;
+	public static final double YEET3PUSHNOM3_3_BALL_STRAIGHT_DISTANCE = 60*ENCODER_TICKS_PER_INCH;
 	public static final double AUTON_2_BALL_STRAIGHT_DISTANCE = 0;
 	public static final double AUTON_1_BALL_STRAIGHT_DISTANCE = 0;
     public static final double AUTON_2_BALL_RP_STRAIGHT_DISTANCE = 0;
     
-	public static final double AUTON_DRIVE_OFF_LINE_SPEED = 0;
-	public static final double AUTON_DRIVE_OFF_LINE_DISTANCE = 0;
+	public static final double AUTON_DRIVE_OFF_LINE_SPEED = .5;
+    public static final double AUTON_DRIVE_OFF_LINE_DISTANCE = 12*ENCODER_TICKS_PER_INCH;
+    
+    // CALIBRATE THESE
+	public static final double AUTON_TARGET_CENTER_LINE_CONSTANT_VELOCITY = 10343;
+	public static final double TRENCH_SHOOTER_VELOCITY = 39245;
     
 
 }

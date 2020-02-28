@@ -46,7 +46,11 @@ public class TurretSubsystem extends PIDSubsystem {
 
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     table = instance.getTable("Vision");
+  }
 
+  public void setAngleOffset(double calculatedOffset) {
+    angleOffset = calculatedOffset;
+    SmartDashboard.putNumber("angleOffset", angleOffset);
   }
 
   @Override
@@ -97,21 +101,23 @@ public class TurretSubsystem extends PIDSubsystem {
   }
 
   public void setSpeed(double speed){
-    // if (!leftLimitSwitch.get()) {
-    //   if (speed < 0)
-    //     turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
-    //   else
-    //     turretMotor.set(ControlMode.PercentOutput, speed);
+    if (!leftLimitSwitch.get()) {
+      if (speed < 0)
+        turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+      else
+        turretMotor.set(ControlMode.PercentOutput, speed);
       
-    // } else if (!rightLimitSwitch.get()) {
-    //   if (speed > 0)
-    //     turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
-    //   else
-    //     turretMotor.set(ControlMode.PercentOutput, speed);
+    } else if (!rightLimitSwitch.get()) {
+      if (speed > 0)
+        turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
+      else
+        turretMotor.set(ControlMode.PercentOutput, speed);
 
-    // } else {
+    } else {
       turretMotor.set(ControlMode.PercentOutput, speed);
-    // }
+    }
   }
+
+
 
 }
