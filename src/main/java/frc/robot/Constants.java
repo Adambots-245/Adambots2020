@@ -178,15 +178,15 @@ public final class Constants {
     public static final double AUTON_DRIVE_FORWARD_DISTANCE = 500;
     public static final double AUTON_DRIVE_FORWARD_SPEED = .5;
     //the following are approximate and in feet
-	public static final double SNAG_N_YEET_DISTANCE_TO_TRENCH = 8.888889;
-	public static final double SNAG_N_YEET_DISTANCE_ACROSS_FIELD = 17.77778;
+	public static final double SNAG_N_YEET_DISTANCE_TO_TRENCH = 8.888889*12*ENCODER_TICKS_PER_INCH;
+	public static final double SNAG_N_YEET_DISTANCE_ACROSS_FIELD = 17.77778*12*ENCODER_TICKS_PER_INCH;
     public static final double AUTON_PUSH_ROBOT_SPEED = .5;
     
     
 	public static final double YEET3PUSHNOM3_DIAG_DISTANCE_TO_TRENCH = 60*ENCODER_TICKS_PER_INCH;
 	public static final double YEET3PUSHNOM3_3_BALL_STRAIGHT_DISTANCE = 60*ENCODER_TICKS_PER_INCH;
-	public static final double AUTON_2_BALL_STRAIGHT_DISTANCE = 0;
-	public static final double AUTON_1_BALL_STRAIGHT_DISTANCE = 0;
+	public static final double AUTON_2_BALL_STRAIGHT_DISTANCE = 156*ENCODER_TICKS_PER_INCH;
+	public static final double AUTON_1_BALL_STRAIGHT_DISTANCE = 36*ENCODER_TICKS_PER_INCH;
     public static final double AUTON_2_BALL_RP_STRAIGHT_DISTANCE = 0;
     
 	public static final double AUTON_DRIVE_OFF_LINE_SPEED = .5;
