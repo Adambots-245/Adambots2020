@@ -37,11 +37,12 @@ public class Yeet3 extends SequentialCommandGroup {
     super(
       new ParallelCommandGroup(
         new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_OFF_LINE_DISTANCE, Constants.AUTON_DRIVE_OFF_LINE_SPEED, 0, true),
-        new ManualTurretCommand(turretSubsystem, () -> 0, () -> 1)
+        new TimedCommand(new ManualTurretCommand(turretSubsystem, () -> 0, () -> 1), 3000)
       ),
 
-      new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
-      
+     //new TimedCommand(TurnToTargetCommand(turretSubsystem, lidarSubsystem), 3000),
+     new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
+
       new ParallelCommandGroup(
         new TimedCommand(new IndexToBlasterCommand(intakeSubsystem), 5000),
         new TimedCommand(new ConveyorCommand(conveyorSubsystem, ()->1), 5000)
