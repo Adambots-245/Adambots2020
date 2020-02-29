@@ -59,7 +59,7 @@ public class DriveForwardGyroDistanceCommand extends CommandBase {
   @Override
   public void execute() {
     double turnSpeed = gyroPIDSubsystem.getController().calculate(gyroPIDSubsystem.getMeasurement(), targetAngle);
-    // System.out.println("executing DFGDC");
+    System.out.println("executing DFGDC");
     SmartDashboard.putNumber("yaw", gyroSubsystem.getYaw());
     // SmartDashboard.putNumber("yaw",gyroPIDSubsystem.getGyroSubsystem().getYaw());
     SmartDashboard.putNumber("gyroPIDSubsystem.getMeasurement()", gyroPIDSubsystem.getMeasurement());

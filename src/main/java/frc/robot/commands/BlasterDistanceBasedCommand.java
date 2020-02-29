@@ -7,8 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BlasterSubsystem;
@@ -21,12 +19,10 @@ public class BlasterDistanceBasedCommand extends CommandBase {
   BlasterSubsystem blasterSubsystem;
   private LidarSubsystem lidarSubsystem;
   private double initialDistance = 0;
-  private XboxController joystick;
 
-  public BlasterDistanceBasedCommand(BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, XboxController joystick) {
+  public BlasterDistanceBasedCommand(BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem) {
     this.blasterSubsystem = blasterSubsystem;
     this.lidarSubsystem = lidarSubsystem;
-    this.joystick = joystick;
 
     SmartDashboard.putNumber("Blaster Velocity", blasterSubsystem.getVelocity());
     SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
@@ -53,7 +49,7 @@ public class BlasterDistanceBasedCommand extends CommandBase {
 
     // double feetsPerSec = (-0.0047360 * Math.pow(distanceInFeet, 3)) + (0.3441226 * Math.pow(distanceInFeet, 2))
       // - (8.135303 * distanceInFeet) + 93.69801;
-    double feetsPerSec = (0.02142857 * Math.pow(distanceInFeet, 2)) + (0.732857 * distanceInFeet) + 58.60;
+    double feetsPerSec = (0.02142857 * Math.pow(distanceInFeet, 2)) + (0.732857 * distanceInFeet) + 58.50;
     // feetsPerSec = feetsPerSec * 1.75;
 
     // feetsPerSec = SmartDashboard.getNumber("fps", 0);
@@ -75,7 +71,6 @@ public class BlasterDistanceBasedCommand extends CommandBase {
     SmartDashboard.putNumber("Blaster Velocity (RPM)", rpm);
     SmartDashboard.putNumber("Blaster Velocity (Feets Per Sec)", vfps);
     SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
-    SmartDashboard.putBoolean("BLASTER ENABLED", true);
     // at velocity checker
     boolean atVelocity = false;
     double velocityThresh = 3000; // ticks per 100ms
@@ -83,16 +78,12 @@ public class BlasterDistanceBasedCommand extends CommandBase {
       atVelocity = true;
     }
     SmartDashboard.putBoolean("atVelocity?", atVelocity);
-    joystick.setRumble(RumbleType.kRightRumble, 1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     System.out.println("blaster distance end");
-    SmartDashboard.putBoolean("BLASTER ENABLED", false);
-    joystick.setRumble(RumbleType.kRightRumble, 0);
-    joystick.setRumble(RumbleType.kLeftRumble, 0);
     blasterSubsystem.output(0);
   }
 

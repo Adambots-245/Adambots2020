@@ -24,9 +24,6 @@ import frc.robot.Gamepad.GamepadConstants;
 
 import frc.robot.commands.*;
 import frc.robot.commands.autonCommands.*;
-import frc.robot.commands.autonCommands.autonCommandGroups.CrossBaseline;
-import frc.robot.commands.autonCommands.autonCommandGroups.NerdsAuton;
-import frc.robot.commands.autonCommands.autonCommandGroups.NoTurnAuton;
 import frc.robot.commands.autonCommands.autonCommandGroups.PushNom2Yeet5;
 import frc.robot.commands.autonCommands.autonCommandGroups.PushNom2Yeet5Nom1;
 import frc.robot.commands.autonCommands.autonCommandGroups.SnagNYeetCommandGroup;
@@ -208,7 +205,7 @@ public class RobotContainer {
     // secondary controls
       // intake 
       intakeSubsystem.setDefaultCommand(new StartIntakeCommand(intakeSubsystem, () -> deaden(secondaryJoystick.getY(Hand.kRight))));
-      conveyorSubsystem.setDefaultCommand(new ConveyorCommand(conveyorSubsystem, ()-> deaden(secondaryJoystick.getY(Hand.kRight)/* *0.7 */)));
+      conveyorSubsystem.setDefaultCommand(new ConveyorCommand(conveyorSubsystem, ()-> deaden(secondaryJoystick.getY(Hand.kRight))));
       secondaryDPadN.whenPressed(new RaiseIntakeArmCommand(intakeSubsystem));
       secondaryDPadS.whenPressed(new LowerIntakeArmCommand(intakeSubsystem));    
       // secondaryYButton.whenHeld(new IndexToBlasterCommand(intakeSubsystem));  
@@ -216,7 +213,7 @@ public class RobotContainer {
       secondaryRB.whenHeld(new IndexToBlasterCommand(intakeSubsystem));  
       
       // turret 
-      turretSubsystem.setDefaultCommand(new ManualTurretCommand(turretSubsystem, ()->Math.pow(secondaryJoystick.getTriggerAxis(Hand.kLeft), 2), ()->Math.pow(deaden(secondaryJoystick.getTriggerAxis(Hand.kRight)), 2)));
+      turretSubsystem.setDefaultCommand(new ManualTurretCommand(turretSubsystem, ()->deaden(secondaryJoystick.getTriggerAxis(Hand.kLeft)), ()->deaden(secondaryJoystick.getTriggerAxis(Hand.kRight))));
      
       secondaryXButton.whileHeld(new TurnToTargetCommand(turretSubsystem, lidarSubsystem), false);
       // turretSubsystem.setDefaultCommand(new TurretManualCommand(turretSubsystem, ()->secondaryJoystick.getTriggerAxis(Hand.kLeft), ()->secondaryJoystick.getTriggerAxis(Hand.kRight)));
@@ -226,7 +223,7 @@ public class RobotContainer {
       
       // blaster  
       // secondaryLB.toggleWhenPressed(new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem));
-      secondaryLB.toggleWhenPressed(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem, secondaryJoystick));
+      secondaryLB.toggleWhenPressed(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem));
       secondaryYButton.whenReleased(new BackboardToggleCommand(blasterSubsystem));
       // blasterSubsystem.setDefaultCommand(new BlasterPercentOutput(blasterSubsystem, () -> primaryJoystick.getTriggerAxis(Hand.kRight)));
     
@@ -239,7 +236,6 @@ public class RobotContainer {
       
     // dashboard control buttons  
       SmartDashboard.putData("10 foot blaster velocity", new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem, Constants.AUTON_TARGET_CENTER_LINE_CONSTANT_VELOCITY));
-      // SmartDashboard.putData("trench 35 foot blaster velocity", new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem, shooterVelocity));
       SmartDashboard.putData("trench 35 foot blaster velocity", new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem, Constants.TRENCH_SHOOTER_VELOCITY));
       SmartDashboard.putData(new IndexToBlasterCommand(intakeSubsystem));
 
@@ -263,15 +259,12 @@ public class RobotContainer {
 
   private void dash(){
     // autoChooser.setDefaultOption("None", null);
-    autoChooser.addOption("Snag N' Yeet", new SnagNYeetCommandGroup(driveTrainSubsystem, intakeSubsystem, turretSubsystem, lidarSubsystem, blasterSubsystem, secondaryJoystick));
+    autoChooser.addOption("Snag N' Yeet", new SnagNYeetCommandGroup(driveTrainSubsystem, intakeSubsystem, turretSubsystem, lidarSubsystem));
     // autoChooser.setDefaultOption("Yeet3PushNom3", new Yeet3PushNom3(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
-    autoChooser.addOption("Yeet3PushNom3", new Yeet3PushNom3(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem, secondaryJoystick));
-    // autoChooser.addOption("Yeet3Nom3", new Yeet3Nom3(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
-    autoChooser.addOption("PushNom2Yeet5Nom1", new PushNom2Yeet5Nom1(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem, secondaryJoystick));
-    autoChooser.addOption("yeet3", new Yeet3(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, lidarSubsystem, blasterSubsystem, secondaryJoystick));
-    autoChooser.addOption("noturn", new NoTurnAuton(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, lidarSubsystem, blasterSubsystem, secondaryJoystick));
-    autoChooser.addOption("NERDSAUTO", new NerdsAuton(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, lidarSubsystem, blasterSubsystem));
-    autoChooser.setDefaultOption("CrossBaseline", new CrossBaseline(driveTrainSubsystem));
+    autoChooser.addOption("Yeet3PushNom3", new Yeet3PushNom3(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
+    autoChooser.addOption("Yeet3Nom3", new Yeet3Nom3(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
+    autoChooser.addOption("PushNom2Yeet5Nom1", new PushNom2Yeet5Nom1(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
+    autoChooser.setDefaultOption("yeet3", new Yeet3(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, lidarSubsystem));
     // autoChooser.addOption("90Degrees", autonTurn90DegreeCommand);
     // autoChooser.addOption("0 to 45 to 0", new );
     SmartDashboard.putData("Auton Mode", autoChooser);

@@ -8,7 +8,6 @@
 package frc.robot.commands.autonCommands.autonCommandGroups;
 
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -31,7 +30,7 @@ public class PushNom2Yeet5 extends SequentialCommandGroup {
    */
   public PushNom2Yeet5(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem,
       TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem,
-      ConveyorSubsystem conveyorSubsystem, XboxController joystick) {
+      ConveyorSubsystem conveyorSubsystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     super(
@@ -47,11 +46,11 @@ public class PushNom2Yeet5 extends SequentialCommandGroup {
         // YEET 5 BALLS
         // new BackboardNearCommand(blasterSubsystem),
         new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
-        new ParallelCommandGroup(
-          // new WaitCommand(5), 
-          new TimedCommand(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem, joystick), 5000/1000),
-          new TimedCommand(new IndexToBlasterCommand(intakeSubsystem),  5000/1000),
-          new TimedCommand(new ConveyorCommand(conveyorSubsystem, () -> 1.0), 5000/1000)
+        new ParallelDeadlineGroup(
+          new WaitCommand(5), 
+          new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem),
+          new IndexToBlasterCommand(intakeSubsystem), 
+          new ConveyorCommand(conveyorSubsystem, () -> 1.0)
         ),
         // NOM/INTAKE 1 BALL (also keep driving (parallel to balls and guardrail))
         new ParallelDeadlineGroup( // deadline because it should move on after it has reached the position

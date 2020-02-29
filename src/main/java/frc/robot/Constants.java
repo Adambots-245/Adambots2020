@@ -160,7 +160,7 @@ public final class Constants {
     public static final double BLASTER_KD = 45.4667;
 
     private static final double KNOWN_LIDAR_DISTANCE_TO_TARGET = 120;
-    private static final double KNOWN_OFFSET_ANGLE = Math.toRadians(4.25);
+    private static final double KNOWN_OFFSET_ANGLE = Math.toRadians(4.75);
     public static final double SHOOTER_OFFSET_DISTANCE = Constants.KNOWN_LIDAR_DISTANCE_TO_TARGET*Math.tan(Constants.KNOWN_OFFSET_ANGLE);
 	
     //gyro PID constants
@@ -194,7 +194,7 @@ public final class Constants {
     
     // CALIBRATE THESE
 	public static final double AUTON_TARGET_CENTER_LINE_CONSTANT_VELOCITY = 10343;
-	public static final double TRENCH_SHOOTER_VELOCITY = 10343;
+	public static final double TRENCH_SHOOTER_VELOCITY = 39245;
     
 
 }

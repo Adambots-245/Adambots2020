@@ -8,7 +8,6 @@
 package frc.robot.commands.autonCommands.autonCommandGroups;
 
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -28,7 +27,7 @@ public class Yeet3Nom3 extends SequentialCommandGroup {
   /**
    * Creates a new Yeet3PushNom3.
    */
-  public Yeet3Nom3(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, ConveyorSubsystem conveyorSubsystem, XboxController joystick) {
+  public Yeet3Nom3(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, ConveyorSubsystem conveyorSubsystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     super(
@@ -37,7 +36,7 @@ public class Yeet3Nom3 extends SequentialCommandGroup {
       new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
       new ParallelDeadlineGroup(
         new WaitCommand(5),
-        new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem, joystick),
+        new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem),
         new IndexToBlasterCommand(intakeSubsystem),
         new ConveyorCommand(conveyorSubsystem, ()->1.0)
       ),
