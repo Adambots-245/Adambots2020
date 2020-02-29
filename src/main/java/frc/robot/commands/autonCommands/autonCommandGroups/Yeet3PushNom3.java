@@ -8,6 +8,7 @@
 package frc.robot.commands.autonCommands.autonCommandGroups;
 
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -28,7 +29,7 @@ public class Yeet3PushNom3 extends SequentialCommandGroup {
   /**
    * Creates a new Yeet3PushNom3.
    */
-  public Yeet3PushNom3(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, ConveyorSubsystem conveyorSubsystem) {
+  public Yeet3PushNom3(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, ConveyorSubsystem conveyorSubsystem, XboxController joystick) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
@@ -36,9 +37,9 @@ public class Yeet3PushNom3 extends SequentialCommandGroup {
       new WaitCommand(0),
       new RaiseIntakeArmCommand(intakeSubsystem),
       new ParallelCommandGroup(
-        new TimedCommand(new ManualTurretCommand(turretSubsystem, ()->0, ()->1), 3000),
+        new TimedCommand(new ManualTurretCommand(turretSubsystem, ()->0, ()->1), 2750/1000),
         // new TimedCommand(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem), 3000)
-        new TimedCommand(new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem, Constants.AUTON_TARGET_CENTER_LINE_CONSTANT_VELOCITY), 3000)
+        new TimedCommand(new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem, Constants.AUTON_TARGET_CENTER_LINE_CONSTANT_VELOCITY), 2750/1000)
       ),
       
       
@@ -58,7 +59,7 @@ public class Yeet3PushNom3 extends SequentialCommandGroup {
       //   new TurnToTargetCommand(turretSubsystem)
       // ),
      // new TimedCommand(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem), 2000),
-     //new TimedCommand(TurnToTargetCommand(turretSubsystem, lidarSubsystem), 3000),
+     //new TimedCommand(new TurnToTargetCommand(turretSubsystem, lidarSubsystem), 3000),
      new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
       
       // new InstantCommand(()->{turretSubsystem.setSpeed(0);}, turretSubsystem),
@@ -74,9 +75,9 @@ public class Yeet3PushNom3 extends SequentialCommandGroup {
       // ),
 
       new ParallelCommandGroup(
-        new TimedCommand(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem), 5000),
-        new TimedCommand(new IndexToBlasterCommand(intakeSubsystem), 5000),
-        new TimedCommand(new ConveyorCommand(conveyorSubsystem, ()->-1.0), 5000)
+        new TimedCommand(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem, joystick), 5000/1000),
+        new TimedCommand(new IndexToBlasterCommand(intakeSubsystem), 5000/1000),
+        new TimedCommand(new ConveyorCommand(conveyorSubsystem, ()->-1.0), 5000/1000)
       ),
       new InstantCommand(()->{blasterSubsystem.setVelocity(0);}, blasterSubsystem),
       // PUSH OTHER ROBOT OFF LINE (PHASE 2)
