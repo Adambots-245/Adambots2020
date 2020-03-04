@@ -26,7 +26,7 @@ public class TimedBlasterDistanceBasedCommand extends CommandBase {
     this.lidarSubsystem = lidarSubsystem;
     this.timeInMilliseconds = timeInMilliseconds;
     SmartDashboard.putNumber("Blaster Velocity", blasterSubsystem.getVelocity());
-    SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
+    // SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(blasterSubsystem);
@@ -45,7 +45,14 @@ public class TimedBlasterDistanceBasedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    initialDistance = lidarSubsystem.getInches();
+    initialDistance = 120 + 12;
+    try {
+      initialDistance = lidarSubsystem.getInches();
+    } catch (Exception e) {
+      initialDistance = 120 + 8.5;
+
+      //TODO: handle exception
+    }
 
     double distanceInFeet =  initialDistance / 12;
     // double distanceInFeet = 182/12;
@@ -73,7 +80,7 @@ public class TimedBlasterDistanceBasedCommand extends CommandBase {
     double vfps = (rpm/secondsInMinute) * Math.PI * (flyWheelDiameterInInches/inchesInFeet);
     SmartDashboard.putNumber("Blaster Velocity (RPM)", rpm);
     SmartDashboard.putNumber("Blaster Velocity (Feets Per Sec)", vfps);
-    SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
+    SmartDashboard.putNumber("Distance To Target", distanceInFeet);
     SmartDashboard.putBoolean("BLASTER ENABLED", true);
     // at velocity checker
     boolean atVelocity = false;

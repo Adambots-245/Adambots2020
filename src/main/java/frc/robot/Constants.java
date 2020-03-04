@@ -87,11 +87,11 @@ public final class Constants {
     public static final double FEED_TO_BLASTER_SPEED = 0.5;
 
     // control panel constants - count 2 times for each rotation
-    public final static int MIN_ROTATIONS = 7; // = 3.5 rotations
+    public final static int MIN_ROTATIONS = 7-1; // = 4 rotations //7-1 means compensating for overshooting
     public final static int MAX_ROTATIONS = 10;
     // TODO: Add accurate panel motor speeds (motors that spin control panel)
     public static final double PANEL_MOTOR_SPEED_ROTATION = 0.65;
-    public static final double PANEL_MOTOR_SPEED_ALIGNMENT = 0.25;
+    public static final double PANEL_MOTOR_SPEED_ALIGNMENT = 0.175;
 
     public final static I2C.Port I2C_PORT = I2C.Port.kOnboard;
 
@@ -164,9 +164,9 @@ public final class Constants {
     public static final double SHOOTER_OFFSET_DISTANCE = Constants.KNOWN_LIDAR_DISTANCE_TO_TARGET*Math.tan(Constants.KNOWN_OFFSET_ANGLE);
 	
     //gyro PID constants
-	public static final double GYRO_kP = 0.1240;
+	public static final double GYRO_kP = 0.1323; //0.1240
 	public static final double GYRO_kI = 0;
-	public static final double GYRO_kD = 0.0572;
+	public static final double GYRO_kD = 0.0479; //0.0572
 	public static final double GYRO_TOLERANCE = 0.5;
     public static final float GYRO_TARGET_ANGLE = 0;
     

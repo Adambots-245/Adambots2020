@@ -60,4 +60,9 @@ public class LidarSubsystem extends SubsystemBase {
 	public double getInches() {
 		return getDistance() / 2.54;
 	}
+
+	public double getFeet() {
+		// SmartDashboard.putNumber("Dist in feet", getInches() / 12);
+		return getInches() / 12;
+	}
 }

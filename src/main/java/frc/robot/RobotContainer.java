@@ -31,6 +31,7 @@ import frc.robot.commands.autonCommands.autonCommandGroups.PushNom2Yeet5;
 import frc.robot.commands.autonCommands.autonCommandGroups.PushNom2Yeet5Nom1;
 import frc.robot.commands.autonCommands.autonCommandGroups.SnagNYeetCommandGroup;
 import frc.robot.commands.autonCommands.autonCommandGroups.Yeet3;
+import frc.robot.commands.autonCommands.autonCommandGroups.Yeet3FinalsAuton;
 import frc.robot.commands.autonCommands.autonCommandGroups.Yeet3Nom3;
 import frc.robot.commands.autonCommands.autonCommandGroups.Yeet3PushNom3;
 import frc.robot.subsystems.*;
@@ -268,10 +269,11 @@ public class RobotContainer {
     autoChooser.addOption("Yeet3PushNom3", new Yeet3PushNom3(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem, secondaryJoystick));
     // autoChooser.addOption("Yeet3Nom3", new Yeet3Nom3(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem));
     autoChooser.addOption("PushNom2Yeet5Nom1", new PushNom2Yeet5Nom1(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem, secondaryJoystick));
-    autoChooser.addOption("yeet3", new Yeet3(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, lidarSubsystem, blasterSubsystem, secondaryJoystick));
+    autoChooser.setDefaultOption("yeet3", new Yeet3(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, lidarSubsystem, blasterSubsystem, secondaryJoystick));
     autoChooser.addOption("noturn", new NoTurnAuton(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, lidarSubsystem, blasterSubsystem, secondaryJoystick));
     autoChooser.addOption("NERDSAUTO", new NerdsAuton(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, lidarSubsystem, blasterSubsystem));
-    autoChooser.setDefaultOption("CrossBaseline", new CrossBaseline(driveTrainSubsystem));
+    autoChooser.addOption("CrossBaseline", new CrossBaseline(driveTrainSubsystem));
+    autoChooser.addOption("Yeet3FinalsAuton", new Yeet3FinalsAuton(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, lidarSubsystem, blasterSubsystem, secondaryJoystick));
     // autoChooser.addOption("90Degrees", autonTurn90DegreeCommand);
     // autoChooser.addOption("0 to 45 to 0", new );
     SmartDashboard.putData("Auton Mode", autoChooser);
@@ -290,7 +292,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // autonDriveForwardDistanceCommand will run in autonomous
     // return autonDriveForwardGyroDistanceCommand;
-    
+    // return new  DriveForwardGyroDistanceCommand(driveTrainSubsystem, 0, 0, 0, true).andThen(new DriveForwardGyroDistanceCommand(driveTrainSubsystem, 3500*48, -.75, 0, true)).andThen(new DriveForwardGyroDistanceCommand(driveTrainSubsystem, 3500*84, -.5, 90, false));
     // return autonTurn90DegreeCommand.andThen(new WaitCommand(3)).andThen(new TurnToAngleCommand(driveTrainSubsystem, 0.5, -45, false));
     System.out.println(autoChooser.getSelected());
     return autoChooser.getSelected();

@@ -18,7 +18,7 @@ public class IndexToBlasterCommand extends CommandBase {
   
   public IndexToBlasterCommand(IntakeSubsystem intakeSubsystem) {
       this.intakeSubsystem = intakeSubsystem;
-      addRequirements(intakeSubsystem);
+      // addRequirements(intakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
