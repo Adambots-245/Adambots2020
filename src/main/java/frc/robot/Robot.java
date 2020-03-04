@@ -8,6 +8,7 @@
 package frc.robot;
 
 import frc.robot.subsystems.*;
+import frc.robot.vision.GripPipeline;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,15 +36,15 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     
-    // Instantiate our RobotContainer. This will perform all our button bindings,
-    // and put our
     if (Robot.isReal()) {
-      // Starts vision thread
-      vision = new VisionProcessorSubsystem();
+      // Starts vision thread only if not running in simulation mode
+      // Vision System calculates the angle to the target and posts it to the NetworkTable
+      vision = new VisionProcessorSubsystem(RobotMap.RingLight, new GripPipeline());
       visionThread = vision.getVisionThread();
       visionThread.setDaemon(true);
       visionThread.start();
     }
+
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.

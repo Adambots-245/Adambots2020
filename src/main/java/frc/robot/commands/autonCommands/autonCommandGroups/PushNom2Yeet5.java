@@ -14,11 +14,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.*;
 import frc.robot.commands.autonCommands.*;
+import frc.robot.sensors.Lidar;
 import frc.robot.subsystems.BlasterSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -29,7 +29,7 @@ public class PushNom2Yeet5 extends SequentialCommandGroup {
    * Creates a new Yeet3PushNom3.
    */
   public PushNom2Yeet5(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem,
-      TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem,
+      TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, Lidar lidar,
       ConveyorSubsystem conveyorSubsystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
@@ -45,10 +45,10 @@ public class PushNom2Yeet5 extends SequentialCommandGroup {
 
         // YEET 5 BALLS
         // new BackboardNearCommand(blasterSubsystem),
-        new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
+        new TurnToTargetCommand(turretSubsystem, lidar),
         new ParallelDeadlineGroup(
           new WaitCommand(5), 
-          new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem),
+          new BlasterDistanceBasedCommand(blasterSubsystem, lidar),
           new IndexToBlasterCommand(intakeSubsystem), 
           new ConveyorCommand(conveyorSubsystem, () -> 1.0)
         ),

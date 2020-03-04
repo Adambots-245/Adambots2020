@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.*;
 import frc.robot.commands.autonCommands.*;
+import frc.robot.sensors.Lidar;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -27,7 +27,7 @@ public class SnagNYeetCommandGroup extends SequentialCommandGroup {
   /**
    * Creates a new SnagNYeetCommandGroup.
    */
-  public SnagNYeetCommandGroup(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, LidarSubsystem lidarSubsystem) {
+  public SnagNYeetCommandGroup(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, Lidar lidar) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
@@ -40,16 +40,16 @@ public class SnagNYeetCommandGroup extends SequentialCommandGroup {
     // the shield generator is offset by 22.5 degrees from the guardrails of the field
     new ParallelDeadlineGroup( // deadline because it should move on after it has reached the position
     new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.SNAG_N_YEET_DISTANCE_ACROSS_FIELD, -.75, 90-22.5, false), 
-    new TurnToTargetCommand(turretSubsystem, lidarSubsystem)
+    new TurnToTargetCommand(turretSubsystem, lidar)
     // new SetBlasterVelocity(shooterSubsys),
     ),
     new ParallelCommandGroup(
-    new TurnToTargetCommand(turretSubsystem, lidarSubsystem)
+    new TurnToTargetCommand(turretSubsystem, lidar)
     // new SetBlasterVelocity(shooterSubsys),
     // it should break and continue on when ^ the blaster is at the right velocity
     ),
     new ParallelCommandGroup(
-      new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
+      new TurnToTargetCommand(turretSubsystem, lidar),
       // new SetBlasterVelocity(shooterSubsys),
       new IndexToBlasterCommand(intakeSubsystem)
     )

@@ -29,12 +29,14 @@ public class VisionProcessorSubsystem extends SubsystemBase {
     private NetworkTableEntry angleEntry;
     private Solenoid ringLight;
 
-    public VisionProcessorSubsystem() {
+    public VisionProcessorSubsystem(Solenoid ringLight, GripPipeline grip) {
         init();
+
+        this.ringLight = ringLight;
+        this.grip = grip;
     }
 
     public void init() {
-        ringLight = new Solenoid(Constants.RING_LIGHT_PORT);
         // ringLight.clearAllPCMStickyFaults();
         // if pcm status is flashing orange (sticky fault), run once
         ringLight.set(true);
@@ -46,7 +48,7 @@ public class VisionProcessorSubsystem extends SubsystemBase {
         processedOutputStream.setPixelFormat(PixelFormat.kGray);
 
         cvSink = CameraServer.getInstance().getVideo();
-        grip = new GripPipeline();
+        // grip = new GripPipeline();
         mat = new Mat();
 
         camera.setVideoMode(VideoMode.PixelFormat.kMJPEG, Constants.IMG_WIDTH, Constants.IMG_HEIGHT, Constants.PROCESSING_FPS);
@@ -97,8 +99,6 @@ public class VisionProcessorSubsystem extends SubsystemBase {
             }
 
             frameCount++;
-            
-
         }
 
     }

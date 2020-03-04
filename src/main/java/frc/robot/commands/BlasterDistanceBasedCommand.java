@@ -9,23 +9,23 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.sensors.Lidar;
 import frc.robot.subsystems.BlasterSubsystem;
-import frc.robot.subsystems.LidarSubsystem;
 
 public class BlasterDistanceBasedCommand extends CommandBase {
   /**
    * Creates a new BlasterDistanceBasedCommand.
    */
   BlasterSubsystem blasterSubsystem;
-  private LidarSubsystem lidarSubsystem;
+  private Lidar lidar;
   private double initialDistance = 0;
 
-  public BlasterDistanceBasedCommand(BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem) {
+  public BlasterDistanceBasedCommand(BlasterSubsystem blasterSubsystem, Lidar lidar) {
     this.blasterSubsystem = blasterSubsystem;
-    this.lidarSubsystem = lidarSubsystem;
+    this.lidar = lidar;
 
     SmartDashboard.putNumber("Blaster Velocity", blasterSubsystem.getVelocity());
-    SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
+    SmartDashboard.putNumber("Distance To Target", lidar.getInches());
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(blasterSubsystem);
@@ -42,7 +42,7 @@ public class BlasterDistanceBasedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    initialDistance = lidarSubsystem.getInches();
+    initialDistance = lidar.getInches();
 
     double distanceInFeet =  initialDistance / 12;
     // double distanceInFeet = 182/12;
@@ -70,7 +70,7 @@ public class BlasterDistanceBasedCommand extends CommandBase {
     double vfps = (rpm/secondsInMinute) * Math.PI * (flyWheelDiameterInInches/inchesInFeet);
     SmartDashboard.putNumber("Blaster Velocity (RPM)", rpm);
     SmartDashboard.putNumber("Blaster Velocity (Feets Per Sec)", vfps);
-    SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
+    SmartDashboard.putNumber("Distance To Target", lidar.getInches());
     // at velocity checker
     boolean atVelocity = false;
     double velocityThresh = 3000; // ticks per 100ms
