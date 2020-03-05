@@ -24,11 +24,11 @@ import frc.robot.commands.autonCommands.DriveForwardGyroDistanceCommand;
 import frc.robot.commands.autonCommands.TimedBlasterDistanceBasedCommand;
 import frc.robot.commands.autonCommands.TimedCommand;
 import frc.robot.commands.autonCommands.TimedManualTurretCommand;
+import frc.robot.sensors.Lidar;
 import frc.robot.subsystems.BlasterSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -38,7 +38,7 @@ public class Yeet3FinalsAuton extends SequentialCommandGroup {
   /**
    * Creates a new Yeet3.
    */
-  public Yeet3FinalsAuton(TurretSubsystem turretSubsystem, DriveTrainSubsystem driveTrainSubsystem, ConveyorSubsystem conveyorSubsystem, IntakeSubsystem intakeSubsystem, LidarSubsystem lidarSubsystem, BlasterSubsystem blasterSubsystem, XboxController joystick) {
+  public Yeet3FinalsAuton(TurretSubsystem turretSubsystem, DriveTrainSubsystem driveTrainSubsystem, ConveyorSubsystem conveyorSubsystem, IntakeSubsystem intakeSubsystem, Lidar lidarSubsystem, BlasterSubsystem blasterSubsystem, XboxController joystick) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
