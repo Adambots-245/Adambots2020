@@ -15,11 +15,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.*;
 import frc.robot.commands.autonCommands.*;
+import frc.robot.sensors.Lidar;
 import frc.robot.subsystems.BlasterSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -28,16 +28,24 @@ public class Yeet3Nom3 extends SequentialCommandGroup {
   /**
    * Creates a new Yeet3PushNom3.
    */
+<<<<<<< HEAD
   public Yeet3Nom3(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, ConveyorSubsystem conveyorSubsystem, XboxController joystick) {
+=======
+  public Yeet3Nom3(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, Lidar lidar, ConveyorSubsystem conveyorSubsystem) {
+>>>>>>> e887a2d9761597a0efca33e497f0d9e85dd2cb0a
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     super(
       // YEET 3 BALLS (PHASE 1)
       // new BackboardNearCommand(blasterSubsystem),
-      new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
+      new TurnToTargetCommand(turretSubsystem, lidar),
       new ParallelDeadlineGroup(
         new WaitCommand(5),
+<<<<<<< HEAD
         new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem, joystick),
+=======
+        new BlasterDistanceBasedCommand(blasterSubsystem, lidar),
+>>>>>>> e887a2d9761597a0efca33e497f0d9e85dd2cb0a
         new IndexToBlasterCommand(intakeSubsystem),
         new ConveyorCommand(conveyorSubsystem, ()->1.0)
       ),

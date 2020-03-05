@@ -11,25 +11,31 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.sensors.Lidar;
 import frc.robot.subsystems.BlasterSubsystem;
-import frc.robot.subsystems.LidarSubsystem;
 
 public class BlasterDistanceBasedCommand extends CommandBase {
   /**
    * Creates a new BlasterDistanceBasedCommand.
    */
   BlasterSubsystem blasterSubsystem;
-  private LidarSubsystem lidarSubsystem;
+  private Lidar lidar;
   private double initialDistance = 0;
   private XboxController joystick;
 
+<<<<<<< HEAD
   public BlasterDistanceBasedCommand(BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, XboxController joystick) {
     this.blasterSubsystem = blasterSubsystem;
     this.lidarSubsystem = lidarSubsystem;
     this.joystick = joystick;
+=======
+  public BlasterDistanceBasedCommand(BlasterSubsystem blasterSubsystem, Lidar lidar) {
+    this.blasterSubsystem = blasterSubsystem;
+    this.lidar = lidar;
+>>>>>>> e887a2d9761597a0efca33e497f0d9e85dd2cb0a
 
     SmartDashboard.putNumber("Blaster Velocity", blasterSubsystem.getVelocity());
-    SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
+    SmartDashboard.putNumber("Distance To Target", lidar.getInches());
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(blasterSubsystem);
@@ -46,7 +52,7 @@ public class BlasterDistanceBasedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    initialDistance = lidarSubsystem.getInches();
+    initialDistance = lidar.getInches();
 
     double distanceInFeet =  initialDistance / 12;
     // double distanceInFeet = 182/12;
@@ -74,8 +80,12 @@ public class BlasterDistanceBasedCommand extends CommandBase {
     double vfps = (rpm/secondsInMinute) * Math.PI * (flyWheelDiameterInInches/inchesInFeet);
     SmartDashboard.putNumber("Blaster Velocity (RPM)", rpm);
     SmartDashboard.putNumber("Blaster Velocity (Feets Per Sec)", vfps);
+<<<<<<< HEAD
     SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
     SmartDashboard.putBoolean("BLASTER ENABLED", true);
+=======
+    SmartDashboard.putNumber("Distance To Target", lidar.getInches());
+>>>>>>> e887a2d9761597a0efca33e497f0d9e85dd2cb0a
     // at velocity checker
     boolean atVelocity = false;
     double velocityThresh = 3000; // ticks per 100ms

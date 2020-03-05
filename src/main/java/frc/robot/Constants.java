@@ -12,7 +12,6 @@ import org.opencv.core.*;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
-import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
 
 /**
@@ -95,10 +94,7 @@ public final class Constants {
 
     public final static I2C.Port I2C_PORT = I2C.Port.kOnboard;
 
-    public final static ColorSensorV3 M_COLOR_SENSOR = new ColorSensorV3(I2C_PORT);
-
-    public final static ColorMatch M_COLOR_MATCHER = new ColorMatch();
-
+    public final static Color UNKNOWN_TARGET = ColorMatch.makeColor(0, 0, 0);
     public final static Color BLUE_TARGET = ColorMatch.makeColor(0.125, 0.424, 0.450);
     public final static Color GREEN_TARGET = ColorMatch.makeColor(0.167, 0.580, 0.252);
     public final static Color RED_TARGET = ColorMatch.makeColor(0.518, 0.347, 0.134);
@@ -108,11 +104,17 @@ public final class Constants {
     // direction
     // If the control panel itself turns clockwise, the sensor will move in a
     // counterclockwise direction
-    public final static String[] COLOR_ORDER = { "Blue", "Green", "Red", "Yellow" };
+    public final static Color[] COLOR_ORDER = { BLUE_TARGET, GREEN_TARGET, RED_TARGET, YELLOW_TARGET };
 
     // Note: The direction that the color wheel itself turns will be the opposite of
     // the below direction
-    public final static String DIRECTION = "Counterclockwise";
+
+    public enum DIRECTIONS {
+        CLOCKWISE,
+        COUNTERCLOCKWISE
+    }
+
+    public final static DIRECTIONS SPIN_DIRECTION = DIRECTIONS.COUNTERCLOCKWISE;
 
     // The distance between our color sensor and the game's color sensor in number
     // of color slices away
