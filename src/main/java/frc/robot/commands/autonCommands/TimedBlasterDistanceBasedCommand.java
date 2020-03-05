@@ -5,31 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.autonCommands;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.sensors.Lidar;
 import frc.robot.subsystems.BlasterSubsystem;
+import frc.robot.subsystems.LidarSubsystem;
 
-public class BlasterDistanceBasedCommand extends CommandBase {
+public class TimedBlasterDistanceBasedCommand extends CommandBase {
   /**
    * Creates a new BlasterDistanceBasedCommand.
    */
   BlasterSubsystem blasterSubsystem;
-  private Lidar lidar;
+  private LidarSubsystem lidarSubsystem;
   private double initialDistance = 0;
-  private XboxController joystick;
-
-  public BlasterDistanceBasedCommand(BlasterSubsystem blasterSubsystem, Lidar lidar, XboxController joystick) {
-    this.lidar = lidar;
+  private long startTime;
+  private long timeInMilliseconds;
+  public TimedBlasterDistanceBasedCommand(BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, long timeInMilliseconds) {
     this.blasterSubsystem = blasterSubsystem;
-    this.joystick = joystick;
-
+    this.lidarSubsystem = lidarSubsystem;
+    this.timeInMilliseconds = timeInMilliseconds;
     SmartDashboard.putNumber("Blaster Velocity", blasterSubsystem.getVelocity());
-    SmartDashboard.putNumber("Distance To Target", lidar.getInches());
+    // SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(blasterSubsystem);
@@ -38,6 +35,8 @@ public class BlasterDistanceBasedCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    startTime = System.currentTimeMillis();
+
     SmartDashboard.putNumber("fps", 59);
 
     blasterSubsystem.setVelocity(10343);
@@ -46,14 +45,21 @@ public class BlasterDistanceBasedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    initialDistance = lidar.getInches();
+    initialDistance = 120 + 12;
+    try {
+      initialDistance = lidarSubsystem.getInches();
+    } catch (Exception e) {
+      initialDistance = 120 + 8.5;
+
+      //TODO: handle exception
+    }
 
     double distanceInFeet =  initialDistance / 12;
     // double distanceInFeet = 182/12;
 
     // double feetsPerSec = (-0.0047360 * Math.pow(distanceInFeet, 3)) + (0.3441226 * Math.pow(distanceInFeet, 2))
       // - (8.135303 * distanceInFeet) + 93.69801;
-    double feetsPerSec = (0.02142857 * Math.pow(distanceInFeet, 2)) + (0.732857 * distanceInFeet) + 58.60;
+    double feetsPerSec = (0.02142857 * Math.pow(distanceInFeet, 2)) + (0.732857 * distanceInFeet) + 58.50;
     // feetsPerSec = feetsPerSec * 1.75;
 
     // feetsPerSec = SmartDashboard.getNumber("fps", 0);
@@ -74,7 +80,7 @@ public class BlasterDistanceBasedCommand extends CommandBase {
     double vfps = (rpm/secondsInMinute) * Math.PI * (flyWheelDiameterInInches/inchesInFeet);
     SmartDashboard.putNumber("Blaster Velocity (RPM)", rpm);
     SmartDashboard.putNumber("Blaster Velocity (Feets Per Sec)", vfps);
-    SmartDashboard.putNumber("Distance To Target", lidar.getInches());
+    SmartDashboard.putNumber("Distance To Target", distanceInFeet);
     SmartDashboard.putBoolean("BLASTER ENABLED", true);
     // at velocity checker
     boolean atVelocity = false;
@@ -83,7 +89,6 @@ public class BlasterDistanceBasedCommand extends CommandBase {
       atVelocity = true;
     }
     SmartDashboard.putBoolean("atVelocity?", atVelocity);
-    joystick.setRumble(RumbleType.kRightRumble, 1);
   }
 
   // Called once the command ends or is interrupted.
@@ -91,14 +96,13 @@ public class BlasterDistanceBasedCommand extends CommandBase {
   public void end(boolean interrupted) {
     System.out.println("blaster distance end");
     SmartDashboard.putBoolean("BLASTER ENABLED", false);
-    joystick.setRumble(RumbleType.kRightRumble, 0);
-    joystick.setRumble(RumbleType.kLeftRumble, 0);
     blasterSubsystem.output(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return System.currentTimeMillis() - startTime >= timeInMilliseconds;
+    // return false;
   }
 }
