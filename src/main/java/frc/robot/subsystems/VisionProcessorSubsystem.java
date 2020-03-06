@@ -29,16 +29,17 @@ public class VisionProcessorSubsystem extends SubsystemBase {
     private NetworkTableEntry angleEntry;
     private Solenoid ringLight;
 
-    public VisionProcessorSubsystem(Solenoid ringLight, GripPipeline grip) {
+    public VisionProcessorSubsystem(/*Solenoid ringLight, */GripPipeline grip) {
         init();
 
-        this.ringLight = ringLight;
+        // this.ringLight = ringLight;
         this.grip = grip;
     }
 
     public void init() {
         // ringLight.clearAllPCMStickyFaults();
         // if pcm status is flashing orange (sticky fault), run once
+        ringLight = new Solenoid(Constants.RING_LIGHT_PORT);
         ringLight.set(true);
         camera = CameraServer.getInstance().startAutomaticCapture(Constants.CAM_NUMBER);
         camera.setExposureManual(Constants.CAM_EXPOSURE);
