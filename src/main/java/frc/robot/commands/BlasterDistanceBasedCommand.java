@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.sensors.Lidar;
 import frc.robot.subsystems.BlasterSubsystem;
+import frc.robot.utils.Log;
 
 public class BlasterDistanceBasedCommand extends CommandBase {
   /**
@@ -33,6 +34,8 @@ public class BlasterDistanceBasedCommand extends CommandBase {
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(blasterSubsystem);
+    // Log.infoF("Initializing Blaster Distance Command: %d", blasterSubsystem.getVelocity());
+
   }
 
   // Called when the command is initially scheduled.

@@ -1,0 +1,55 @@
+(20:49:51 I::frc.robot.RobotContainer) - Initializing Blaster Distance Command: 0
+(20:49:52 I::frc.robot.commands.autonCommands.autonCommandGroups.SnagNYeetCommandGroup) - Initializing Blaster Distance Command: 0
+(20:49:52 I::frc.robot.commands.autonCommands.autonCommandGroups.SnagNYeetCommandGroup) - Initializing Blaster Distance Command: 0
+(20:49:52 I::frc.robot.commands.autonCommands.autonCommandGroups.SnagNYeetCommandGroup) - Initializing Blaster Distance Command: 0
+(20:49:52 I::frc.robot.commands.autonCommands.autonCommandGroups.Yeet3PushNom3) - Initializing Blaster Distance Command: 0
+(20:49:52 I::frc.robot.commands.autonCommands.autonCommandGroups.PushNom2Yeet5Nom1) - Initializing Blaster Distance Command: 0
+(20:49:52 I::frc.robot.commands.autonCommands.autonCommandGroups.Yeet3) - Initializing Blaster Distance Command: 0
+(20:49:52 I::frc.robot.commands.autonCommands.autonCommandGroups.NoTurnAuton) - Initializing Blaster Distance Command: 0
+(20:49:52 I::frc.robot.commands.autonCommands.autonCommandGroups.Yeet3FinalsAuton) - Initializing Blaster Distance Command: 0
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Turret Initialized
+(20:50:23 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.265000 - 0.000000
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 2.533695
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:23 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.363652 - 3.231867
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 2.540113
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:23 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.363395 - 4.400000
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 3.299975
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:23 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.333001 - 4.388172
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 3.972653
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:23 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.306094 - 4.021505
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 3.989173
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:23 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.305433 - 3.702151
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 4.011146
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:23 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.304554 - 3.690323
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 4.003055
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:23 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.237378 - 3.678495
+(20:50:23 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 3.999791
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:24 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.237508 - 2.862366
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 4.031360
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:24 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.236246 - 2.862366
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 4.045663
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:24 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.235673 - 2.862317
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 4.054180
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:24 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.107833 - 2.862317
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 4.044467
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:24 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.108221 - 1.306452
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 4.059434
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? false
+(20:50:24 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.002623 - 1.306452
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Execute - AngleOffset: 4.057596
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - At setpoint? true
+(20:50:24 I::edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup) - Auto Turret System Ended
+(20:50:24 I::frc.robot.commands.TurnToTargetCommand) - Set Speed: 0.000000 - 0.000000
+(20:50:24 I::edu.wpi.first.wpilibj2.command.PIDSubsystem) - Set Speed: 0.097500 - 0.000000

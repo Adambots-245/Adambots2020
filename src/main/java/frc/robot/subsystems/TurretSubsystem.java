@@ -144,6 +144,8 @@ public class TurretSubsystem extends PIDSubsystem {
         
         turretMotor.set(ControlMode.PercentOutput, speed);
     }
+
+    Log.infoF("Set Speed: %f - %f", speed, turretMotor.getMotorOutputVoltage());
   }
 
 
