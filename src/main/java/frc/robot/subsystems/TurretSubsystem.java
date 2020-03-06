@@ -65,7 +65,7 @@ public class TurretSubsystem extends PIDSubsystem {
     System.out.println("Current Angle in Output: " + table.getEntry("Angle").getDouble(0));
 
     Double measurement = getMeasurement();
-    double calculatedOutput = getController().calculate(measurement, setpoint);
+    double calculatedOutput = output; //getController().calculate(measurement, setpoint);
     SmartDashboard.putNumber("Calculated Output", calculatedOutput);
 
     // System.out.println("Calculated Output: " + calculatedOutput);
