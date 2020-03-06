@@ -16,11 +16,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.*;
 import frc.robot.commands.autonCommands.*;
+import frc.robot.sensors.Lidar;
 import frc.robot.subsystems.BlasterSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -31,7 +31,7 @@ public class Nom2Yeet5 extends SequentialCommandGroup {
    * Creates a new Yeet3PushNom3.
    */
   public Nom2Yeet5(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem,
-      TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem,
+      TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, Lidar lidar,
       ConveyorSubsystem conveyorSubsystem, XboxController joystick) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
@@ -51,20 +51,20 @@ public class Nom2Yeet5 extends SequentialCommandGroup {
         new ParallelDeadlineGroup(
           new WaitCommand(2),
           new ManualTurretCommand(turretSubsystem, () -> 0, () -> 1),
-          new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem, joystick)
+          new BlasterDistanceBasedCommand(blasterSubsystem, lidar, joystick)
           // new StartIntakeCommand(intakeSubsystem, () -> 1.0)
         ),
 
         new ParallelRaceGroup(
           new WaitCommand(2),
-          new TurnToTargetCommand(turretSubsystem, lidarSubsystem)
+          new TurnToTargetCommand(turretSubsystem, lidar)
          ),
         // new BackboardNearCommand(blasterSubsystem),
         // new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
 
         new ParallelDeadlineGroup(
           new WaitCommand(5), 
-          new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem, joystick),
+          new BlasterDistanceBasedCommand(blasterSubsystem, lidar, joystick),
           new IndexToBlasterCommand(intakeSubsystem),
           new ConveyorCommand(conveyorSubsystem, () -> -1.0)
         )

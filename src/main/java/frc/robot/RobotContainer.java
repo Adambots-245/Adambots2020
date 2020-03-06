@@ -186,9 +186,9 @@ public class RobotContainer {
     autoChooser.addOption("CrossBaseline", new CrossBaseline(driveTrainSubsystem));
     autoChooser.addOption("Yeet3FinalsAuton", new Yeet3FinalsAuton(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, RobotMap.LidarSensor, blasterSubsystem, Buttons.secondaryJoystick));
     // autoChooser.addOption("90Degrees", autonTurn90DegreeCommand);
-    autoChooser.addOption("yeet3New", new Yeet3New(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, lidarSubsystem, blasterSubsystem, secondaryJoystick));
+    autoChooser.addOption("yeet3New", new Yeet3New(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, RobotMap.LidarSensor, blasterSubsystem, Buttons.secondaryJoystick));
     // autoChooser.addOption("0 to 45 to 0", new );
-    autoChooser.addOption("Nom2Yeet5", new Nom2Yeet5(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, lidarSubsystem, conveyorSubsystem, secondaryJoystick));
+    autoChooser.addOption("Nom2Yeet5", new Nom2Yeet5(driveTrainSubsystem, intakeSubsystem, turretSubsystem, blasterSubsystem, RobotMap.LidarSensor, conveyorSubsystem, Buttons.secondaryJoystick));
     // dashboard control buttons  
     SmartDashboard.putData("10 foot blaster velocity", new BlasterConstantOutputCommand(blasterSubsystem, RobotMap.LidarSensor, Constants.AUTON_TARGET_CENTER_LINE_CONSTANT_VELOCITY));
     SmartDashboard.putData("trench 35 foot blaster velocity", new BlasterConstantOutputCommand(blasterSubsystem, RobotMap.LidarSensor, Constants.TRENCH_SHOOTER_VELOCITY));

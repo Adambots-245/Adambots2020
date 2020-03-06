@@ -24,11 +24,11 @@ import frc.robot.commands.TurnToTargetCommand;
 import frc.robot.commands.autonCommands.DriveForwardDistanceCommand;
 import frc.robot.commands.autonCommands.DriveForwardGyroDistanceCommand;
 import frc.robot.commands.autonCommands.TimedCommand;
+import frc.robot.sensors.Lidar;
 import frc.robot.subsystems.BlasterSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -38,7 +38,7 @@ public class Yeet3New extends SequentialCommandGroup {
   /**
    * Creates a new Yeet3.
    */
-  public Yeet3New(TurretSubsystem turretSubsystem, DriveTrainSubsystem driveTrainSubsystem, ConveyorSubsystem conveyorSubsystem, IntakeSubsystem intakeSubsystem, LidarSubsystem lidarSubsystem, BlasterSubsystem blasterSubsystem, XboxController joystick) {
+  public Yeet3New(TurretSubsystem turretSubsystem, DriveTrainSubsystem driveTrainSubsystem, ConveyorSubsystem conveyorSubsystem, IntakeSubsystem intakeSubsystem, Lidar lidar, BlasterSubsystem blasterSubsystem, XboxController joystick) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
@@ -46,19 +46,19 @@ public class Yeet3New extends SequentialCommandGroup {
         // new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_OFF_LINE_DISTANCE, Constants.AUTON_DRIVE_OFF_LINE_SPEED, 0, true),
         new DriveForwardDistanceCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_OFF_LINE_DISTANCE, Constants.AUTON_DRIVE_OFF_LINE_SPEED),
         new ManualTurretCommand(turretSubsystem, () -> 0, () -> 1),         
-        new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem, joystick)
+        new BlasterDistanceBasedCommand(blasterSubsystem, lidar, joystick)
       ),
 
       new ParallelDeadlineGroup(
         new WaitCommand(2),
         new ManualTurretCommand(turretSubsystem, () -> 0, () -> 1),
-        new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem, joystick)
+        new BlasterDistanceBasedCommand(blasterSubsystem, lidar, joystick)
       ),
 
      //new TimedCommand(TurnToTargetCommand(turretSubsystem, lidarSubsystem), 3000),
      new ParallelRaceGroup(
       new WaitCommand(2),
-      new TurnToTargetCommand(turretSubsystem, lidarSubsystem)
+      new TurnToTargetCommand(turretSubsystem, lidar)
      ),
      
     //  new WaitCommand(5),
@@ -66,7 +66,7 @@ public class Yeet3New extends SequentialCommandGroup {
       new ParallelDeadlineGroup(
         new WaitCommand(5),
         // new BlasterConstantOutputCommand(blasterSubsystem, lidarSubsystem, velocityInEncoderTicks),
-        new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem, joystick),
+        new BlasterDistanceBasedCommand(blasterSubsystem, lidar, joystick),
         new IndexToBlasterCommand(intakeSubsystem),
         new ConveyorCommand(conveyorSubsystem, ()->-1)
       )
