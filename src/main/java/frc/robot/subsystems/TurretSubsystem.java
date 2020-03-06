@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Constants;
+import frc.robot.utils.Log;
 
 public class TurretSubsystem extends PIDSubsystem {
 
@@ -116,6 +117,8 @@ public class TurretSubsystem extends PIDSubsystem {
     } else {
       turretMotor.set(ControlMode.PercentOutput, speed);
     }
+
+    Log.infoF("Set Speed: %f - %f", speed, turretMotor.getMotorOutputVoltage());
   }
 
 

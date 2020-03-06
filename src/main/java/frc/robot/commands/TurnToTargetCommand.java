@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.utils.Log;
 import frc.robot.Constants;
 
 public class TurnToTargetCommand extends CommandBase {
@@ -31,7 +32,7 @@ public class TurnToTargetCommand extends CommandBase {
   public void initialize() {
     turretSubsystem.enable();
 
-    System.out.println("Turret Initialized");
+    // Log.info("Turret Initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,24 +43,27 @@ public class TurnToTargetCommand extends CommandBase {
     // turretSubsystem.setAngleOffset(calculatedOffset);
     turretSubsystem.setSetpoint(calculatedOffset);
     SmartDashboard.putNumber("angleOffset", calculatedOffset);
+
+    // Log.infoF("Execute - AngleOffset: %f", calculatedOffset);
     //turretSystem PID loop should deal with movement
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Auto Turret System Ended");
+    // Log.info("Auto Turret System Ended");
 
     if (interrupted) 
-      System.out.println("Turret System Interrupted");
+      // Log.info("Turret System Interrupted");
       
-    turretSubsystem.stopTurret();
     turretSubsystem.disable();
+    turretSubsystem.stopTurret();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Log.infoF("At setpoint? %b", turretSubsystem.atSetpoint());
     return turretSubsystem.atSetpoint();
   }
 }
