@@ -1,5 +1,6 @@
 package frc.robot.utils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import java.util.logging.Level;
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class Test {
     public static void main(String[] args) {
+        // System.out.println("Class Name: " + Log.getCallerClassName());
         Log.saveToFile("E:/test.log");
         Log.info("Test", "Waiting for input", args.length);
         // Log.setFilter(Level.SEVERE);
@@ -19,6 +21,16 @@ public class Test {
 
         Color color = ColorMatch.makeColor(0.311, 0.566, 0.121);
         Log.infoF("Color: %f", color.red);
+
+        // Logg.setLevel(Level.INFO);
+        Log.info("Test This Too!");
+        new Test().new innerClass().logThis();
+
+        ArrayList<Integer> arrL = new ArrayList<Integer>(); 
+        arrL.add(1); 
+        arrL.add(2); 
+
+        arrL.forEach(n -> Log.infoF("arrL: %d", n));
 
         // return;
         // PIDController controller = new PIDController(1.1325, 0, 0);
@@ -63,5 +75,11 @@ public class Test {
         
         // System.out.println("Measurement 2");
         // System.out.println(sb2.toString());
+    }
+
+    public class innerClass{
+        public void logThis(){
+            Log.severe("Test innerClass: ");
+        }
     }
 }

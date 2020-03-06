@@ -30,13 +30,8 @@ public class PushNom2Yeet5 extends SequentialCommandGroup {
    * Creates a new Yeet3PushNom3.
    */
   public PushNom2Yeet5(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem,
-<<<<<<< HEAD
-      TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem,
-      ConveyorSubsystem conveyorSubsystem, XboxController joystick) {
-=======
       TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, Lidar lidar,
-      ConveyorSubsystem conveyorSubsystem) {
->>>>>>> e887a2d9761597a0efca33e497f0d9e85dd2cb0a
+      ConveyorSubsystem conveyorSubsystem, XboxController joystick) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     super(
@@ -51,21 +46,12 @@ public class PushNom2Yeet5 extends SequentialCommandGroup {
 
         // YEET 5 BALLS
         // new BackboardNearCommand(blasterSubsystem),
-<<<<<<< HEAD
-        new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
+        new TurnToTargetCommand(turretSubsystem, lidar),
         new ParallelCommandGroup(
           // new WaitCommand(5), 
-          new TimedCommand(new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem, joystick), 5000/1000),
+          new TimedCommand(new BlasterDistanceBasedCommand(blasterSubsystem, lidar, joystick), 5000/1000),
           new TimedCommand(new IndexToBlasterCommand(intakeSubsystem),  5000/1000),
           new TimedCommand(new ConveyorCommand(conveyorSubsystem, () -> 1.0), 5000/1000)
-=======
-        new TurnToTargetCommand(turretSubsystem, lidar),
-        new ParallelDeadlineGroup(
-          new WaitCommand(5), 
-          new BlasterDistanceBasedCommand(blasterSubsystem, lidar),
-          new IndexToBlasterCommand(intakeSubsystem), 
-          new ConveyorCommand(conveyorSubsystem, () -> 1.0)
->>>>>>> e887a2d9761597a0efca33e497f0d9e85dd2cb0a
         ),
         // NOM/INTAKE 1 BALL (also keep driving (parallel to balls and guardrail))
         new ParallelDeadlineGroup( // deadline because it should move on after it has reached the position

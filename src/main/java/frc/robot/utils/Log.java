@@ -21,7 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 /**
  * Generic logger class that will print statements to the Console or save to a file. Allows usage
@@ -29,7 +28,7 @@ import java.util.logging.SimpleFormatter;
  * printed.
  */
 
-public class Log {
+public class Log extends SecurityManager{
     private Logger logger;
     private static Object _instance_lock = new Object();
     private volatile static Log _instance = null;
@@ -98,7 +97,8 @@ public class Log {
     public static Log severe(String message) {
         Log log = Log.instance();
 
-        log.logger.severe(getCallerClassName() + ") - " + message);
+        log.logger.severe("[" + getCallerClassName() + "] - " + message);
+
         return log;
     }
 
@@ -171,11 +171,14 @@ public class Log {
     public static Log info(String message) {
         Log log = Log.instance();
 
-        log.logger.info(getCallerClassName() + ") - " + message);
+        log.logger.info("[" + getCallerClassName() + "] - " + message);
+        // log.logger.info(message);
         return log;
     }
 
     public static String getCallerClassName() {
+
+        /*
         StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
         String callerClassName = null;
         for (int i = 1; i < stElements.length; i++) {
@@ -187,6 +190,17 @@ public class Log {
                 } else if (!callerClassName.equals(ste.getClassName())) {
                     return ste.getClassName();
                 }
+            }
+        }
+        */
+        String callerClassName = Log.instance().getClassContext()[1].getName();
+        // int i=0;
+        for (Class<?> lClass : Log.instance().getClassContext()) {
+            // System.out.println("Class: [" + i++ + "] " + lClass.getName());
+            
+            if (!lClass.getName().equals(Log.class.getName())){
+                callerClassName = lClass.getName();
+                break;
             }
         }
         return callerClassName;
@@ -231,10 +245,12 @@ public class Log {
 
         @Override
         public String format(LogRecord record) {
-            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("mm/dd HH:mm:ss.SSS");
 
             String now = dateFormat.format(new Date());
-            return "(" + now + " " + record.getLevel().getName().substring(0, 1) + "::" + record.getMessage() + "\n";
+
+            return String.format("%s %s::%s\n", now, record.getLevel().getName().substring(0, 1), record.getMessage());
+            // return "(" + now + " " + record.getLevel().getName().substring(0, 1) + "::" + record.getMessage() + "\n";
         }
     }
 

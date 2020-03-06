@@ -23,16 +23,10 @@ public class BlasterDistanceBasedCommand extends CommandBase {
   private double initialDistance = 0;
   private XboxController joystick;
 
-<<<<<<< HEAD
-  public BlasterDistanceBasedCommand(BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, XboxController joystick) {
-    this.blasterSubsystem = blasterSubsystem;
-    this.lidarSubsystem = lidarSubsystem;
-    this.joystick = joystick;
-=======
-  public BlasterDistanceBasedCommand(BlasterSubsystem blasterSubsystem, Lidar lidar) {
-    this.blasterSubsystem = blasterSubsystem;
+  public BlasterDistanceBasedCommand(BlasterSubsystem blasterSubsystem, Lidar lidar, XboxController joystick) {
     this.lidar = lidar;
->>>>>>> e887a2d9761597a0efca33e497f0d9e85dd2cb0a
+    this.blasterSubsystem = blasterSubsystem;
+    this.joystick = joystick;
 
     SmartDashboard.putNumber("Blaster Velocity", blasterSubsystem.getVelocity());
     SmartDashboard.putNumber("Distance To Target", lidar.getInches());
@@ -80,12 +74,8 @@ public class BlasterDistanceBasedCommand extends CommandBase {
     double vfps = (rpm/secondsInMinute) * Math.PI * (flyWheelDiameterInInches/inchesInFeet);
     SmartDashboard.putNumber("Blaster Velocity (RPM)", rpm);
     SmartDashboard.putNumber("Blaster Velocity (Feets Per Sec)", vfps);
-<<<<<<< HEAD
-    SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
-    SmartDashboard.putBoolean("BLASTER ENABLED", true);
-=======
     SmartDashboard.putNumber("Distance To Target", lidar.getInches());
->>>>>>> e887a2d9761597a0efca33e497f0d9e85dd2cb0a
+    SmartDashboard.putBoolean("BLASTER ENABLED", true);
     // at velocity checker
     boolean atVelocity = false;
     double velocityThresh = 3000; // ticks per 100ms

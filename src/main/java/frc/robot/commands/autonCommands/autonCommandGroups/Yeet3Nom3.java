@@ -28,11 +28,7 @@ public class Yeet3Nom3 extends SequentialCommandGroup {
   /**
    * Creates a new Yeet3PushNom3.
    */
-<<<<<<< HEAD
-  public Yeet3Nom3(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, ConveyorSubsystem conveyorSubsystem, XboxController joystick) {
-=======
-  public Yeet3Nom3(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, Lidar lidar, ConveyorSubsystem conveyorSubsystem) {
->>>>>>> e887a2d9761597a0efca33e497f0d9e85dd2cb0a
+  public Yeet3Nom3(DriveTrainSubsystem driveTrainSubsystem, IntakeSubsystem intakeSubsystem, TurretSubsystem turretSubsystem, BlasterSubsystem blasterSubsystem, Lidar lidar, ConveyorSubsystem conveyorSubsystem, XboxController joystick) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     super(
@@ -41,11 +37,7 @@ public class Yeet3Nom3 extends SequentialCommandGroup {
       new TurnToTargetCommand(turretSubsystem, lidar),
       new ParallelDeadlineGroup(
         new WaitCommand(5),
-<<<<<<< HEAD
-        new BlasterDistanceBasedCommand(blasterSubsystem, lidarSubsystem, joystick),
-=======
-        new BlasterDistanceBasedCommand(blasterSubsystem, lidar),
->>>>>>> e887a2d9761597a0efca33e497f0d9e85dd2cb0a
+        new BlasterDistanceBasedCommand(blasterSubsystem, lidar, joystick),
         new IndexToBlasterCommand(intakeSubsystem),
         new ConveyorCommand(conveyorSubsystem, ()->1.0)
       ),
