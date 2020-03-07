@@ -193,6 +193,17 @@ public class VisionProcessorSubsystem extends SubsystemBase {
 
                 }
 
+                if (!contourRemoved) {
+                    if (centerpt.y > Constants.IMG_HEIGHT / 2) {
+                        contours.remove(i);
+                        convexContours.remove(i);
+                        i--;
+                        contourRemoved = true;
+                        
+                    }
+
+                }
+
             }
 
         }
