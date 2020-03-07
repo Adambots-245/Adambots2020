@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.BlasterSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class BackboardToggleCommand extends CommandBase {
@@ -29,7 +30,13 @@ public class BackboardToggleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    blasterSubsystem.toggleBackboard();
+    if (blasterSubsystem.getBackboardPosition()) {
+      blasterSubsystem.setBackboard(false);
+      SmartDashboard.putString("Backboard set to ", "near yeeting.");
+    } else {
+      blasterSubsystem.setBackboard(true);
+      SmartDashboard.putString("Backboard set to ", "far yeeting.");
+    }
     System.out.println("backboard has been toggled");
   }
 
@@ -41,6 +48,6 @@ public class BackboardToggleCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -28,7 +28,7 @@ public class RotatePanelCommand extends CommandBase {
 // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      controlPanel.startRotations();
+      controlPanel.startRotations(ControlPanelSubsystem.Modes.Rotations);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,6 +46,6 @@ public class RotatePanelCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return controlPanel.isFinished("rotations");
+    return controlPanel.isFinished(ControlPanelSubsystem.Modes.Rotations);
   }
 }

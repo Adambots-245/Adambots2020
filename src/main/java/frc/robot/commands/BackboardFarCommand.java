@@ -7,27 +7,20 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.BlasterSubsystem;
 
-public class GyroDriveForDistCommand extends CommandBase {
+public class BackboardFarCommand extends CommandBase {
   /**
-   * Creates a new DriveForwardDistance.
+   * Creates a new BackboardFarCommand.
    */
-  DriveTrainSubsystem driveTrain;
-  double distance;
-  double speed;
-  double yaw;
 
-  public GyroDriveForDistCommand(DriveTrainSubsystem inpuDriveTrain, double inputDistance, double inputSpeed, float getYaw) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    driveTrain = inpuDriveTrain;
-    distance = inputDistance;
-    speed = inputSpeed;
-    yaw = getYaw;
+  private final BlasterSubsystem blasterSubsystem;
 
-    addRequirements(driveTrain);
-
+  public BackboardFarCommand(BlasterSubsystem blasterSubsystem) {
+    this.blasterSubsystem = blasterSubsystem;
+    addRequirements(blasterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -38,16 +31,8 @@ public class GyroDriveForDistCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turnSpeed;
-    if (yaw >= 20.0){
-      turnSpeed = 0.1;
-    } else if (yaw <= -20.0) {
-      turnSpeed = -0.1;
-    } else {
-      turnSpeed = 0;
-    }
-    driveTrain.arcadeDrive(speed, turnSpeed);
-    //driveTrain.driveDistance(distance);
+    blasterSubsystem.setBackboard(true);
+    SmartDashboard.putString("Backboard set to ", "far yeeting.");
   }
 
   // Called once the command ends or is interrupted.
@@ -58,6 +43,6 @@ public class GyroDriveForDistCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (driveTrain.getAverageDriveEncoderValue() >= distance);
+    return true;
   }
 }

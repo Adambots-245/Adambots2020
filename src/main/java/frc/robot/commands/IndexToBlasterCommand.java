@@ -18,7 +18,7 @@ public class IndexToBlasterCommand extends CommandBase {
   
   public IndexToBlasterCommand(IntakeSubsystem intakeSubsystem) {
       this.intakeSubsystem = intakeSubsystem;
-      addRequirements(intakeSubsystem);
+      // addRequirements(intakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -37,6 +37,7 @@ public class IndexToBlasterCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("index stop");
     intakeSubsystem.stopIndex();
   }
 

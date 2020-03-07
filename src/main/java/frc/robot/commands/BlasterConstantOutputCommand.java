@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.sensors.Lidar;
 import frc.robot.subsystems.BlasterSubsystem;
 
 public class BlasterConstantOutputCommand extends CommandBase {
@@ -16,9 +17,17 @@ public class BlasterConstantOutputCommand extends CommandBase {
    * Creates a new BlasterConstantOutputCommand.
    */
   BlasterSubsystem blasterSubsystem;
+  private Lidar lidar;
+  private double velocityInEncoderTicks;
 
-  public BlasterConstantOutputCommand(BlasterSubsystem blasterSubsystem) {
+  public BlasterConstantOutputCommand(BlasterSubsystem blasterSubsystem, Lidar lidar, double velocityInEncoderTicks) {
     this.blasterSubsystem = blasterSubsystem;
+    this.lidar = lidar;
+    this.velocityInEncoderTicks = velocityInEncoderTicks;
+    
+    SmartDashboard.putNumber("Blaster Velocity", blasterSubsystem.getVelocity());
+    SmartDashboard.putNumber("Distance To Target", lidar.getInches());
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(blasterSubsystem);
   }
@@ -26,13 +35,15 @@ public class BlasterConstantOutputCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    blasterSubsystem.setVelocity(10343);
+    // blasterSubsystem.setVelocity(10343);
+    blasterSubsystem.setVelocity(velocityInEncoderTicks);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("BlasterVelocity", blasterSubsystem.getVelocity());
+    SmartDashboard.putNumber("Blaster Velocity", blasterSubsystem.getVelocity());
+    SmartDashboard.putNumber("Distance To Target", lidar.getInches());
   }
 
   // Called once the command ends or is interrupted.

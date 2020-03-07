@@ -11,7 +11,11 @@ package frc.robot.Gamepad;
  * Add your docs here.
  */
 public class GamepadConstants {
-    //// CONSTANTS -------------------------------------------------------------
+	//// CONSTANTS -------------------------------------------------------------
+	
+	// deadzone
+	public static final double DEADZONE = 0.15;
+
 	/**
 	 * Primary Driver Controller Port Number.
 	 */

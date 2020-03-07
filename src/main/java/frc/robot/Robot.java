@@ -8,6 +8,10 @@
 package frc.robot;
 
 import frc.robot.subsystems.*;
+import frc.robot.vision.GripPipeline;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,15 +39,15 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     
-    // Instantiate our RobotContainer. This will perform all our button bindings,
-    // and put our
     if (Robot.isReal()) {
-      // Starts vision thread
-      vision = new VisionProcessorSubsystem();
+      // Starts vision thread only if not running in simulation mode
+      // Vision System calculates the angle to the target and posts it to the NetworkTable
+      vision = new VisionProcessorSubsystem(RobotMap.RingLight, new GripPipeline());
       visionThread = vision.getVisionThread();
       visionThread.setDaemon(true);
       visionThread.start();
     }
+
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
@@ -73,6 +77,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    
   }
 
   /**
@@ -80,6 +85,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    RobotMap.FrontLeftMotor.setNeutralMode(NeutralMode.Coast);
+    RobotMap.BackLeftMotor.setNeutralMode(NeutralMode.Coast);
+    RobotMap.FrontRightMotor.setNeutralMode(NeutralMode.Coast);
+    RobotMap.BackRightMotor.setNeutralMode(NeutralMode.Coast);
   }
 
   @Override
@@ -93,11 +102,16 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    SmartDashboard.putString("auton selected", m_autonomousCommand.toString());
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    
+    RobotMap.FrontLeftMotor.setNeutralMode(NeutralMode.Brake);
+    RobotMap.BackLeftMotor.setNeutralMode(NeutralMode.Brake);
+    RobotMap.FrontRightMotor.setNeutralMode(NeutralMode.Brake);
+    RobotMap.BackRightMotor.setNeutralMode(NeutralMode.Brake);
   }
 
   /**
@@ -118,6 +132,11 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    
+    RobotMap.FrontLeftMotor.setNeutralMode(NeutralMode.Coast);
+    RobotMap.BackLeftMotor.setNeutralMode(NeutralMode.Coast);
+    RobotMap.FrontRightMotor.setNeutralMode(NeutralMode.Coast);
+    RobotMap.BackRightMotor.setNeutralMode(NeutralMode.Coast);
   }
 
   /**
@@ -139,6 +158,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    
     // SmartDashboard.putNumber("pitch",gyroSubsystem.getPitch());
     // SmartDashboard.putNumber("roll",gyroSubsystem.getRoll());
     // SmartDashboard.putNumber("yaw",gyroSubsystem.getYaw());

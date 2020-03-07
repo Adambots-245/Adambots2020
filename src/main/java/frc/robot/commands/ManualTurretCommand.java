@@ -11,6 +11,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.utils.Log;
 
 public class ManualTurretCommand extends CommandBase {
   /**
@@ -41,6 +42,9 @@ public class ManualTurretCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    turretSubsystem.setSpeed(0);
+    //Log.infoF("Ending Manual Turrent Command. Interrupted = %b", interrupted);
+    System.out.println("manual turret command ended");
   }
 
   // Returns true when the command should end.

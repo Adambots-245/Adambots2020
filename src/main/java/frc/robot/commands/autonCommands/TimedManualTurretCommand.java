@@ -5,50 +5,53 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.autonCommands;
+
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 
-public class DriveForwardDistanceCommand extends CommandBase {
+public class TimedManualTurretCommand extends CommandBase {
   /**
-   * Creates a new DriveForwardDistance.
+   * Creates a new ManualTurretCommand.
    */
-  DriveTrainSubsystem driveTrain;
-  double distance;
-  double speed;
-
-  public DriveForwardDistanceCommand(DriveTrainSubsystem inpuDriveTrain, double inputDistance, double inputSpeed) {
+  private final TurretSubsystem turretSubsystem;
+  DoubleSupplier leftInput;
+  DoubleSupplier rightInput;
+  long startTime;
+  long timeInMilliseconds;
+  public TimedManualTurretCommand(TurretSubsystem turretSubsystem, DoubleSupplier leftInput, DoubleSupplier rightInput, long timeInMilliseconds) {
+    this.turretSubsystem = turretSubsystem;
+    this.leftInput = leftInput;
+    this.rightInput = rightInput;
+    this.timeInMilliseconds = timeInMilliseconds;
     // Use addRequirements() here to declare subsystem dependencies.
-    driveTrain = inpuDriveTrain;
-    distance = inputDistance;
-    speed = inputSpeed;
-
-    addRequirements(driveTrain);
-
+    addRequirements(turretSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    startTime = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turnSpeed = 0;
-    driveTrain.arcadeDrive(speed, turnSpeed);
-    //driveTrain.driveDistance(distance);
+    turretSubsystem.setSpeed(rightInput.getAsDouble()-leftInput.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    turretSubsystem.setSpeed(0);
+    System.out.println("timed manual turret command ended");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (driveTrain.getAverageDriveEncoderValue() >= distance);
+    return System.currentTimeMillis() - startTime >= timeInMilliseconds;
   }
 }

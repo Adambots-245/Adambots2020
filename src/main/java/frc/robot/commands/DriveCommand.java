@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
@@ -33,6 +34,7 @@ public class DriveCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    drivetrain.resetEncoders();
 
   }
 
@@ -43,6 +45,7 @@ public class DriveCommand extends CommandBase {
     // rotationInput.getAsDouble());
     drivetrain.getAverageDriveEncoderValue();
     drivetrain.arcadeDrive(forwardBackwardInput.getAsDouble(), rotationInput.getAsDouble());
+    SmartDashboard.putNumber("driveencoder", drivetrain.getAverageDriveEncoderValue());
   }
 
   // Called once the command ends or is interrupted.

@@ -25,7 +25,7 @@ public class AlignColorCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      controlPanel.startAligner();
+      controlPanel.startAligner(ControlPanelSubsystem.Modes.Alignment);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,6 +44,6 @@ public class AlignColorCommand extends CommandBase {
   //Runs until interrupted
   @Override
   public boolean isFinished() {
-    return controlPanel.isFinished("aligner");
+    return controlPanel.isFinished(ControlPanelSubsystem.Modes.Alignment);
   }
 }
