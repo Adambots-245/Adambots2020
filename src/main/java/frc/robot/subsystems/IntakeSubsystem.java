@@ -41,37 +41,37 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void intake(double speed) {
 
-    Log.infoF("Intake - Speed: %f", speed);
+    //Log.infoF("Intake - Speed: %f", speed);
     intakeMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public void outtake() {
-    Log.infoF("Outake - Speed: %f", Constants.OUTTAKE_SPEED);
+    //Log.infoF("Outake - Speed: %f", Constants.OUTTAKE_SPEED);
     intakeMotor.set(ControlMode.PercentOutput, Constants.OUTTAKE_SPEED);
   }
 
   public void conveyor(double conveyorSpeed) {
-    Log.infoF("Conveyor - Speed: %f", conveyorSpeed);
+    //Log.infoF("Conveyor - Speed: %f", conveyorSpeed);
     conveyorMotor.set(ControlMode.PercentOutput, conveyorSpeed);
   }
 
   public void indexToConveyor(double indexToConveyorSpeed) {
-    Log.infoF("IndexToConveyor - Speed: %f", indexToConveyorSpeed);
+    //Log.infoF("IndexToConveyor - Speed: %f", indexToConveyorSpeed);
     conveyorIndexerMotor.set(ControlMode.PercentOutput, indexToConveyorSpeed);
   }
 
   public void feedToBlaster() {
-    Log.infoF("Feed to Blaster - Speed: %f", Constants.FEED_TO_BLASTER_SPEED);
+    //Log.infoF("Feed to Blaster - Speed: %f", Constants.FEED_TO_BLASTER_SPEED);
     feedToBlasterMotor.set(ControlMode.PercentOutput, Constants.FEED_TO_BLASTER_SPEED);
   }
 
   public void reverseFeedToBlaster(){
-    Log.infoF("Reverse Feed to Blaster - Speed: %f", -Constants.FEED_TO_BLASTER_SPEED);
+    //Log.infoF("Reverse Feed to Blaster - Speed: %f", -Constants.FEED_TO_BLASTER_SPEED);
     feedToBlasterMotor.set(ControlMode.PercentOutput, -Constants.FEED_TO_BLASTER_SPEED);
   }
 
   public void stopIndex() {
-    Log.infoF("Stop Index - Speed: %f", Constants.STOP_MOTOR_SPEED);
+    //Log.infoF("Stop Index - Speed: %f", Constants.STOP_MOTOR_SPEED);
     feedToBlasterMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
   }
 

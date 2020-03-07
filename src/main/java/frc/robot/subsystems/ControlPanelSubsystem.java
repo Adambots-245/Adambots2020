@@ -77,7 +77,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
     lastColor = currentColor;
 
-    Log.infoF("Current color: %s", currentColor.toString());
+    //Log.infoF("Current color: %s", currentColor.toString());
     return currentColor;
 }
 
@@ -125,7 +125,7 @@ public double getProximity() {
 //Starts spinning
 public void startMotor(Modes mode) {
 
-    Log.infoF("Start Motor: Mode = %s, %% Output = %f", Modes.Rotations, mode == Modes.Rotations? Constants.PANEL_MOTOR_SPEED_ROTATION : Constants.PANEL_MOTOR_SPEED_ALIGNMENT);
+    //Log.infoF("Start Motor: Mode = %s, %% Output = %f", Modes.Rotations, mode == Modes.Rotations? Constants.PANEL_MOTOR_SPEED_ROTATION : Constants.PANEL_MOTOR_SPEED_ALIGNMENT);
     panelMotor.set(ControlMode.PercentOutput, mode == Modes.Rotations? Constants.PANEL_MOTOR_SPEED_ROTATION : Constants.PANEL_MOTOR_SPEED_ALIGNMENT);
 }
 
@@ -162,7 +162,7 @@ public int getRotations() {
 //This method monitors the rotations of the wheel and stops rotating once 3 rotations are complete
 public void monitorRotations() {
 
-    Log.infoF("Rotational color count: %d", rotationalColorCount);
+    //Log.infoF("Rotational color count: %d", rotationalColorCount);
     SmartDashboard.putNumber("Rotational Color Count", rotationalColorCount);
 
     if (rotationalStartingColor.equals(getColor()) && offStartingColor) {
@@ -222,7 +222,7 @@ public Color getFmsColor() {
         }
     }
 
-    Log.infoF("FMS Color: %c", gameData.charAt(0));
+    //Log.infoF("FMS Color: %c", gameData.charAt(0));
     return retVal;
 }
 

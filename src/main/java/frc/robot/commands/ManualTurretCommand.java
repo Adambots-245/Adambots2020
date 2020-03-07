@@ -43,7 +43,7 @@ public class ManualTurretCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     turretSubsystem.setSpeed(0);
-    Log.infoF("Ending Manual Turrent Command. Interrupted = %b", interrupted);
+    //Log.infoF("Ending Manual Turrent Command. Interrupted = %b", interrupted);
     System.out.println("manual turret command ended");
   }
 

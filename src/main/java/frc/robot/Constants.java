@@ -187,7 +187,7 @@ public final class Constants {
     
 	public static final double YEET3PUSHNOM3_DIAG_DISTANCE_TO_TRENCH = 60*ENCODER_TICKS_PER_INCH;
 	public static final double YEET3PUSHNOM3_3_BALL_STRAIGHT_DISTANCE = 60*ENCODER_TICKS_PER_INCH;
-	public static final double AUTON_2_BALL_STRAIGHT_DISTANCE = 170.52*ENCODER_TICKS_PER_INCH;
+	public static final double AUTON_2_BALL_STRAIGHT_DISTANCE = 136*ENCODER_TICKS_PER_INCH;
 	public static final double AUTON_1_BALL_STRAIGHT_DISTANCE = 36*ENCODER_TICKS_PER_INCH;
     public static final double AUTON_2_BALL_RP_STRAIGHT_DISTANCE = 0;
     

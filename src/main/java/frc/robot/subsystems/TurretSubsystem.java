@@ -49,23 +49,24 @@ public class TurretSubsystem extends PIDSubsystem {
     NetworkTableInstance instance = NetworkTableInstance.getDefault();
     table = instance.getTable("Vision");
 
-    Log.infoF("Initializing TurretSubsystem - kP=%f, kI=%f, kD=%f", Constants.TURRET_kP, Constants.TURRET_kI, Constants.TURRET_kD);
+    //Log.infoF("Initializing TurretSubsystem - kP=%f, kI=%f, kD=%f", Constants.TURRET_kP, Constants.TURRET_kI, Constants.TURRET_kD);
   }
 
   public void setAngleOffset(double calculatedOffset) {
     angleOffset = calculatedOffset;
     SmartDashboard.putNumber("angleOffset", angleOffset);
 
-    Log.infoF("Setting Angle Offset to %f", angleOffset);
+    //Log.infoF("Setting Angle Offset to %f", angleOffset);
   }
 
   @Override
   public void useOutput(double output, double setpoint) {
     System.out.println("Output: " + output);
     System.out.println("Current Angle in Output: " + table.getEntry("Angle").getDouble(0));
+    //Log.info("Setpoint in useOutput: ", setpoint);
 
     Double measurement = getMeasurement();
-    double calculatedOutput = output; //getController().calculate(measurement, setpoint);
+    double calculatedOutput = getController().calculate(measurement, setpoint);
     SmartDashboard.putNumber("Calculated Output", calculatedOutput);
 
     // System.out.println("Calculated Output: " + calculatedOutput);
@@ -76,7 +77,7 @@ public class TurretSubsystem extends PIDSubsystem {
     // SmartDashboard.putNumber("Turret Output", calculatedOutput);
     setSpeed(-calculatedOutput);  
 
-    Log.infoF("Use Output - PIDOutput=%f, Setpoint=%f, Measurement=%f, PIDCalculatedOutput=%f, Speed=%f", output, setpoint, measurement, calculatedOutput, -calculatedOutput);
+    //Log.infoF("Use Output - PIDOutput=%f, Setpoint=%f, Measurement=%f, PIDCalculatedOutput=%f, Speed=%f", output, setpoint, measurement, calculatedOutput, -calculatedOutput);
     // setSpeed(-clampAbs);  
   }
 
@@ -87,18 +88,18 @@ public class TurretSubsystem extends PIDSubsystem {
   }
 
   public boolean atSetpoint() {
-    Log.infoF("At Set Point: %b", m_controller.atSetpoint());
+    //Log.infoF("At Set Point: %b", m_controller.atSetpoint());
     return m_controller.atSetpoint();
   }
 
   public void runTurret(double speed) {
 
-    Log.infoF("Running turret at Speed=%f", speed);
+    //Log.infoF("Running turret at Speed=%f", speed);
     setSpeed(speed);
   }
 
   public void stopTurret() {
-    Log.info("Stopping Turret");
+    //Log.info("Stopping Turret");
     setSpeed(Constants.STOP_MOTOR_SPEED);
   }
 
@@ -109,43 +110,43 @@ public class TurretSubsystem extends PIDSubsystem {
   public void changeOffset(double value) {
     angleOffset += value;
 
-    Log.infoF("Changing angle offset = %f", angleOffset);
-    Log.infoF("Changing setpoint = %f", Constants.TURRET_TARGET_ANGLE + angleOffset);
+    //Log.infoF("Changing angle offset = %f", angleOffset);
+    //Log.infoF("Changing setpoint = %f", Constants.TURRET_TARGET_ANGLE + angleOffset);
     setSetpoint(Constants.TURRET_TARGET_ANGLE + angleOffset);
   }
 
   public void setSpeed(double speed){
     if (!leftLimitSwitch.get()) {
       if (speed < 0){
-        Log.infoF("Stopping motor - speed = %f", speed);
+        //Log.infoF("Stopping motor - speed = %f", speed);
 
         turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
       }
       else{
        
-        Log.infoF("Setting speed = %f", speed);
+        //Log.infoF("Setting speed = %f", speed);
 
         turretMotor.set(ControlMode.PercentOutput, speed);
       }
       
     } else if (!rightLimitSwitch.get()) {
       if (speed > 0){
-        Log.infoF("Stopping motor - speed = %f", speed);
+        //Log.infoF("Stopping motor - speed = %f", speed);
 
         turretMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
       }
       else {
-        Log.infoF("Setting speed = %f", speed);
+        //Log.infoF("Setting speed = %f", speed);
         
         turretMotor.set(ControlMode.PercentOutput, speed);
       }
     } else {
-        Log.infoF("Setting speed = %f", speed);
+        //Log.infoF("Setting speed = %f", speed);
         
         turretMotor.set(ControlMode.PercentOutput, speed);
     }
 
-    Log.infoF("Set Speed: %f - %f", speed, turretMotor.getMotorOutputVoltage());
+    //Log.infoF("Set Speed: %f - %f", speed, turretMotor.getMotorOutputVoltage());
   }
 
 

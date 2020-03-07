@@ -31,13 +31,13 @@ public class ConveyorSubsystem extends SubsystemBase {
 
   public void runConveyor(double speed){
 
-    Log.infoF("Running coveyor. %% Output: %f", speed);
+    //Log.infoF("Running coveyor. %% Output: %f", speed);
     conveyorMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public void runAlignmentBelt(double speed){
 
-    Log.infoF("Running Alignment Belt. %% Output: %f", speed);
+    //Log.infoF("Running Alignment Belt. %% Output: %f", speed);
     alignmentBeltMotor.set(ControlMode.PercentOutput, speed);
   }
 

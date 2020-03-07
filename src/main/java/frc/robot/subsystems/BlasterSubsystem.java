@@ -23,8 +23,7 @@ public class BlasterSubsystem extends SubsystemBase {
 
         if (blasterMotor != null) {
             Log.info("Blaster Subsystem initialized.");
-            Log.infoF("Blaster kF=[%f], kP=[%f], kI=[%f], kD=[%f]", 
-                    Constants.BLASTER_KF, Constants.BLASTER_KP, Constants.BLASTER_KI, Constants.BLASTER_KD);
+            //Log.infoF("Blaster kF=[%f], kP=[%f], kI=[%f], kD=[%f]", Constants.BLASTER_KF, Constants.BLASTER_KP, Constants.BLASTER_KI, Constants.BLASTER_KD);
             
             blasterMotor.config_kF(0, Constants.BLASTER_KF);
             blasterMotor.config_kP(0, Constants.BLASTER_KP);
@@ -36,7 +35,7 @@ public class BlasterSubsystem extends SubsystemBase {
     // sets blaster wheel speed as a percentage output value (-1 to 1, 0 to stop)
     public void output(double speed) {
 
-        Log.infoF("Output: %% Output = %f", speed);
+        //Log.infoF("Output: %% Output = %f", speed);
         blasterMotor.set(ControlMode.PercentOutput, speed);
     }
 
@@ -44,7 +43,7 @@ public class BlasterSubsystem extends SubsystemBase {
     // 100ms
     public void setVelocity(double speed) {
 
-        Log.infoF("Set Velocity: Speed = %f", speed);
+        //Log.infoF("Set Velocity: Speed = %f", speed);
 
         blasterMotor.set(ControlMode.Velocity, speed);
     }
@@ -72,7 +71,7 @@ public class BlasterSubsystem extends SubsystemBase {
      */
     public void setBackboard(boolean isBackboardFarPosition) {
 
-        Log.infoF("Set Backboard: isBackboardFarPosition = %b", isBackboardFarPosition);
+        //Log.infoF("Set Backboard: isBackboardFarPosition = %b", isBackboardFarPosition);
 
         backboard.set(isBackboardFarPosition);
     }

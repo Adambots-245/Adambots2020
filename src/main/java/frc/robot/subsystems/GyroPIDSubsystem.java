@@ -31,7 +31,7 @@ public class GyroPIDSubsystem extends PIDSubsystem {
   
     gyro = Gyro.getInstance();
 
-    Log.infoF("Initializing GyroPIDSubsystem - kP=%f, kI=%f, kD=%f", kP, kI, kD);
+    //Log.infoF("Initializing GyroPIDSubsystem - kP=%f, kI=%f, kD=%f", kP, kI, kD);
   }
 
   @Override

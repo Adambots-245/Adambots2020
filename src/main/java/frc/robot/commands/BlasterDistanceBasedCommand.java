@@ -34,7 +34,7 @@ public class BlasterDistanceBasedCommand extends CommandBase {
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(blasterSubsystem);
-    // Log.infoF("Initializing Blaster Distance Command: %d", blasterSubsystem.getVelocity());
+    // //Log.infoF("Initializing Blaster Distance Command: %d", blasterSubsystem.getVelocity());
 
   }
 
@@ -81,12 +81,12 @@ public class BlasterDistanceBasedCommand extends CommandBase {
     SmartDashboard.putBoolean("BLASTER ENABLED", true);
     // at velocity checker
     boolean atVelocity = false;
-    double velocityThresh = 3000; // ticks per 100ms
+    double velocityThresh = 100; // ticks per 100ms
     if(targetVelocity-velocityThresh <= blasterSubsystem.getVelocity() && blasterSubsystem.getVelocity() <= targetVelocity+velocityThresh){
       atVelocity = true;
+      joystick.setRumble(RumbleType.kRightRumble, 1);
     }
     SmartDashboard.putBoolean("atVelocity?", atVelocity);
-    joystick.setRumble(RumbleType.kRightRumble, 1);
   }
 
   // Called once the command ends or is interrupted.

@@ -32,30 +32,36 @@ public class TurnToTargetCommand extends CommandBase {
   public void initialize() {
     turretSubsystem.enable();
 
-    // Log.info("Turret Initialized");
+    var calculatedOffset = Math.toDegrees(Math.atan(Constants.SHOOTER_OFFSET_DISTANCE/lidar.getInches()));
+    turretSubsystem.setSetpoint(calculatedOffset);
+
+    //Log.infoF("Turret Initialized: %f", calculatedOffset);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double calculatedOffset;
+
     calculatedOffset = Math.toDegrees(Math.atan(Constants.SHOOTER_OFFSET_DISTANCE/lidar.getInches()));
+
     // turretSubsystem.setAngleOffset(calculatedOffset);
     turretSubsystem.setSetpoint(calculatedOffset);
     SmartDashboard.putNumber("angleOffset", calculatedOffset);
 
-    // Log.infoF("Execute - AngleOffset: %f", calculatedOffset);
+    //Log.infoF("Execute - AngleOffset: %f", calculatedOffset);
     //turretSystem PID loop should deal with movement
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // Log.info("Auto Turret System Ended");
+    //Log.info("Auto Turret System Ended");
 
-    if (interrupted) 
-      // Log.info("Turret System Interrupted");
-      
+    if (interrupted) {
+      //Log.info("Turret System Interrupted");
+    }
+
     turretSubsystem.disable();
     turretSubsystem.stopTurret();
   }
@@ -63,7 +69,7 @@ public class TurnToTargetCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // Log.infoF("At setpoint? %b", turretSubsystem.atSetpoint());
+    //Log.infoF("At setpoint? %b", turretSubsystem.atSetpoint());
     return turretSubsystem.atSetpoint();
   }
 }

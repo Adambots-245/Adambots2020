@@ -27,7 +27,7 @@ public class GondolaSubsystem extends SubsystemBase {
   }
 
   public void gondola(double speed) {
-    Log.infoF("Operating gondola - Speed: %f", speed);
+    //Log.infoF("Operating gondola - Speed: %f", speed);
     gondolaMotor.set(ControlMode.PercentOutput, speed);
 }
 

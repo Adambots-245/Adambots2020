@@ -40,7 +40,7 @@ public class HangSubsystem extends SubsystemBase {
             hangMotor.set(ControlMode.PercentOutput, Constants.STOP_MOTOR_SPEED);
         } else {
 
-            Log.infoF("Starting climb - Speed: %f", speed);
+            //Log.infoF("Starting climb - Speed: %f", speed);
             hangMotor.set(ControlMode.PercentOutput, speed);
         }
 
@@ -49,7 +49,7 @@ public class HangSubsystem extends SubsystemBase {
 
     public void winchDown() {
 
-        Log.infoF("Winch down - Speed: %f", Constants.WINCH_SPEED);
+        //Log.infoF("Winch down - Speed: %f", Constants.WINCH_SPEED);
         winchMotor2.set(ControlMode.PercentOutput, Constants.WINCH_SPEED);
         winchMotor1.set(ControlMode.PercentOutput, Constants.WINCH_SPEED);
     }

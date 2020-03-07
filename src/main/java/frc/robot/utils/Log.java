@@ -23,12 +23,13 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 /**
- * Generic logger class that will print statements to the Console or save to a file. Allows usage
- * of multiple parameters and supports filter to filter out log messages being
- * printed.
+ * Generic logger class that will print statements to the Console or save to a
+ * file. Allows usage of multiple parameters and supports filter to filter out
+ * log messages being printed.
  */
 
-public class Log extends SecurityManager{
+public class Log extends SecurityManager {
+    private final static boolean NOLOG = true;
     private Logger logger;
     private static Object _instance_lock = new Object();
     private volatile static Log _instance = null;
@@ -77,7 +78,9 @@ public class Log extends SecurityManager{
     }
 
     /**
-     * Log a severe error messages. The first argument is a label and the rest of the arguments are concatenated to it.
+     * Log a severe error messages. The first argument is a label and the rest of
+     * the arguments are concatenated to it.
+     * 
      * @param label
      * @param args
      * @return
@@ -90,7 +93,8 @@ public class Log extends SecurityManager{
     }
 
     /**
-     * Log a severe error message. 
+     * Log a severe error message.
+     * 
      * @param message
      * @return
      */
@@ -103,32 +107,34 @@ public class Log extends SecurityManager{
     }
 
     /**
-     * Logs severe error messages with Java's String.format. Use %% to represent a % sign.
+     * Logs severe error messages with Java's String.format. Use %% to represent a %
+     * sign.
      * 
-     * Example: 
-     * int iVal = 10;
-     * double dVal = 11.1;
-     * String sVal = "Test"
-     * Log.severeF("Example message for %s - iVal=%d, dVal=%f, sVal=%s", iVal, dVal, sVal);
+     * Example: int iVal = 10; double dVal = 11.1; String sVal = "Test"
+     * Log.severeF("Example message for %s - iVal=%d, dVal=%f, sVal=%s", iVal, dVal,
+     * sVal);
+     * 
      * @param formatStr - format string with %d for
-     * @param args - all the placeholder values
+     * @param args      - all the placeholder values
      * @return Log for chaining purposes
      */
     public static Log severeF(String formatStr, Object... args) {
         Log log = Log.instance();
 
         try {
-            
+
             severe(String.format(formatStr, args));
         } catch (Exception e) {
-            //Ignore errors
+            // Ignore errors
         }
 
         return log;
     }
 
     /**
-     * Log an information message. The first argument is a label and the rest of the arguments are concatenated to it.
+     * Log an information message. The first argument is a label and the rest of the
+     * arguments are concatenated to it.
+     * 
      * @param label
      * @param args
      * @return
@@ -141,30 +147,35 @@ public class Log extends SecurityManager{
     }
 
     /**
-     * Logs informational messages with Java's String.format. Use %% to represent a % sign.
+     * Logs informational messages with Java's String.format. Use %% to represent a
+     * % sign.
      * 
-     * Example: 
-     * int iVal = 10;
-     * double dVal = 11.1;
-     * String sVal = "Test"
-     * Log.infoF("Example message for %s - iVal=%d, dVal=%f, sVal=%s", iVal, dVal, sVal);
+     * Example: int iVal = 10; double dVal = 11.1; String sVal = "Test"
+     * Log.infoF("Example message for %s - iVal=%d, dVal=%f, sVal=%s", iVal, dVal,
+     * sVal);
+     * 
      * @param formatStr - format string with %d for
-     * @param args - all the placeholder values
+     * @param args      - all the placeholder values
      * @return Log for chaining purposes
      */
     public static Log infoF(String formatStr, Object... args) {
-        Log log = Log.instance();
+        if (!NOLOG) {
+            Log log = Log.instance();
 
-        try {
-            info(String.format(formatStr, args));
-        } catch (Exception e) {
-            // ignore error
+            try {
+                info(String.format(formatStr, args));
+            } catch (Exception e) {
+                // ignore error
+            }
+            return log;
         }
-        return log;
+
+        return null;
     }
 
     /**
-     * Log an informational message. 
+     * Log an informational message.
+     * 
      * @param message
      * @return
      */
@@ -179,26 +190,21 @@ public class Log extends SecurityManager{
     public static String getCallerClassName() {
 
         /*
-        StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
-        String callerClassName = null;
-        for (int i = 1; i < stElements.length; i++) {
-            StackTraceElement ste = stElements[i];
-            if (!ste.getClassName().equals(Log.class.getName())
-                    && ste.getClassName().indexOf("java.lang.Thread") != 0) {
-                if (callerClassName == null) {
-                    callerClassName = ste.getClassName();
-                } else if (!callerClassName.equals(ste.getClassName())) {
-                    return ste.getClassName();
-                }
-            }
-        }
-        */
+         * StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
+         * String callerClassName = null; for (int i = 1; i < stElements.length; i++) {
+         * StackTraceElement ste = stElements[i]; if
+         * (!ste.getClassName().equals(Log.class.getName()) &&
+         * ste.getClassName().indexOf("java.lang.Thread") != 0) { if (callerClassName ==
+         * null) { callerClassName = ste.getClassName(); } else if
+         * (!callerClassName.equals(ste.getClassName())) { return ste.getClassName(); }
+         * } }
+         */
         String callerClassName = Log.instance().getClassContext()[1].getName();
         // int i=0;
         for (Class<?> lClass : Log.instance().getClassContext()) {
             // System.out.println("Class: [" + i++ + "] " + lClass.getName());
-            
-            if (!lClass.getName().equals(Log.class.getName())){
+
+            if (!lClass.getName().equals(Log.class.getName())) {
                 callerClassName = lClass.getName();
                 break;
             }
@@ -206,17 +212,20 @@ public class Log extends SecurityManager{
         return callerClassName;
     }
 
-    public void setFormatter(){
+    public void setFormatter() {
         for (Handler handler : logger.getHandlers()) {
             handler.setFormatter(new LogFormatter());
         }
     }
 
     /**
-     * Save the log to a file name. In the robot, save to /home/lvuser/log.txt. FTP to robot to get to this file.
-     * When you FTP, log in with lvuser username and no password.
+     * Save the log to a file name. In the robot, save to /home/lvuser/log.txt. FTP
+     * to robot to get to this file. When you FTP, log in with lvuser username and
+     * no password.
      * 
-     * The file is overwritten everytime. Provide a unique name if you need to retain it.
+     * The file is overwritten everytime. Provide a unique name if you need to
+     * retain it.
+     * 
      * @param fileName
      */
     public static void saveToFile(String fileName) {
@@ -250,7 +259,8 @@ public class Log extends SecurityManager{
             String now = dateFormat.format(new Date());
 
             return String.format("%s %s::%s\n", now, record.getLevel().getName().substring(0, 1), record.getMessage());
-            // return "(" + now + " " + record.getLevel().getName().substring(0, 1) + "::" + record.getMessage() + "\n";
+            // return "(" + now + " " + record.getLevel().getName().substring(0, 1) + "::" +
+            // record.getMessage() + "\n";
         }
     }
 
