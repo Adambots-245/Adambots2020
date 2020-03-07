@@ -162,7 +162,7 @@ public final class Constants {
     public static final double BLASTER_KD = 45.4667;
 
     private static final double KNOWN_LIDAR_DISTANCE_TO_TARGET = 120;
-    private static final double KNOWN_OFFSET_ANGLE = Math.toRadians(4.25);
+    private static final double KNOWN_OFFSET_ANGLE = Math.toRadians(4.45);
     public static final double SHOOTER_OFFSET_DISTANCE = Constants.KNOWN_LIDAR_DISTANCE_TO_TARGET*Math.tan(Constants.KNOWN_OFFSET_ANGLE);
 	
     //gyro PID constants
@@ -187,10 +187,14 @@ public final class Constants {
     
 	public static final double YEET3PUSHNOM3_DIAG_DISTANCE_TO_TRENCH = 60*ENCODER_TICKS_PER_INCH;
 	public static final double YEET3PUSHNOM3_3_BALL_STRAIGHT_DISTANCE = 60*ENCODER_TICKS_PER_INCH;
-	public static final double AUTON_2_BALL_STRAIGHT_DISTANCE = 136*ENCODER_TICKS_PER_INCH;
-	public static final double AUTON_1_BALL_STRAIGHT_DISTANCE = 36*ENCODER_TICKS_PER_INCH;
+	public static final double AUTON_2_BALL_STRAIGHT_DISTANCE = 124*ENCODER_TICKS_PER_INCH;
+    public static final double AUTON_1_BALL_STRAIGHT_DISTANCE = 36*ENCODER_TICKS_PER_INCH;
+    
+    public static final double AUTON_45_TURN_CENTER_DISTANCE = 96*ENCODER_TICKS_PER_INCH;
+    
     public static final double AUTON_2_BALL_RP_STRAIGHT_DISTANCE = 0;
     
+    public static final double AUTON_DRIVE_TO_1ST_BALL = 32*ENCODER_TICKS_PER_INCH;
 	public static final double AUTON_DRIVE_OFF_LINE_SPEED = .5;
     public static final double AUTON_DRIVE_OFF_LINE_DISTANCE = 12*ENCODER_TICKS_PER_INCH;
     

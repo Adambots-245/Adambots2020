@@ -37,14 +37,17 @@ public class Nom2Yeet5 extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());super();
     super(
         new LowerIntakeArmCommand(intakeSubsystem),
+        new ShiftLowGearCommand(driveTrainSubsystem),
         // NOM/INTAKE 2 BALLS (also keep driving (parallel to balls and guardrail))
         new ParallelDeadlineGroup( // deadline because it should move on after it has reached the position
-            new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_2_BALL_STRAIGHT_DISTANCE *.3, -.5, 0, false),
-            new StartIntakeCommand(intakeSubsystem, () -> -1.0)
+          new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_2_BALL_STRAIGHT_DISTANCE *.4, -.75, 0, false),
+          new ManualTurretCommand(turretSubsystem, () -> 0, () -> 1),
+          new StartIntakeCommand(intakeSubsystem, () -> -1.0)
             // new ConveyorCommand(conveyorSubsystem, () -> -1.0)
         ),
         new ParallelDeadlineGroup( // deadline because it should move on after it has reached the position
-          new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_2_BALL_STRAIGHT_DISTANCE*.7, -.5, 0, false),
+          new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_2_BALL_STRAIGHT_DISTANCE*.6, -.75, 0, false),
+          new ManualTurretCommand(turretSubsystem, () -> 0, () -> 1),
           new StartIntakeCommand(intakeSubsystem, () -> -1.0),
           new ConveyorCommand(conveyorSubsystem, () -> -1.0)
         ),
@@ -53,22 +56,23 @@ public class Nom2Yeet5 extends SequentialCommandGroup {
 
         // YEET 5 BALLS
         
-        new ParallelDeadlineGroup(
-          new WaitCommand(2.5),
-          new ManualTurretCommand(turretSubsystem, () -> 0, () -> 1),
-          new BlasterDistanceBasedCommand(blasterSubsystem, lidar, joystick)
-          // new StartIntakeCommand(intakeSubsystem, () -> 1.0)
-        ),
+        // new ParallelDeadlineGroup(
+        //   new WaitCommand(2.5),
+        //   new ManualTurretCommand(turretSubsystem, () -> 0, () -> 1),
+        //   new BlasterDistanceBasedCommand(blasterSubsystem, lidar, joystick)
+        //   // new StartIntakeCommand(intakeSubsystem, () -> 1.0)
+        // ),
 
         new ParallelRaceGroup(
           new WaitCommand(2),
-          new TurnToTargetCommand(turretSubsystem, lidar)
-         ),
+          new TurnToTargetCommand(turretSubsystem, lidar),
+          new BlasterDistanceBasedCommand(blasterSubsystem, lidar, joystick)
+          ),
         // new BackboardNearCommand(blasterSubsystem),
         // new TurnToTargetCommand(turretSubsystem, lidarSubsystem),
 
         new ParallelDeadlineGroup(
-          new WaitCommand(5), 
+          new WaitCommand(10), 
           new BlasterDistanceBasedCommand(blasterSubsystem, lidar, joystick),
           new IndexToBlasterCommand(intakeSubsystem),
           new StartIntakeCommand(intakeSubsystem, () -> -1.0),

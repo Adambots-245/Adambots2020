@@ -44,7 +44,7 @@ public class Yeet3New extends SequentialCommandGroup {
     super(
       new ParallelDeadlineGroup(
         // new DriveForwardGyroDistanceCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_OFF_LINE_DISTANCE, Constants.AUTON_DRIVE_OFF_LINE_SPEED, 0, true),
-        new DriveForwardDistanceCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_OFF_LINE_DISTANCE, Constants.AUTON_DRIVE_OFF_LINE_SPEED),
+        new DriveForwardDistanceCommand(driveTrainSubsystem, Constants.AUTON_DRIVE_OFF_LINE_DISTANCE, -Constants.AUTON_DRIVE_OFF_LINE_SPEED),
         new ManualTurretCommand(turretSubsystem, () -> 0, () -> 1),         
         new BlasterDistanceBasedCommand(blasterSubsystem, lidar, joystick)
       ),
