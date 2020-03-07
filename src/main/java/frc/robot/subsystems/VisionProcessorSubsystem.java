@@ -108,35 +108,93 @@ public class VisionProcessorSubsystem extends SubsystemBase {
     }
 
     public ArrayList<MatOfPoint> filterContoursByVertices(ArrayList<MatOfPoint> contours, ArrayList<MatOfPoint> convexContours) {
-        MatOfPoint2f contourSet, convexContourSet, reducedContours, reducedConvexContours;
+        Point[] reducedContoursPoints, reducedConvexPoints;
+        MatOfPoint2f contourSet, convexSet, reducedContourSet, reducedConvexSet;
         double perimeter, convexPerimeter;
+        boolean contourRemoved;
 
         for (int i = 0; i < contours.size(); i++) {
-            // work with contourSet and convexContourSet instead so proper data type is used
+            contourRemoved = false;
+
+            // work with contourSet and convexSet instead so proper data type is used
             contourSet = new MatOfPoint2f(contours.get(i).toArray());
-            convexContourSet = new MatOfPoint2f(convexContours.get(i).toArray());
+            convexSet = new MatOfPoint2f(convexContours.get(i).toArray());
 
             // gets perimeter of target
             perimeter = Imgproc.arcLength(contourSet, true);
-            convexPerimeter = Imgproc.arcLength(convexContourSet, true);
+            convexPerimeter = Imgproc.arcLength(convexSet, true);
 
-            reducedContours = new MatOfPoint2f();
-            reducedConvexContours = new MatOfPoint2f();
+            // create reduced sets
+            reducedContourSet = new MatOfPoint2f();
+            reducedConvexSet = new MatOfPoint2f();
 
-            // puts reduced contours into reducedContours and reducedConvexContours
-            Imgproc.approxPolyDP(contourSet, reducedContours, Constants.TARGET_APPROXIMATION_ACCURACY * perimeter, true);
-            Imgproc.approxPolyDP(convexContourSet, reducedConvexContours, Constants.TARGET_APPROXIMATION_ACCURACY * perimeter, true);
+            // puts reduced contours into reducedContourSet and reducedConvexSet
+            Imgproc.approxPolyDP(contourSet, reducedContourSet, Constants.TARGET_APPROXIMATION_ACCURACY * perimeter, true);
+            Imgproc.approxPolyDP(convexSet, reducedConvexSet, Constants.TARGET_APPROXIMATION_ACCURACY * convexPerimeter, true);
+
+            // create and fill points array with vertices
+            reducedContoursPoints = reducedContourSet.toArray();
+            reducedConvexPoints = reducedConvexSet.toArray();
 
             // if too many or too few vertices, remove
-            if (reducedContours.rows() > Constants.TARGET_VERTICES + Constants.TARGET_VERTICES_MOE ||
-                reducedContours.rows() < Constants.TARGET_VERTICES - Constants.TARGET_VERTICES_MOE ||
-                reducedConvexContours.rows() > Constants.CONVEX_TARGET_VERTICES + Constants.TARGET_VERTICES_MOE ||
-                reducedConvexContours.rows() < Constants.CONVEX_TARGET_VERTICES - Constants.TARGET_VERTICES_MOE) {
+            if (reducedContoursPoints.length > Constants.TARGET_VERTICES + Constants.TARGET_VERTICES_MOE ||
+                reducedContoursPoints.length < Constants.TARGET_VERTICES - Constants.TARGET_VERTICES_MOE ||
+                reducedConvexPoints.length > Constants.CONVEX_TARGET_VERTICES + Constants.TARGET_VERTICES_MOE ||
+                reducedConvexPoints.length < Constants.CONVEX_TARGET_VERTICES - Constants.TARGET_VERTICES_MOE) {
                 contours.remove(i);
                 convexContours.remove(i);
                 i--;
+                contourRemoved = true;
 
             }
+
+            if (!contourRemoved) {
+                // inits bounding box and arrays for points
+                Point[] pts = new Point[4];
+                Point[] cpts = reducedContourSet.toArray();
+                RotatedRect rect = Imgproc.minAreaRect(reducedContourSet);
+                rect.points(pts);
+
+                // inits points that will be useful
+                Point topLeft = pts[0], topRight = pts[0];
+                Point vertexTL = cpts[0], vertexTR = cpts[0], vertexBL = cpts[0], vertexBR = cpts[0];
+
+                // finds top vertices of bounding box to assist in finding top vertices of contour
+                for (int j = 0; j < pts.length; j++) {
+                    if (pts[j].y < rect.center.y && pts[j].x < rect.center.x)
+                        topLeft = pts[j];
+                    if (pts[j].y < rect.center.y && pts[j].x > rect.center.x)
+                        topRight = pts[j];
+                        
+                }
+
+                // target center (important later)
+                Point centerpt = new Point((topLeft.x + topRight.x) / 2, (topLeft.y + topRight.y) / 2);
+
+                // finds needed vertices of contour
+                for (int j = 1; i < cpts.length; i++) {
+                    if (calcDist(topLeft, cpts[j]) < calcDist(topLeft, cpts[j]))
+                        vertexTL = cpts[j];
+                    if (calcDist(topRight, cpts[j]) < calcDist(topRight, cpts[j]))
+                        vertexTR = cpts[j];
+                    if (cpts[j].x < centerpt.x && cpts[j].y > vertexBL.y)
+                        vertexBL = cpts[j];
+                    if (cpts[j].x > centerpt.x && cpts[j].y > vertexBR.y)
+                        vertexBR = cpts[j];
+
+                }
+                
+                // removes contour if top is not longer than bottom
+                if (calcDist(vertexTL, vertexTR) <= calcDist(vertexBL, vertexBR)) {
+                    contours.remove(i);
+                    convexContours.remove(i);
+                    i--;
+                    contourRemoved = true;
+
+                }
+
+            }
+
         }
 
         return contours;
@@ -197,6 +255,11 @@ public class VisionProcessorSubsystem extends SubsystemBase {
         angle = pixelDistance * Constants.HOR_DEGREES_PER_PIXEL;
         angleEntry.setDouble(angle);
 
+    }
+
+    // Calculate distance between two points
+    public double calcDist(Point a, Point b) {
+        return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
     }
 
     // Getter for angle
