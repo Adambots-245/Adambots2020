@@ -79,7 +79,8 @@ public class RobotContainer {
   private SequentialCommandGroup autonDriveForwardGyroDistanceCommand;
   private WinchCommand winchCommand;
   
-  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+  //private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+  private final DashAutonSelector autoChooser = new DashAutonSelector();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -276,7 +277,7 @@ public class RobotContainer {
     autoChooser.addOption("Yeet3FinalsAuton", new Yeet3FinalsAuton(turretSubsystem, driveTrainSubsystem, conveyorSubsystem, intakeSubsystem, lidarSubsystem, blasterSubsystem, secondaryJoystick));
     // autoChooser.addOption("90Degrees", autonTurn90DegreeCommand);
     // autoChooser.addOption("0 to 45 to 0", new );
-    SmartDashboard.putData("Auton Mode", autoChooser);
+    //SmartDashboard.putData("Auton Mode", autoChooser); - Cannot use putData with DashAutonSelector
 
     if (lidarSubsystem == null)
       lidarSubsystem = new LidarSubsystem();
