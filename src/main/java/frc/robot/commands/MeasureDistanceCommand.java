@@ -7,23 +7,21 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LidarSubsystem;
 
-public class StartIntakeCommand extends CommandBase {
+public class MeasureDistanceCommand extends CommandBase {
   /**
-   * Creates a new IntakeCommand.
+   * Creates a new MeasureDistanceCommand.
    */
-  private final IntakeSubsystem intakeSubsystem;
-  private DoubleSupplier speedInput;
+  private final LidarSubsystem lidarSubsystem;
 
-  public StartIntakeCommand(IntakeSubsystem intakeSubsystem, DoubleSupplier speedInput) {
-    this.intakeSubsystem = intakeSubsystem;
-    this.speedInput = speedInput;
-    addRequirements(intakeSubsystem);
+  public MeasureDistanceCommand(LidarSubsystem lidarSubsystem) {
+    this.lidarSubsystem = lidarSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
+
+    addRequirements(this.lidarSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -34,26 +32,19 @@ public class StartIntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.intake(speedInput.getAsDouble());
-   // System.out.println("intake speed: " + speedInput.getAsDouble());
+    System.out.println("Distance: " + lidarSubsystem.getDistance());
+    SmartDashboard.putNumber("Distance (cm)", lidarSubsystem.getDistance());
+    SmartDashboard.putNumber("Distance (in)", lidarSubsystem.getInches());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.intake(0);
-    if (interrupted) {
-      System.out.println("StartIntakeCommand interrupted");
-    }
-    else
-    {
-      System.out.println("StartIntakeCommand Ended");
-    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

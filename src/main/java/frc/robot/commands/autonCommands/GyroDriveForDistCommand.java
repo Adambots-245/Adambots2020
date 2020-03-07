@@ -5,25 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
-
-import java.util.function.DoubleSupplier;
+package frc.robot.commands.autonCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class StartIntakeCommand extends CommandBase {
+public class GyroDriveForDistCommand extends CommandBase {
   /**
-   * Creates a new IntakeCommand.
+   * Creates a new DriveForwardDistance.
    */
-  private final IntakeSubsystem intakeSubsystem;
-  private DoubleSupplier speedInput;
+  DriveTrainSubsystem driveTrain;
+  double distance;
+  double speed;
+  double yaw;
 
-  public StartIntakeCommand(IntakeSubsystem intakeSubsystem, DoubleSupplier speedInput) {
-    this.intakeSubsystem = intakeSubsystem;
-    this.speedInput = speedInput;
-    addRequirements(intakeSubsystem);
+  public GyroDriveForDistCommand(DriveTrainSubsystem inpuDriveTrain, double inputDistance, double inputSpeed, float getYaw) {
     // Use addRequirements() here to declare subsystem dependencies.
+    driveTrain = inpuDriveTrain;
+    distance = inputDistance;
+    speed = inputSpeed;
+    yaw = getYaw;
+
+    addRequirements(driveTrain);
+
   }
 
   // Called when the command is initially scheduled.
@@ -34,26 +38,26 @@ public class StartIntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.intake(speedInput.getAsDouble());
-   // System.out.println("intake speed: " + speedInput.getAsDouble());
+    double turnSpeed;
+    if (yaw >= 20.0){
+      turnSpeed = 0.1;
+    } else if (yaw <= -20.0) {
+      turnSpeed = -0.1;
+    } else {
+      turnSpeed = 0;
+    }
+    driveTrain.arcadeDrive(speed, turnSpeed);
+    //driveTrain.driveDistance(distance);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.intake(0);
-    if (interrupted) {
-      System.out.println("StartIntakeCommand interrupted");
-    }
-    else
-    {
-      System.out.println("StartIntakeCommand Ended");
-    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (driveTrain.getAverageDriveEncoderValue() >= distance);
   }
 }

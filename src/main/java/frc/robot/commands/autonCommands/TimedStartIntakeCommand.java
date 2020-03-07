@@ -5,23 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.autonCommands;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class StartIntakeCommand extends CommandBase {
+public class TimedStartIntakeCommand extends CommandBase {
   /**
    * Creates a new IntakeCommand.
    */
   private final IntakeSubsystem intakeSubsystem;
   private DoubleSupplier speedInput;
+  private long startTime;
+  private long timeInMilliseconds;
 
-  public StartIntakeCommand(IntakeSubsystem intakeSubsystem, DoubleSupplier speedInput) {
+  public TimedStartIntakeCommand(IntakeSubsystem intakeSubsystem, DoubleSupplier speedInput, long timeInMilliseconds) {
     this.intakeSubsystem = intakeSubsystem;
     this.speedInput = speedInput;
+    
+    this.timeInMilliseconds = timeInMilliseconds;
     addRequirements(intakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -29,6 +33,7 @@ public class StartIntakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    startTime = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,17 +48,17 @@ public class StartIntakeCommand extends CommandBase {
   public void end(boolean interrupted) {
     intakeSubsystem.intake(0);
     if (interrupted) {
-      System.out.println("StartIntakeCommand interrupted");
+      System.out.println("TimedStartIntakeCommand interrupted");
     }
     else
     {
-      System.out.println("StartIntakeCommand Ended");
+      System.out.println("TimedStartIntakeCommand Ended");
     }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return System.currentTimeMillis() - startTime >= timeInMilliseconds;
   }
 }

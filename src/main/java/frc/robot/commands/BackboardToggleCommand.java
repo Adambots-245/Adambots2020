@@ -7,23 +7,19 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
+import frc.robot.subsystems.BlasterSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
 
-public class StartIntakeCommand extends CommandBase {
+public class BackboardToggleCommand extends CommandBase {
   /**
-   * Creates a new IntakeCommand.
+   * Creates a new BackboardFarCommand.
    */
-  private final IntakeSubsystem intakeSubsystem;
-  private DoubleSupplier speedInput;
-
-  public StartIntakeCommand(IntakeSubsystem intakeSubsystem, DoubleSupplier speedInput) {
-    this.intakeSubsystem = intakeSubsystem;
-    this.speedInput = speedInput;
-    addRequirements(intakeSubsystem);
-    // Use addRequirements() here to declare subsystem dependencies.
+  
+  private final BlasterSubsystem blasterSubsystem;
+  public BackboardToggleCommand(BlasterSubsystem blasterSubsystem) {
+    this.blasterSubsystem = blasterSubsystem;
+    addRequirements(blasterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -34,26 +30,24 @@ public class StartIntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.intake(speedInput.getAsDouble());
-   // System.out.println("intake speed: " + speedInput.getAsDouble());
+    if (blasterSubsystem.getBackboardPosition()) {
+      blasterSubsystem.setBackboard(false);
+      SmartDashboard.putString("Backboard set to ", "near yeeting.");
+    } else {
+      blasterSubsystem.setBackboard(true);
+      SmartDashboard.putString("Backboard set to ", "far yeeting.");
+    }
+    System.out.println("backboard has been toggled");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.intake(0);
-    if (interrupted) {
-      System.out.println("StartIntakeCommand interrupted");
-    }
-    else
-    {
-      System.out.println("StartIntakeCommand Ended");
-    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -7,55 +7,49 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.BlasterSubsystem;
+import frc.robot.subsystems.LidarSubsystem;
 
-public class DriveCommand extends CommandBase {
-  public final DriveTrainSubsystem drivetrain;
-  public final DoubleSupplier forwardBackwardInput;
-  public final DoubleSupplier rotationInput;
-
+public class BlasterConstantOutputCommand extends CommandBase {
   /**
-   * Creates a new DriveCommand.
+   * Creates a new BlasterConstantOutputCommand.
    */
-  public DriveCommand(DriveTrainSubsystem inputDriveTrain, DoubleSupplier straightInput, DoubleSupplier turnInput) {
-    drivetrain = inputDriveTrain;
-    forwardBackwardInput = straightInput;
-    rotationInput = turnInput;
+  BlasterSubsystem blasterSubsystem;
+  private LidarSubsystem lidarSubsystem;
+  private double velocityInEncoderTicks;
 
-    addRequirements(drivetrain);
+  public BlasterConstantOutputCommand(BlasterSubsystem blasterSubsystem, LidarSubsystem lidarSubsystem, double velocityInEncoderTicks) {
+    this.blasterSubsystem = blasterSubsystem;
+    this.lidarSubsystem = lidarSubsystem;
+    this.velocityInEncoderTicks = velocityInEncoderTicks;
+    
+    SmartDashboard.putNumber("Blaster Velocity", blasterSubsystem.getVelocity());
+    SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
+
     // Use addRequirements() here to declare subsystem dependencies.
-
+    addRequirements(blasterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.resetEncoders();
-
+    // blasterSubsystem.setVelocity(10343);
+    blasterSubsystem.setVelocity(velocityInEncoderTicks);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //System.out.println("FBI: " + forwardBackwardInput.getAsDouble() + " - RI:" + rotationInput.getAsDouble());
-    // rotationInput.getAsDouble());
-    drivetrain.getAverageDriveEncoderValue();
-    drivetrain.arcadeDrive(forwardBackwardInput.getAsDouble(), rotationInput.getAsDouble());
-    SmartDashboard.putNumber("driveencoder", drivetrain.getAverageDriveEncoderValue());
+    SmartDashboard.putNumber("Blaster Velocity", blasterSubsystem.getVelocity());
+    SmartDashboard.putNumber("Distance To Target", lidarSubsystem.getInches());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (interrupted) {
-      System.out.println("DriveCommand interrupted");
-    } else {
-      drivetrain.arcadeDrive(0, 0);
-    }
+    blasterSubsystem.output(0);
   }
 
   // Returns true when the command should end.

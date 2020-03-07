@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -16,6 +18,7 @@ import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -34,24 +37,35 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   private double speedModifier;
 
-  public DriveTrainSubsystem() {
+  private GyroSubsystem gyroSubsystem;
+
+  private boolean hasGyroBeenReset = false;
+
+  public DriveTrainSubsystem(GyroSubsystem gyroSubsystem) {
     super();
+
+    this.gyroSubsystem = gyroSubsystem;
+
     speedModifier = Constants.NORMAL_SPEED_MODIFIER;
 
-    GearShifter = new Solenoid(Constants.HIGH_GEAR_SOLENOID_ID);
+    GearShifter = new Solenoid(Constants.HIGH_GEAR_SOL_PORT);
 
     FrontRightMotor = new WPI_TalonFX(Constants.FR_TALON);
     FrontLeftMotor = new WPI_TalonFX(Constants.FL_TALON);
+
     BackLeftMotor = new WPI_TalonFX(Constants.BL_TALON);
     BackRightMotor = new WPI_TalonFX(Constants.BR_TALON);
+
     BackLeftMotor.follow(FrontLeftMotor);
     BackRightMotor.follow(FrontRightMotor);
 
+    BackLeftMotor.setInverted(false);
+    FrontLeftMotor.setInverted(false);
+    BackRightMotor.setInverted(false);
+    FrontRightMotor.setInverted(false);
 
-    BackLeftMotor.setInverted(true);
-    FrontLeftMotor.setInverted(true);
-    BackRightMotor.setInverted(true);
-    FrontRightMotor.setInverted(true);
+    FrontLeftMotor.configOpenloopRamp(Constants.SEC_NEUTRAL_TO_FULL);
+    FrontRightMotor.configOpenloopRamp(Constants.SEC_NEUTRAL_TO_FULL);
 
     drive = new DifferentialDrive(FrontLeftMotor, FrontRightMotor);
   }
@@ -64,11 +78,22 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // BackRightMotor.getSensorCollection().setQuadraturePosition(0, 0);
   }
 
+  // public double getRightDriveEncoderValue(){
+  //   FrontRightMotor.getSelectedSensorPosition()
+  // }
   public double getAverageDriveEncoderValue() {
-    double averageEncoderPos = Math
-        .abs((FrontLeftMotor.getSelectedSensorPosition() + FrontRightMotor.getSelectedSensorPosition()) / 2);
-    System.out.println(averageEncoderPos);
+    double averageEncoderPos = (Math
+        .abs(FrontLeftMotor.getSelectedSensorPosition()) + Math.abs(FrontRightMotor.getSelectedSensorPosition()) / 2);
+    // System.out.println(averageEncoderPos);
     return averageEncoderPos;
+  }
+
+  public double getLeftDriveEncoderVelocity() {
+    return FrontLeftMotor.getSelectedSensorVelocity();
+  }
+
+  public double getRightDriveEncoderVelocity() {
+    return FrontRightMotor.getSelectedSensorVelocity();
   }
 
   public void setLowSpeed() {
@@ -82,17 +107,21 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void arcadeDrive(double speed, double turnSpeed) {
     int frontRobotDirection = -1;
     double straightSpeed = frontRobotDirection * speed * speedModifier;
-    System.out.println("straightSpeed = " + straightSpeed);
-    System.out.println("turnSpeed = " + turnSpeed * speedModifier);
+    // System.out.println("straightSpeed = " + straightSpeed);
+    // System.out.println("turnSpeed = " + turnSpeed * speedModifier);
 
-    // double leftSpeed = Math.min(straightSpeed + turnSpeed* speedModifier, Constants.MAX_MOTOR_SPEED);
-    // double rightSpeed = Math.min(straightSpeed - turnSpeed* speedModifier, Constants.MAX_MOTOR_SPEED);
+    // double leftSpeed = Math.min(straightSpeed + turnSpeed* speedModifier,
+    // Constants.MAX_MOTOR_SPEED);
+    // double rightSpeed = Math.min(straightSpeed - turnSpeed* speedModifier,
+    // Constants.MAX_MOTOR_SPEED);
 
     // FrontRightMotor.set(ControlMode.PercentOutput, rightSpeed);
     // FrontLeftMotor.set(ControlMode.PercentOutput, leftSpeed);
     // FrontLeftMotor.setExpiration(.5);
     // FrontRightMotor.setExpiration(.5);
     // System.out.println(FrontLeftMotor.getExpiration());
+    SmartDashboard.putNumber("Yaw", gyroSubsystem.getYaw());
+
     drive.arcadeDrive(straightSpeed, turnSpeed * speedModifier);
   }
 
@@ -112,5 +141,20 @@ public class DriveTrainSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public Double getAngle() {
+    return (double) gyroSubsystem.getYaw();
+  }
+
+  public void resetGyro(boolean force) {
+    if (!hasGyroBeenReset || force) {
+      gyroSubsystem.reset();
+      hasGyroBeenReset = true;
+    }
+  }
+
+  public void resetGyro(){
+    resetGyro(false);
   }
 }

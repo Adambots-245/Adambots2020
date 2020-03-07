@@ -7,11 +7,11 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,12 +25,25 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private VisionProcessorSubsystem vision;
+  private Thread visionThread;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
   @Override
   public void robotInit() {
+    
+    // Instantiate our RobotContainer. This will perform all our button bindings,
+    // and put our
+    if (Robot.isReal()) {
+      // Starts vision thread
+      vision = new VisionProcessorSubsystem();
+      visionThread = vision.getVisionThread();
+      visionThread.setDaemon(true);
+      visionThread.start();
+    }
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
@@ -49,7 +62,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler. This is responsible for polling buttons, adding
+    
+    if (Robot.isReal()) {
+      SmartDashboard.putNumber("ANGLE", vision.getAngle());
+    }
     // newly-scheduled
     // commands, running already-scheduled commands, removing finished or
     // interrupted commands,
@@ -77,7 +93,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    SmartDashboard.putString("auton selected", m_autonomousCommand.toString());
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -89,6 +105,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    // SmartDashboard.putNumber("yaw",gyroSubsystem.getYaw());
+
   }
 
   @Override
@@ -107,6 +125,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+
   }
 
   @Override
@@ -120,5 +139,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    
+    // SmartDashboard.putNumber("pitch",gyroSubsystem.getPitch());
+    // SmartDashboard.putNumber("roll",gyroSubsystem.getRoll());
+    // SmartDashboard.putNumber("yaw",gyroSubsystem.getYaw());
+
   }
 }

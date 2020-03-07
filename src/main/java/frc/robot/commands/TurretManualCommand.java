@@ -10,45 +10,46 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 
-public class StartIntakeCommand extends CommandBase {
+public class TurretManualCommand extends CommandBase {
+  private TurretSubsystem turretSubsystem;
+  private DoubleSupplier leftInput;
+  private DoubleSupplier rightInput;
   /**
-   * Creates a new IntakeCommand.
+   * Creates a new TurretManualCommand.
    */
-  private final IntakeSubsystem intakeSubsystem;
-  private DoubleSupplier speedInput;
+  public TurretManualCommand(TurretSubsystem turretSubsystem, DoubleSupplier leftInput, DoubleSupplier rightInput) {
+    this.turretSubsystem = turretSubsystem;
+    this.leftInput = leftInput;
+    this.rightInput = rightInput; 
+    addRequirements(turretSubsystem); 
 
-  public StartIntakeCommand(IntakeSubsystem intakeSubsystem, DoubleSupplier speedInput) {
-    this.intakeSubsystem = intakeSubsystem;
-    this.speedInput = speedInput;
-    addRequirements(intakeSubsystem);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    turretSubsystem.enable();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.intake(speedInput.getAsDouble());
-   // System.out.println("intake speed: " + speedInput.getAsDouble());
+    turretSubsystem.changeOffset(rightInput.getAsDouble() - leftInput.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.intake(0);
     if (interrupted) {
-      System.out.println("StartIntakeCommand interrupted");
+      System.out.println("TurretManualCommand interrupted");
     }
     else
     {
-      System.out.println("StartIntakeCommand Ended");
+      System.out.println("TurretManualCommand Ended");
     }
+    turretSubsystem.disable();
   }
 
   // Returns true when the command should end.

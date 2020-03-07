@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -10,20 +10,30 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.HangSubsystem;
 
-public class StartIntakeCommand extends CommandBase {
+/**
+ * An example command that uses an example subsystem.
+ */
+public class RaiseElevatorCommand extends CommandBase {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
   /**
-   * Creates a new IntakeCommand.
+   * Creates a new HangCommand.
+   *
+   * @param subsystem The subsystem used by this command.
    */
-  private final IntakeSubsystem intakeSubsystem;
-  private DoubleSupplier speedInput;
-
-  public StartIntakeCommand(IntakeSubsystem intakeSubsystem, DoubleSupplier speedInput) {
-    this.intakeSubsystem = intakeSubsystem;
-    this.speedInput = speedInput;
-    addRequirements(intakeSubsystem);
+  private DoubleSupplier elevateSpeed;
+  private JoystickButton overrideButton;
+  private final HangSubsystem hangSubsystem;
+  
+  public RaiseElevatorCommand(HangSubsystem subsystem, DoubleSupplier elevateSpeed, JoystickButton secondaryStartButton) {
+    this.hangSubsystem = subsystem;
+    this.elevateSpeed = elevateSpeed;
+    this.overrideButton = secondaryStartButton;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(hangSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -33,22 +43,14 @@ public class StartIntakeCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    intakeSubsystem.intake(speedInput.getAsDouble());
-   // System.out.println("intake speed: " + speedInput.getAsDouble());
+  public void execute() {  
+    hangSubsystem.climb(elevateSpeed.getAsDouble(), overrideButton);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.intake(0);
-    if (interrupted) {
-      System.out.println("StartIntakeCommand interrupted");
-    }
-    else
-    {
-      System.out.println("StartIntakeCommand Ended");
-    }
+    System.out.println("raiseElevator ended");
   }
 
   // Returns true when the command should end.

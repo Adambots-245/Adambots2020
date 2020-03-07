@@ -8,47 +8,39 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.ControlPanelSubsystem;
 
-public class DriveForwardDistanceCommand extends CommandBase {
+public class PanelMotor extends CommandBase {
   /**
-   * Creates a new DriveForwardDistance.
+   * Creates a new PanelMotor.
    */
-  DriveTrainSubsystem driveTrain;
-  double distance;
-  double speed;
-
-  public DriveForwardDistanceCommand(DriveTrainSubsystem inpuDriveTrain, double inputDistance, double inputSpeed) {
+  private final ControlPanelSubsystem controlPanelSubsystem;
+  public PanelMotor(ControlPanelSubsystem controlPanelSubsystem) {
+    this.controlPanelSubsystem = controlPanelSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    driveTrain = inpuDriveTrain;
-    distance = inputDistance;
-    speed = inputSpeed;
-
-    addRequirements(driveTrain);
-
+    addRequirements(controlPanelSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    controlPanelSubsystem.startMotor(ControlPanelSubsystem.Modes.Rotations);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turnSpeed = 0;
-    driveTrain.arcadeDrive(speed, turnSpeed);
-    //driveTrain.driveDistance(distance);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    controlPanelSubsystem.stopMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (driveTrain.getAverageDriveEncoderValue() >= distance);
+    return false;
   }
 }
