@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.sensors.ColorSensor;
 import frc.robot.sensors.Gyro;
 import frc.robot.sensors.Lidar;
+import frc.robot.sensors.PhotoEye;
 
 /**
  * Add your docs here.
@@ -61,4 +62,7 @@ public class RobotMap {
 	public static final DigitalInput RightLimitSwitch = new DigitalInput(Constants.TURRET_RIGHT_DIO);
 
     public static final Solenoid RingLight = new Solenoid(Constants.RING_LIGHT_PORT);
+	public static final PhotoEye IntakePhotoEye = new PhotoEye(6);
+	public static final PhotoEye SpacingPhotoEye = new PhotoEye(7);
+	public static final PhotoEye FinalPhotoEye = new PhotoEye(8);
 }
