@@ -12,6 +12,8 @@ import frc.robot.vision.GripPipeline;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,7 +33,8 @@ public class Robot extends TimedRobot {
 
   private VisionProcessorSubsystem vision;
   private Thread visionThread;
-
+  
+  
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -46,6 +49,8 @@ public class Robot extends TimedRobot {
       visionThread = vision.getVisionThread();
       visionThread.setDaemon(true);
       visionThread.start();
+      RobotMap.IntakeCounter.setUpSourceEdge(true, true);
+      RobotMap.ExitCounter.setUpSourceEdge(true, true);
     }
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
@@ -112,6 +117,9 @@ public class Robot extends TimedRobot {
     RobotMap.BackLeftMotor.setNeutralMode(NeutralMode.Brake);
     RobotMap.FrontRightMotor.setNeutralMode(NeutralMode.Brake);
     RobotMap.BackRightMotor.setNeutralMode(NeutralMode.Brake);
+
+    RobotMap.IntakeCounter.reset();
+    RobotMap.ExitCounter.reset();
   }
 
   /**

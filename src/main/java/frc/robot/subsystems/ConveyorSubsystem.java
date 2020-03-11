@@ -13,6 +13,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.sensors.PhotoEye;
 import frc.robot.utils.Log;
 
@@ -26,7 +28,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   private PhotoEye spacingPhotoEye;
   private PhotoEye finalPhotoEye;
   private boolean didSpacingEyePreviouslyDetectBall = false;
-
+  private int ballsPresent;
 
   public ConveyorSubsystem(WPI_VictorSPX conveyorMotor, WPI_VictorSPX alignmentBeltMotor, PhotoEye intakePhotoEye, PhotoEye spacingPhotoEye, PhotoEye finalPhotoEye) {
     super();
@@ -75,6 +77,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+    ballsPresent = 3 + (RobotMap.IntakeCounter.get() - RobotMap.ExitCounter.get()) / 2;
     if (didSpacingEyePreviouslyDetectBall){
       if (!spacingPhotoEye.isDetecting()){
         didSpacingEyePreviouslyDetectBall = false;

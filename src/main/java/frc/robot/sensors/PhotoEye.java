@@ -8,6 +8,7 @@
 package frc.robot.sensors;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalSource;
 
 /**
  * Add your docs here.
@@ -19,6 +20,11 @@ public class PhotoEye extends BaseSensor {
     }
     public boolean isDetecting(){
         return photoEye.get(); 
+    }
+
+    public DigitalInput getDigitalInput()
+    {
+        return photoEye;
     }
 
     public static void main(String[] args) {

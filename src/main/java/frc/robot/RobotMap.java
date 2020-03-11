@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -64,5 +65,9 @@ public class RobotMap {
     public static final Solenoid RingLight = new Solenoid(Constants.RING_LIGHT_PORT);
 	public static final PhotoEye IntakePhotoEye = new PhotoEye(6);
 	public static final PhotoEye SpacingPhotoEye = new PhotoEye(7);
-	public static final PhotoEye FinalPhotoEye = new PhotoEye(8);
+    public static final PhotoEye ExitPhotoEye = new PhotoEye(8);
+    
+    public static final Counter IntakeCounter = new Counter(IntakePhotoEye.getDigitalInput());
+    public static final Counter ExitCounter = new Counter(ExitPhotoEye.getDigitalInput());
+
 }
