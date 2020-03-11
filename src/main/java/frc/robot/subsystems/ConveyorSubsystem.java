@@ -28,7 +28,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   private PhotoEye spacingPhotoEye;
   private PhotoEye finalPhotoEye;
   private boolean didSpacingEyePreviouslyDetectBall = false;
-  private int ballsPresent;
+  private int ballsPresent = 3;
 
   public ConveyorSubsystem(WPI_VictorSPX conveyorMotor, WPI_VictorSPX alignmentBeltMotor, PhotoEye intakePhotoEye, PhotoEye spacingPhotoEye, PhotoEye finalPhotoEye) {
     super();
@@ -44,7 +44,7 @@ public class ConveyorSubsystem extends SubsystemBase {
 
   public void runConveyor(double speed, boolean override){
     if(!override){
-      if(finalPhotoEye.isDetecting() || (spacingPhotoEye.isDetecting() && !didSpacingEyePreviouslyDetectBall)){
+      if(ballsPresent == 5 || (spacingPhotoEye.isDetecting() && !didSpacingEyePreviouslyDetectBall)){
         stopConveyorMotor();
 
         if (spacingPhotoEye.isDetecting())
